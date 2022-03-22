@@ -1,0 +1,90 @@
+[33mcommit 0fa8fb246e2f02408de04bdd540763ff1df95456[m[33m ([m[1;36mHEAD -> [m[1;32mlongnv[m[33m, [m[1;31morigin/longnv[m[33m, [m[1;32mmain[m[33m)[m
+Author: long <longnv@pmr.vn>
+Date:   Tue Mar 22 11:16:25 2022 +0700
+
+    fix thu vien antd
+
+[33mcommit 45a83884519942bcaafe34c81814dae2ec671615[m[33m ([m[1;31morigin/tutv[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: long <longnv@pmr.vn>
+Date:   Mon Mar 21 19:56:52 2022 +0700
+
+    test commit
+
+[33mcommit 604ecb1f620a77c86decfb9a3924552fddee82d3[m[33m ([m[1;31morigin/thaitv[m[33m, [m[1;31morigin/minhpv[m[33m)[m
+Author: tranquangdai <tranquangdai2016@gmail.com>
+Date:   Mon Mar 21 16:37:55 2022 +0700
+
+    Auto stash before merge of "main" and "origin/main"
+
+[33mcommit 2fa5ea49f3ffb89f2db6d2531fc75e22ee50cb69[m
+Author: longnv <123456a@A>
+Date:   Mon Mar 21 15:29:03 2022 +0700
+
+    fix conconflict
+
+[33mcommit 524e0f824c4d8bb6a30b0a1dfb457ff295305d34[m
+Merge: a1c5418 3f4ea45
+Author: longnv <123456a@A>
+Date:   Mon Mar 21 15:14:31 2022 +0700
+
+    add firebase
+
+[33mcommit a1c54189ac348da8c82d924574318a29e7458c42[m
+Author: longnv <123456a@A>
+Date:   Mon Mar 21 15:11:09 2022 +0700
+
+    add firebase
+
+[33mcommit 3f4ea4517aa7640a629d708a14e8212cab071d95[m
+Author: tranquangdai <tranquangdai2016@gmail.com>
+Date:   Mon Mar 21 14:20:35 2022 +0700
+
+    install firebase,add form register
+
+[33mcommit 599d7478ecc520b4d07f492df6aed84d94bcbd3b[m
+Author: tranquangdai2016 <72093847+tranquangdai2016@users.noreply.github.com>
+Date:   Mon Mar 21 09:58:28 2022 +0700
+
+    create componet Header,add navbar
+
+[33mcommit be51adab7b54a1e93153233d613e8a30cfacc7f8[m
+Author: tranquangdai2016 <72093847+tranquangdai2016@users.noreply.github.com>
+Date:   Mon Mar 21 09:17:10 2022 +0700
+
+    create forder components/nav
+
+[33mcommit ca9d22000b7817f86d6e2cb40dca3d3f5dda771e[m
+Author: long <longnv@pmr.vn>
+Date:   Sun Mar 20 20:58:00 2022 +0700
+
+    test 1
+
+[33mcommit 81804d2c815864e42081fe0c119bfe3401398ac1[m
+Author: tranquangdai2016 <72093847+tranquangdai2016@users.noreply.github.com>
+Date:   Sun Mar 20 20:39:37 2022 +0700
+
+    fix router
+
+[33mcommit e5adb12052bc5dbdddfd3017275c207fdf4a1cb5[m
+Author: tranquangdai2016 <72093847+tranquangdai2016@users.noreply.github.com>
+Date:   Sun Mar 20 06:46:44 2022 +0700
+
+    update code in login and register,create Home.js
+
+[33mcommit 80ac9e21d0a8e6e3b768d72ce48e5807b6aca3cc[m
+Author: tranquangdai2016 <72093847+tranquangdai2016@users.noreply.github.com>
+Date:   Sun Mar 20 06:29:13 2022 +0700
+
+    create Pages>auth>Login.js,Register.js
+
+[33mcommit 889c2b92526095304f6cf4689a88a059809816f2[m
+Author: tranquangdai2016 <72093847+tranquangdai2016@users.noreply.github.com>
+Date:   Sun Mar 20 06:20:40 2022 +0700
+
+    install react-router-dom
+
+[33mcommit e0c705318e2f66100b8454615eb626e7a751b030[m
+Author: tranquangdai2016 <72093847+tranquangdai2016@users.noreply.github.com>
+Date:   Sun Mar 20 01:20:15 2022 +0700
+
+    Initialize project using Create React App
