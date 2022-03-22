@@ -7,11 +7,11 @@ const Register = () => {
     const [email, setEmail] = useState("");
     const handleSubmit = async (e) => {
         e.prevenDefault();
-        // const config = {
-        //     url: 'http://locaclhost:3000/register/complate',
-        //     handleCodeInApp: true
-        // }
-        // await auth.sendSignInLinkToEmail(email,config);
+        const config = {
+            url: 'http://locaclhost:3000/register/complate',
+            handleCodeInApp: true
+        }
+        await auth.sendSignInLinkToEmail(email,config);
         toast.success('Email is send to ${email}. Click links to registration')
     };
 
@@ -32,7 +32,6 @@ const Register = () => {
                 <div className="col-md-6 offset-md-3">
                     <h4>Register</h4>
                     <p>register form</p>
-                    <p>test git</p>
                     {registerForm()}
                 </div>
             </div>            
