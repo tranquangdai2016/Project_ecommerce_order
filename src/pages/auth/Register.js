@@ -15,7 +15,6 @@ const Register = () => {
         toast.success('Email is send to ${email}. Click links to registration')
     };
 
-    window.localStorage.setItem('emailForRegistration', email)
     const registerForm = () => <form onSubmit={handleSubmit}>
         <input type="email"  
         value={email} 
@@ -23,7 +22,7 @@ const Register = () => {
         className='form-control'
         />
         <button type="submit" className='btn btn-raised'>
-            Reigister
+            Register
         </button>
     </form>
     return (
