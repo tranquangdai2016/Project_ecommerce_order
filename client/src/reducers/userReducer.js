@@ -7,5 +7,5 @@ export const userReducer = (state = null,action) => {
         default:
             return state;
     }
-}
+};
 

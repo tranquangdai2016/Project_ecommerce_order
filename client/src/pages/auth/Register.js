@@ -5,17 +5,16 @@ import { useSelector } from 'react-redux';
 
 
 
-const Register = ({history}) => {
+const Register = ({ history}) => {
     const [email, setEmail] = useState("");
     const {user} = useSelector((state) => ({ ...state }))
 
     useEffect(() => {
         if(user && user.token) history.push('/')
-    },[user])
+    }, [user])
 
     const handleSubmit = async (e) => {
         e.prevenDefault();
-
         // console.log('ENV --->',process.env.REACT_APP_REGISTER_REDIRECT_URL);
         const config = {
             url: process.env.REACT_APP_REGISTER_REDIRECT_URL,
