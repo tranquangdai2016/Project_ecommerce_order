@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import { Routes,Route } from "react-router-dom";
 import {ToastContainer} from 'react-toastify';
@@ -11,14 +11,15 @@ import 'antd/dist/antd.min.css';
 import RegisterComplete from './pages/auth/RegisterComplete';
 import {auth} from './firebase';
 import { useDispatch } from 'react-redux';
-import { async } from '@firebase/util';
+// import { async } from '@firebase/util';
 import ForgotPassword from './pages/auth/ForgotPassword';
 
 const App = () => {
   const dispatch = useDispatch();
 
+//to check firebase auth state
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+     auth.onAuthStateChanged(async (user) => {
       if(user) {
         const idTokenResult = await user.getIdTokenResult()
 

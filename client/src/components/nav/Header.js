@@ -34,6 +34,5 @@ const Header = () => {
         </Menu.Item>
       </Menu>
     )
-
 }
 export default Header;

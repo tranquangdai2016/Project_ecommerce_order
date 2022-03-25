@@ -2,11 +2,13 @@ import React, { useState ,useEffect } from 'react';
 import {auth} from '../../firebase';
 import { toast } from 'react-toastify';
 import { Button } from 'antd';
-import { MailOutlined ,GoogleOutlined } from '@ant-design/icons';
+// import { MailOutlined ,GoogleOutlined } from '@ant-design/icons';
 import { useDispatch,useSelector } from 'react-redux';
 import { GoogleAuthProvider,signInWithEmailAndPassword } from 'firebase/auth';
-import { async } from '@firebase/util';
+// import { async } from '@firebase/util';
 import { Link } from 'react-router-dom';
+import { createOrUpdateUser } from '../../functions/auth';
+
 
 const Login = ({history}) => {
     const [email, setEmail] = useState("");
@@ -16,8 +18,9 @@ const Login = ({history}) => {
     const {user} = useSelector((state) => ({ ...state }))
     useEffect(() => {
         if(user && user.token) history.push('/')
-    },[user])
-    let dispatch = useDispatch()
+    }, [ user ])
+
+    let dispatch = useDispatch();
     const handleSubmit = async (e) => {
         e.prevenDefault();
         setLoading(true);
@@ -28,13 +31,22 @@ const Login = ({history}) => {
             const {user} = result
             const idTokenResult = await user.getIdTokenResult()
 
-            dispatch({
+            createOrUpdateUser(idTokenResult.token)
+            .then(
+                (res) => {
+                    dispatch({
                 type: "LOGGID_IN_USER",
                 payload: {
-                email: "user.email",
+                name: res.data.name,
+                email: res.data.email,
                 token: idTokenResult.token,
-                }
+                role: res.data.role,
+                _id: res.data._id,
+                },
             });
+                }
+            )
+            .catch();
             history.push('/');
         } catch (error) {
             console.log(error)
@@ -49,13 +61,21 @@ const Login = ({history}) => {
             const { user } = result;
             const idTokenResult = await user.getIdTokenResult()
 
-            dispatch({
+            createOrUpdateUser(idTokenResult.token)
+            .then(
+                (res) => {
+                    dispatch({
                 type: "LOGGID_IN_USER",
                 payload: {
-                email: "user.email",
+                name: res.data.name,
+                email: res.data.email,
                 token: idTokenResult.token,
-                }
+                role: res.data.role,
+                _id: res.data._id,
+                },
             });
+                })
+            .catch();
             history.push('/');
         })
         .catch(error => console.log(error))

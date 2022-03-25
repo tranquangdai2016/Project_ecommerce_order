@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import rootReducer from './reducers';
 // import * as serviceWorker from "./serviceWorker" 
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
@@ -9,8 +10,8 @@ import "antd/dist/antd.min.css";
 import {createStore} from 'redux';
 import { Provider } from 'react-redux';
 import {composeWithDevTools} from 'redux-devtools-extension';
-import Reducer from "./reducers";
-import rootReducer from './reducers';
+// import Reducer from "./reducers";
+
 
 const store = createStore(rootReducer,composeWithDevTools);
 ReactDOM.render(
