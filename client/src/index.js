@@ -7,13 +7,16 @@ import rootReducer from './reducers';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import "antd/dist/antd.min.css";
-import {createStore} from 'redux';
+import {createStore, applyMiddleware} from 'redux';
 import { Provider } from 'react-redux';
 import {composeWithDevTools} from 'redux-devtools-extension';
+import thunk from "redux-thunk";
+
+const middleware = [thunk];
 // import Reducer from "./reducers";
 
 
-const store = createStore(rootReducer,composeWithDevTools);
+const store = createStore(rootReducer,composeWithDevTools(applyMiddleware(...middleware)));
 ReactDOM.render(
   // <React.StrictMode>
   <Provider store={store}>
