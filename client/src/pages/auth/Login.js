@@ -5,21 +5,21 @@ import { Button } from 'antd';
 import { MailOutlined ,GoogleOutlined } from '@ant-design/icons';
 import { useDispatch,useSelector } from 'react-redux';
 import { GoogleAuthProvider,signInWithEmailAndPassword } from 'firebase/auth';
-import { async } from '@firebase/util';
+// import { async } from '@firebase/util';
 import { Link } from 'react-router-dom';
 
 const Login = ({history}) => {
-    const [email, setEmail] = useState("");
+    const [email, setEmail] = useState("tranquangdai2016@gmail.com");
     const [password, setPassword] = useState("123456");
     const [loading, setLoading] = useState(false);
 
     const {user} = useSelector((state) => ({ ...state }))
     useEffect(() => {
         if(user && user.token) history.push('/')
-    },[user])
+    },[history, user])
     let dispatch = useDispatch()
     const handleSubmit = async (e) => {
-        e.prevenDefault();
+        e.preventDefault();
         setLoading(true);
         console.table(email,password)
         try {
@@ -61,7 +61,7 @@ const Login = ({history}) => {
         .catch(error => console.log(error))
     }
     const loginForm = () => <form onSubmit={handleSubmit}>
-        <div class="form-group">
+        <div className="form-group">
             <input type="email"  
             className='form-control'
             value={email} 
@@ -70,7 +70,7 @@ const Login = ({history}) => {
             autoFocus
             />
         </div>
-        <div class="form-group">
+        <div className="form-group">
             <input type="password"  
             className='form-control'
             value={password} 
