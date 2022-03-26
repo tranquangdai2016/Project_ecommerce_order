@@ -16,6 +16,8 @@ import ForgotPassword from './pages/auth/ForgotPassword';
 import {currentUser} from './functions/auth';
 import History from './pages/user/History';
 import UserRoute from './components/routes/UserRoute';
+import Password from './pages/user/Password';
+import WishList from './pages/user/Wishlist';
 
 
 const App = () => {
@@ -52,12 +54,14 @@ const App = () => {
       <Header />
       <ToastContainer />
       <Routes>
-        <Route  path="/" element={<Home />} />
-        <Route  path="/Login" element={<Login />} />
-        <Route  path="/Register" element={<Register />} />
-        <Route  path="/Register/Complete" element={<RegisterComplete />} />
-        <Route  path="/Forgot/Password" element={<ForgotPassword />} />
-        <Route  path="/user/history" element={<History />} />
+        <Route exact  path="/" element={<Home />} />
+        <Route exact  path="/Login" element={<Login />} />
+        <Route exact path="/Register" element={<Register />} />
+        <Route exact path="/Register/Complete" element={<RegisterComplete />} />
+        <Route exact path="/Forgot/Password" element={<ForgotPassword />} />
+        <UserRoute exact path="/user/history" element={<History />} />
+        <UserRoute exact path="/user/password" element={<Password />} />
+        <UserRoute exact path="/user/wishlist" element={<WishList />} />
         {/* <UserRoute  path="/user/history" element={<History />} /> */}
       </Routes>
     </>
