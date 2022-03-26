@@ -13,25 +13,37 @@ import {auth} from './firebase';
 import { useDispatch } from 'react-redux';
 // import { async } from '@firebase/util';
 import ForgotPassword from './pages/auth/ForgotPassword';
+import {currentUser} from './functions/auth'
+
 
 const App = () => {
   const dispatch = useDispatch();
 
 //to check firebase auth state
   useEffect(() => {
-     auth.onAuthStateChanged(async (user) => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if(user) {
         const idTokenResult = await user.getIdTokenResult()
 
-        dispatch({
-          type: "LOGGID_IN_USER",
-          payload: {
-            email: "user.email",
+        currentUser(idTokenResult.token)
+        .then(
+            (res) => {
+                dispatch({
+            type: "LOGGID_IN_USER",
+            payload: {
+            name: res.data.name,
+            email: res.data.email,
             token: idTokenResult.token,
-          }
-        })
+            role: res.data.role,
+            _id: res.data._id,
+            },
+        });
+            }
+        )
+        .catch((err) => console.log(err));
       }
     });
+    return () => unsubscribe();
   },[]);
   return (
     <>
