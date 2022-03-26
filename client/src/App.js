@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import './App.css';
-import { Routes,Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import {ToastContainer} from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import Login from "./pages/auth/Login";
@@ -13,7 +13,9 @@ import {auth} from './firebase';
 import { useDispatch } from 'react-redux';
 // import { async } from '@firebase/util';
 import ForgotPassword from './pages/auth/ForgotPassword';
-import {currentUser} from './functions/auth'
+import {currentUser} from './functions/auth';
+import History from './pages/user/History';
+import UserRoute from './components/routes/UserRoute';
 
 
 const App = () => {
@@ -55,6 +57,8 @@ const App = () => {
         <Route  path="/Register" element={<Register />} />
         <Route  path="/Register/Complete" element={<RegisterComplete />} />
         <Route  path="/Forgot/Password" element={<ForgotPassword />} />
+        <Route  path="/user/history" element={<History />} />
+        {/* <UserRoute  path="/user/history" element={<History />} /> */}
       </Routes>
     </>
   );
