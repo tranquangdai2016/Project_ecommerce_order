@@ -23,7 +23,47 @@ const productSchema = new mongoose.Schema({
     price:{
         type : Number ,
         required : true ,
-        maxlength : 2000 ,
-        text : true
-    }
-})
+        trim  : true ,
+        maxlength : 32 ,
+    },
+    category:{
+        type : ObjectId,
+        ref : "Category",
+    },
+    subs:[
+        {
+            type : ObjectId ,
+            ref : "sub",
+
+        },
+    ],
+    quantity : Number,
+    sold: {
+        type: Number ,
+        default : 0
+    },
+    images: {
+        type : Array ,
+    },
+    shipping: {
+        type : String ,
+        enum : ["Yes" , "No"],
+    },
+    Color: {
+        type : String ,
+        enum : ["Black" , "Brown" , "Silver" , "White" , "Blue"],
+    },
+    brand: {
+        type : String ,
+        enum : ["Apple" , "Samsung" , "Microsoft" , "Lenovo" , "Asus"],
+    },
+    // ratings: [
+    //     {
+    //         start :  Number ,
+    //         postedBy: {type: ObjectId, ref : "User"},
+    //     },
+    // ],
+},
+ {timestamps :true}
+);
+module.exports = mongoose.model("Product" ,productSchema);
