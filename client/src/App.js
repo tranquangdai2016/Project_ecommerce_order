@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import './App.css';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Routes, Route } from "react-router-dom";
 import {ToastContainer} from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import Login from "./pages/auth/Login";
@@ -16,8 +16,10 @@ import ForgotPassword from './pages/auth/ForgotPassword';
 import {currentUser} from './functions/auth';
 import History from './pages/user/History';
 import UserRoute from './components/routes/UserRoute';
+import AdminRoute from './components/routes/AdminRoute';
 import Password from './pages/user/Password';
 import WishList from './pages/user/Wishlist';
+import AdminDashboard from './pages/admin/AdminDashboard'
 
 
 const App = () => {
@@ -48,7 +50,7 @@ const App = () => {
       }
     });
     return () => unsubscribe();
-  },[]);
+  },[dispatch]);
   return (
     <>
       <Header />
@@ -62,7 +64,7 @@ const App = () => {
         <UserRoute exact path="/user/history" element={<History />} />
         <UserRoute exact path="/user/password" element={<Password />} />
         <UserRoute exact path="/user/wishlist" element={<WishList />} />
-        {/* <UserRoute  path="/user/history" element={<History />} /> */}
+        <AdminRoute exact path="/admin/dashboard" element={<AdminDashboard />} />
       </Routes>
     </>
   );

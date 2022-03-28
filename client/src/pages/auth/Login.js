@@ -20,7 +20,7 @@ const Login = ({history}) => {
     const {user} = useSelector((state) => ({ ...state }))
     useEffect(() => {
         if(user && user.token) history.push('/')
-    },[history, user])
+    },[history, user]);
     let dispatch = useDispatch()
 
     const roleBasedRedirect = (res) => {

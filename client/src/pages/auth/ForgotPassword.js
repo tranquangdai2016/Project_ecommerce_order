@@ -12,7 +12,7 @@ const ForgotPassword = ({history}) => {
 
     useEffect(() => {
         if(user && user.token) history.push('/')
-    }, [user])
+    }, [user, history])
     const handleSbmit = async (e) => {
         e.preventDefault();
         setLoading(true);
