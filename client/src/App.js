@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import './App.css';
-import { BrowserRouter as Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, } from "react-router-dom";
 import {ToastContainer} from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import Login from "./pages/auth/Login";
@@ -53,9 +53,10 @@ const App = () => {
   },[dispatch]);
   return (
     <>
+    <Router>
       <Header />
       <ToastContainer />
-      <Routes>
+      <Switch>
         <Route exact  path="/" element={<Home />} />
         <Route exact  path="/Login" element={<Login />} />
         <Route exact path="/Register" element={<Register />} />
@@ -65,7 +66,8 @@ const App = () => {
         <UserRoute exact path="/user/password" element={<Password />} />
         <UserRoute exact path="/user/wishlist" element={<WishList />} />
         <AdminRoute exact path="/admin/dashboard" element={<AdminDashboard />} />
-      </Routes>
+        </Switch>
+        </Router>
     </>
   );
 }
