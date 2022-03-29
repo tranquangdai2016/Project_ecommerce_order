@@ -18,7 +18,7 @@ router.post('/category', authCheck, adminCheck, create);
 router.get('/category', list);
 router.get('/category/:slug', authCheck, adminCheck, read);
 router.put('/category/:slug', authCheck, adminCheck, update);
-router.post('/category/:slug', authCheck, adminCheck, remove);
+router.delete('/category/:slug', authCheck, adminCheck, remove);
 
 
 
