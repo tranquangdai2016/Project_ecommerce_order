@@ -1,6 +1,12 @@
 import React, {useEffect} from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route, Switch, } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  // Redirect,
+  Route,
+  Switch,
+  // useHistory,
+} from 'react-router-dom';
 import {ToastContainer} from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import Login from "./pages/auth/Login";
