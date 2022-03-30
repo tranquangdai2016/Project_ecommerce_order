@@ -27,6 +27,7 @@ import Password from './pages/user/Password';
 import WishList from './pages/user/Wishlist';
 import AdminDashboard from './pages/admin/AdminDashboard'
 import CategoryCreate from './pages/admin/category/CategoryCreate'
+import CategoryUpdate from './pages/admin/category/CategoryUpdate'
 
 
 const App = () => {
@@ -60,22 +61,24 @@ const App = () => {
   },[dispatch]);
   return (
     <>
-    <Router>
       <Header />
       <ToastContainer />
       <Switch>
-        <Route exact  path="/" element={<Home />} />
-        <Route exact  path="/Login" element={<Login />} />
-        <Route exact path="/Register" element={<Register />} />
-        <Route exact path="/Register/Complete" element={<RegisterComplete />} />
-        <Route exact path="/Forgot/Password" element={<ForgotPassword />} />
-        <UserRoute exact path="/user/history" element={<History />} />
-        <UserRoute exact path="/user/password" element={<Password />} />
-        <UserRoute exact path="/user/wishlist" element={<WishList />} />
-        <AdminRoute exact path="/admin/dashboard" element={<AdminDashboard />} />
-        <AdminRoute exact path="/admin/category" element={<CategoryCreate />} />
+        <Route exact  path="/" component={Home} />
+        <Route exact  path="/login" component={Login} />
+        <Route exact path="/register" component={Register} />
+        <Route exact path="/register/complete" component={RegisterComplete} />
+        <Route exact path="/forgot/password" component={ForgotPassword} />
+        <UserRoute exact path="/user/history" component={History} />
+        <UserRoute exact path="/user/password" component={Password} />
+        <UserRoute exact path="/user/wishlist" component={WishList} />
+        <AdminRoute exact path="/admin/dashboard" component={AdminDashboard} />
+        <AdminRoute exact path="/admin/category" component={CategoryCreate} />
+        <AdminRoute 
+        exact 
+        path="/admin/category/:slug" 
+        component={CategoryUpdate} />
         </Switch>
-        </Router>
     </>
   );
 }
