@@ -1,9 +1,7 @@
-export const searchReducer = (state = null, action) => {
+export const searchReducer = (state = {text: ""}, action) => {
     switch (action.type) {
-        case 'LOGGED_IN_USER':
-            return action.payload;
-        case 'LOGOUT':
-            return action.payload;
+        case 'SEARCH_QUERY':
+            return {...state, ...action.payload};
         default:
             return state;
     }
