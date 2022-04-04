@@ -11,7 +11,7 @@ const ProductCreate = () => {
              <div className="col-md-2">
                   <AdminNav/>
              </div>
-             <div className="col-md-10">product create form </div>
+             <div className="col-md-10">product create form hi </div>
          </div>
 
      </div>
