@@ -2,30 +2,45 @@ import React, { useState, useEffect } from "react";
 import AdminNav from "../../../components/nav/AdminNav";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-import {createProduct,} from "../../../functions/product";
+import { createProduct } from "../../../functions/product";
 const initialState =   {
-    title : "" ,
-    descriptioin : "",
-    price : "",
+    title : "Macbook Pro" ,
+    descriptioin : "This is product",
+    price : "10000",
+    categories : [],
     category : "",
     subs : "",
-    shipping : "",
-    quantity : "",
+    shipping : "Yes",
+    quantity : "4",
     images : [],
     colors : ["Black" , "Brown" , "Silver" , "White" , "Blue"] ,
     brands : ["Apple" , "Samsung" , "Microsoft" , "Lenovo" , "Asus"],
-    color : "",
-    brand : ""
+    color : "White",
+    brand : "Apple"
 };
 const ProductCreate = () => {
 const [values,setvalues] = useState(initialState);
+//redux
+const{ user } = useSelector((state) =>({...state}));
 //d
 const{title,descriptioin,price,categories,category,subs,shipping,quantity,images, colors,brands,color,brand,} = values; 
 const handleSubmit = (e) =>{
     e.preventDefault();
+    createProduct(values, user.token )
+    .then((res)=>{
+        console.log(res);
+        window.alert(`"${res.data.title}" is created `);
+        window.location.reload();
+    })
+    .catch((err)=>{
+        console.log(err)
+        if (err.response.status === 400) toast.error(err.response.data);
+
+
+    })
 };
 const handleChange = (e) =>{
-    e.preventDefault();
+    setvalues({ ...values, [e.target.name]: e.target.value});
 }
  return (
      <div className="container-fluid">
@@ -61,7 +76,7 @@ const handleChange = (e) =>{
                      </div>
                      <div className="form-group">
                          <label>Quantity</label>
-                         <input type="number" name="price" className="form-control" value={quantity} onChange={handleChange}/>
+                         <input type="number" name="quantity" className="form-control" value={quantity} onChange={handleChange}/>
                      </div>
                      <div className="form-group">
                          <label>Color</label>
@@ -79,7 +94,7 @@ const handleChange = (e) =>{
                              
                           </select>
                      </div>
-                     <button className="btn btn-outline-info">Save</button>
+                     <button  className="btn btn-outline-info">Save</button>
 
                  </form>
 
