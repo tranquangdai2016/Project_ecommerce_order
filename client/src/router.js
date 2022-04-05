@@ -3,7 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import History from "./pages/user/History";
 import CategoryCreate from "./pages/admin/category/CategoryCreate";
 import SubCreate from "./pages/admin/sub/SubCreate"
-import SubUpdate from "./pages/admin/sub/SubCreate"
+import SubUpdate from "./pages/admin/sub/SubUpdate"
 import CategoryUpdate from "./pages/admin/category/CategoryUpdate";
 import UserRoute from "./components/routes/UserRoute";
 import AdminRoute from "./components/routes/AdminRoute";

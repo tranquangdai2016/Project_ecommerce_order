@@ -1,20 +1,20 @@
 import React, { useState ,useEffect } from 'react';
-import {auth, googleAuthProvider} from '../../firebase';
+// import { getAuth } from '../../firebase';
 import { toast } from 'react-toastify';
+import { auth } from '../../firebase'
 import { Button } from 'antd';
-// import { MailOutlined ,GoogleOutlined } from '@ant-design/icons';
+import { MailOutlined ,GoogleOutlined } from '@ant-design/icons';
 import { useDispatch,useSelector } from 'react-redux';
 import { GoogleAuthProvider,signInWithEmailAndPassword } from 'firebase/auth';
-// import { async } from '@firebase/util';
 import { Link } from 'react-router-dom';
 import { createOrUpdateUser } from '../../functions/auth';
-
+// , googleAuthProvider
 
 
 
 const Login = ({history}) => {
-    const [email, setEmail] = useState("tranquangdai2016@gmail.com");
-    const [password, setPassword] = useState("123456");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
 
     const {user} = useSelector((state) => ({ ...state }))
@@ -116,7 +116,7 @@ const Login = ({history}) => {
         className='mb-3'
         block
         shape='round'
-        icon='MailOutlined'
+        icon={<MailOutlined />}
         size='large'
         disabled={ !email || password.length < 6 }
         >
@@ -137,14 +137,14 @@ const Login = ({history}) => {
                         className='mb-3'
                         block
                         shape='round'
-                        icon='GoogleOutlined'
+                        icon={<GoogleOutlined />}
                         size='large'
                     >
                         Login with Google
                     </Button>
 
                     <Link to="forgot/password" className='text-danger' style={{ marginLeft: 'auto' }}>
-                        forgot password
+                        Forgot password
                     </Link>
                 </div>
             </div>            
