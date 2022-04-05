@@ -24,7 +24,10 @@ const Shop = () => {
 
     //load prodcuts on user search input
     useEffect(() => {
-        fetchProducts({ query: text })
+        const delayed = setTimeout(() => {
+            fetchProducts({ query: text })
+        }, 300);
+        return () => clearTimeout(delayed);
     }, [text]);
 
     const fetchProducts = (arg) => {
