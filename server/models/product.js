@@ -30,13 +30,13 @@ const productSchema = new mongoose.Schema({
         type : ObjectId,
         ref : "Category",
     },
-    // subs:[
-    //     {
-    //         type : ObjectId ,
-    //         ref : "sub",
+    subs:[
+        {
+            type : ObjectId ,
+            ref : "sub",
 
-    //     },
-    // ],
+        },
+    ],
     quantity : Number,
     sold: {
         type: Number ,
