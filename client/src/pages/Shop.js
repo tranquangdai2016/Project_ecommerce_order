@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getProductsByCount } from '../functions/product'
+import { getProductsByCount, fetchProductsByFilter } from '../functions/product'
 import { useSelector, useDispatch } from 'react-redux'
 import ProductCard from '../components/cards/ProductCard'
 
@@ -7,16 +7,31 @@ const Shop = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
 
+    let { search } = useSelector((state) => ({ ...state }));
+    const { text } = search;
+
     useEffect(() => {
         loadAllProducts();
     }, []);
 
+    //load prodcuts by default on page load
     const loadAllProducts = () => {
         getProductsByCount(12).then(p => {
             setProducts(p.data);
             setLoading(false);
         });
     };
+
+    //load prodcuts on user search input
+    useEffect(() => {
+        fetchProducts({ query: text })
+    }, [text]);
+
+    const fetchProducts = (arg) => {
+        fetchProductsByFilter(arg).then((res) => {
+            setProducts(res.data);
+        })
+    }
 
     return (
         <div className='container-fluid'>
@@ -33,9 +48,9 @@ const Shop = () => {
 
                     {products.length < 1 && <p>No products found</p>}
 
-                    <div className="row">
+                    <div className="row pb-5">
                         {products.map((p) => (
-                            <div className="col-md-4">
+                            <div key={p._id} className="col-md-4 mt-3">
                                 <ProductCard product={p} />
                             </div>
                         ))};
