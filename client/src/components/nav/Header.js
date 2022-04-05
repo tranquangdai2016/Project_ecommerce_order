@@ -11,6 +11,8 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { getAuth } from "firebase/auth";
+import Search from "../forms/Search";
+
 
 const { SubMenu, Item } = Menu;
 const Header = () => {
@@ -74,6 +76,9 @@ const Header = () => {
           </Item>
         </SubMenu>
       )}
+      <span className="d-flex justify-content-end p-1">
+        <Search />
+      </span>
     </Menu>
   );
 };
