@@ -4,6 +4,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "./components/nav/Header";
 import "antd/dist/antd.min.css";
+import Shop from "./pages/Shop";
+
 import { auth } from "./firebase";
 import { useDispatch } from "react-redux";
 import { currentUser } from "./functions/auth";
@@ -40,6 +42,9 @@ const App = () => {
     <>
       <Header />
       <ToastContainer />
+      <Switch>
+        <Route exact path="/shop" component = {Shop} />
+      </Switch>
       <Router />
     </>
   );
