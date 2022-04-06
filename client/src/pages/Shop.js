@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { getProductsByCount, fetchProductsByFilter } from '../functions/product'
 import { getCategories } from '../functions/category'
+import { getSubs } from '../functions/sub'
 import { useSelector, useDispatch } from 'react-redux'
 import ProductCard from '../components/cards/ProductCard'
 import { Menu, Slider, Checkbox } from 'antd'
@@ -17,6 +18,7 @@ const Shop = () => {
     const [categories, setCategories] = useState([]);
     const [categoryIds, setCategoryIds] = useState([]);
     const [star, setStar] = useState('');
+    const [subs, setSubs] = useState([]);
 
 
     let dispatch = useDispatch();
@@ -28,6 +30,9 @@ const Shop = () => {
 
         //fecth categories
         getCategories().then((res) => setCategories(res.data));
+
+        //fecth subcategories
+        getSubs.then(res => setSubs(res.data));
     }, []);
 
     const fetchProducts = (arg) => {
@@ -132,6 +137,22 @@ const Shop = () => {
         </div>
     }
 
+    //show products by subcategories
+    const showSubs = () =>
+        subs.map((s) =>
+            <div
+                key={s._id}
+                onClick={() => handleSub(S)}
+                className='p-1 m-1 badge badge-secondary'
+                style={{ cursor: "pointer" }}>
+                (s.name)
+            </div>
+        )
+
+    const handleSub = (s) => {
+
+    }
+
     return (
         <div className='container-fluid'>
             <div className='row'>
@@ -154,15 +175,22 @@ const Shop = () => {
 
                         {/**categories */}
                         <SubMenu key={"2"} title={<span className='h6'> <DownSquareOutlined />Categories </span>}>
-                            <div style={{marginTop: "-10px"}}> 
+                            <div style={{ marginTop: "-10px" }}>
                                 {showCategories()}
                             </div>
                         </SubMenu>
 
                         {/** star rating */}
                         <SubMenu key={"3"} title={<span className='h6'> <StarOutlined />Rating </span>}>
-                        <div style={{marginTop: "-10px"}}> 
+                            <div style={{ marginTop: "-10px" }}>
                                 {showStars()}
+                            </div>
+                        </SubMenu>
+
+                        {/** sub categories */}
+                        <SubMenu key={"2"} title={<span className='h6'> <DownSquareOutlined />Sub Categories </span>}>
+                            <div style={{ marginTop: "-10px" }}>
+                                {showSubs()}
                             </div>
                         </SubMenu>
                     </Menu>
