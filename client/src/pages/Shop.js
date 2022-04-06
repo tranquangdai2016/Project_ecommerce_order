@@ -62,8 +62,11 @@ const Shop = () => {
             type: "SEARCH_QUERY",
             payload: { text: "" },
         });
+
+        //reset
         setCategoryIds([]);
         setPrice(value);
+        setStar("");
         setTimeout(() => {
             setOk(!ok);
         }, 300);
@@ -85,11 +88,14 @@ const Shop = () => {
 
     //handleCheck for categories
     const handleCheck = (e) => {
+        //reset
         dispatch({
             type: "SEARCH_QUERY",
             payload: { text: "" },
         });
         setPrice([0, 0]);
+        setStar("");
+
         let inTheState = [...categoryIds];
         let justChecked = e.target.value;
         let foundInTheState = inTheState.indexOf(justChecked) // return : index ? -1
