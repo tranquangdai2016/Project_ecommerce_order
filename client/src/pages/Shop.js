@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { getProductsByCount, fetchProductsByFilter } from '../functions/product'
+import { getCategories } from '../functions/category'
 import { useSelector, useDispatch } from 'react-redux'
 import ProductCard from '../components/cards/ProductCard'
-import { Menu, Slider } from 'antd'
-import { DollarOutlined } from '@ant-design/icons'
+import { Menu, Slider, Checkbox } from 'antd'
+import { DollarOutlined, DownSquareOutlined } from '@ant-design/icons'
 
 const { SubMenu, ItemGroup } = Menu;
 
@@ -12,6 +13,7 @@ const Shop = () => {
     const [loading, setLoading] = useState(false);
     const [price, setPrice] = useState([0, 0]);
     const [ok, setOk] = useState(false);
+    const [categories, setCategories] = useState([]);
 
     let dispatch = useDispatch();
     let { search } = useSelector((state) => ({ ...state }));
@@ -19,6 +21,9 @@ const Shop = () => {
 
     useEffect(() => {
         loadAllProducts();
+
+        //fecth categories
+        getCategories().then((res) => setCategories(res.data));
     }, []);
 
     const fetchProducts = (arg) => {
@@ -43,7 +48,7 @@ const Shop = () => {
         return () => clearTimeout(delayed);
     }, [text]);
 
-    //load products base on prive range
+    //load products base on price range
     useEffect(() => {
         fetchProducts({ price });
     }, [ok]);
@@ -59,6 +64,12 @@ const Shop = () => {
         }, 300);
     };
 
+    //load products base on category
+    //show category in a list of checkbox
+    const showCategories = () => categories.map((e) => <div key={c._id}>
+        <Checkbox className='pb-2 pl-2 pr-2' value={c._id} name='category'>{c.name}</Checkbox>
+    </div>)
+
     return (
         <div className='container-fluid'>
             <div className='row'>
@@ -66,9 +77,8 @@ const Shop = () => {
                     <h4>Search/filter</h4>
                     <hr />
                     <Menu defaultOpenKeys={["1", "2"]} mode='inline'>
-                        <SubMenu key={"1"} title={
-                            <span className='h6'> <DollarOutlined />Price </span>
-                        }>
+                        {/**price */}
+                        <SubMenu key={"1"} title={<span className='h6'> <DollarOutlined />Price </span>}>
                             <div>
                                 <Slider
                                     className='ml-4 mr-4'
@@ -77,6 +87,13 @@ const Shop = () => {
                                     onChange={handleSlider}
                                     max='1000000000'
                                 />
+                            </div>
+                        </SubMenu>
+
+                        {/**categories */}
+                        <SubMenu key={"2"} title={<span className='h6'> <DownSquareOutlined />Categories </span>}>
+                            <div>
+                                {showCategories()}
                             </div>
                         </SubMenu>
                     </Menu>
