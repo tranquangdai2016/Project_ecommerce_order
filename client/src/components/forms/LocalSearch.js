@@ -6,8 +6,8 @@ const LocalSearch = ({keyword, setKeyword}) => {
         setKeyword(e.target.value.toLowerCase());
       };
 
-
     return (
+          
             <input 
           type="search" 
           placeholder="Search" 

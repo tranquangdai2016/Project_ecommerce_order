@@ -1,16 +1,18 @@
 import React, { useState ,useEffect } from 'react';
 // import { getAuth } from '../../firebase';
 import { toast } from 'react-toastify';
-import { auth } from '../../firebase'
+import { getAuth } from 'firebase/auth';
 import { Button } from 'antd';
 import { MailOutlined ,GoogleOutlined } from '@ant-design/icons';
 import { useDispatch,useSelector } from 'react-redux';
-import { GoogleAuthProvider,signInWithEmailAndPassword } from 'firebase/auth';
+import { GoogleAuthProvider, signInWithEmailAndPassword } from 'firebase/auth';
 import { Link } from 'react-router-dom';
 import { createOrUpdateUser } from '../../functions/auth';
 // , googleAuthProvider
 
 
+
+const auth = getAuth();
 
 const Login = ({history}) => {
     const [email, setEmail] = useState("");
@@ -36,7 +38,7 @@ const Login = ({history}) => {
         setLoading(true);
         console.table(email,password)
         try {
-            const result = await signInWithEmailAndPassword(email,password)
+            const result = await signInWithEmailAndPassword(email, password)
             console.log(result)
             const {user} = result
             const idTokenResult = await user.getIdTokenResult()
