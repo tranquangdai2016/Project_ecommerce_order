@@ -19,6 +19,7 @@ const Shop = () => {
     const [categoryIds, setCategoryIds] = useState([]);
     const [star, setStar] = useState('');
     const [subs, setSubs] = useState([]);
+    const [sub, setSub] = useState('');
 
 
     let dispatch = useDispatch();
@@ -72,6 +73,7 @@ const Shop = () => {
         setCategoryIds([]);
         setPrice(value);
         setStar("");
+        setSub('');
         setTimeout(() => {
             setOk(!ok);
         }, 300);
@@ -100,6 +102,7 @@ const Shop = () => {
         });
         setPrice([0, 0]);
         setStar("");
+        setSub('');
 
         let inTheState = [...categoryIds];
         let justChecked = e.target.value;
@@ -125,6 +128,7 @@ const Shop = () => {
         setPrice([0, 0]);
         setCategoryIds([]);
         setStar(num);
+        setSub('');
         fetchProducts({ star: num });
     }
     const showStars = () => {
@@ -149,8 +153,16 @@ const Shop = () => {
             </div>
         )
 
-    const handleSub = (s) => {
-
+    const handleSub = (sub) => {
+        setSub(sub)
+        dispatch({
+            type: "SEARCH_QUERY",
+            payload: { text: "" },
+        });
+        setPrice([0, 0]);
+        setCategoryIds([]);
+        setStar('');
+        fetchProducts({ sub });
     }
 
     return (
@@ -159,7 +171,7 @@ const Shop = () => {
                 <div className="col-md-3 pt-2">
                     <h4>Search/filter</h4>
                     <hr />
-                    <Menu defaultOpenKeys={["1", "2", "3"]} mode='inline'>
+                    <Menu defaultOpenKeys={["1", "2", "3", "4"]} mode='inline'>
                         {/**price */}
                         <SubMenu key={"1"} title={<span className='h6'> <DollarOutlined />Price </span>}>
                             <div>
@@ -188,8 +200,8 @@ const Shop = () => {
                         </SubMenu>
 
                         {/** sub categories */}
-                        <SubMenu key={"2"} title={<span className='h6'> <DownSquareOutlined />Sub Categories </span>}>
-                            <div style={{ marginTop: "-10px" }}>
+                        <SubMenu key={"4"} title={<span className='h6'> <DownSquareOutlined />Sub Categories </span>}>
+                            <div style={{ marginTop: "-10px" }} className="pr-4 pl-4">
                                 {showSubs()}
                             </div>
                         </SubMenu>
