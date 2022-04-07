@@ -6,6 +6,7 @@ import { createProduct } from "../../../functions/product";
 import ProductCreateForm from "../../../components/forms/ProductCreateForm";
 import {getCategories , getCategorySubs} from "../../../functions/category";
 import FileUpload from "../../../components/forms/FileUpload";
+
 const initialState =   {
     title : "Macbook Pro" ,
     descriptioin : "This is product",
@@ -15,7 +16,10 @@ const initialState =   {
     subs : "",
     shipping : "Yes",
     quantity : "4",
-    images : [],
+    images : [
+        
+       
+    ],
     colors : ["Black" , "Brown" , "Silver" , "White" , "Blue"] ,
     brands : ["Apple" , "Samsung" , "Microsoft" , "Lenovo" , "Asus"],
     color : "White",

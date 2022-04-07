@@ -2,7 +2,8 @@ import React from "react";
 import Resizer from 'react-image-file-resizer';
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { Avatar } from "antd";
+import { Avatar, Badge } from "antd";
+import Item from "antd/lib/list/Item";
 const FileUpload = ({values,setValues , setLoading}) =>{
     const  { user } = useSelector((state)=>({...state}));
     const fileUploadAndResize = (e) =>{
@@ -39,11 +40,37 @@ const FileUpload = ({values,setValues , setLoading}) =>{
         }
          
     };
+    const handImageRemove = (public_id)=>{
+        setLoading(true)
+        // console.log('remove image' , id);
+        axios.post('${process.env.REACT_APP_API}/removeimage',{public_id},{
+            headers: {
+                authtoken: user ? user.token : "",
+            },
+        }
+        )
+        .then((res)=>{
+            setLoading(false)
+            const {images} = values
+            let filteredImages = images.filter((item)=>{
+                return item.public_id !== public_id
+            });
+            setValues({...values,image:filteredImages});
+        })
+        .catch((err)=>{
+            console.log(err);
+            setLoading(false);
+
+        })
+
+    };
     return(
     <>
     <div className="row">
-        {values.imageS && values.images.map((image)=>( 
-          <Avatar key={image.public_id} src={image.url} size={60} className="m-3"/>
+        {values.images && values.images.map((image)=>( 
+         <Badge count="X" key={image.public_id} onClick={handImageRemove(image.public_id)} style={{cursor:"pointer"}}>
+              <Avatar  src={image.url} size={60} shape="square" className="ml-3"/>
+         </Badge>
         ))}
     </div>
      <div className="row">
