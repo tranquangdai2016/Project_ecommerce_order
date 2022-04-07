@@ -55,12 +55,13 @@ const handleChange = (e) =>{
 const handleCategoryChange = (e)=>{
     e.preventDefault()
     console.log('click category', e.target.value);
-    setvalues({...values,category: e.target.value});
+    setvalues({...values, subs:[] ,category: e.target.value});
     getCategorySubs(e.target.value)
     .then(res=>{
       console.log('SUB OPTION CATEGORY CLICK',res);
       setSubOptions(res.data);
     });
+    setShowSub(true);
 };
 
 
@@ -76,6 +77,7 @@ const handleCategoryChange = (e)=>{
                  <ProductCreateForm 
                  handleSubmit={handleSubmit} 
                  handleChange={handleChange} 
+                 setvalues={setvalues}
                  values={values} 
                  handleCategoryChange={handleCategoryChange}
                  subOptions={subOptions}
