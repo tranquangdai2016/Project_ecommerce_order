@@ -1,4 +1,4 @@
-import react, {useState} from 'react';
+import React, {useState} from 'react';
 import {Modal, Button} from 'antd';
 import {Toast} from 'react-toastify';
 import {useSelector} from 'react-redux';
