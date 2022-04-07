@@ -1,3 +1,7 @@
+const Product = require('../models/products');
+const User = require('../models/user')
+const slugify = require('slugify')
+
 exports.productStar = async (req, res) => {
     const product = await Product.findById(req.params.productId).exec()
     const user = await User.findOne({
