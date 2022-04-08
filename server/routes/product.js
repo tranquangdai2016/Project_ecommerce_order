@@ -17,11 +17,15 @@ const {
     list,
     productCount,
     productStar,
+    listRelated,
 } = require('../controllers/product');
 
 //router
 
 //rating
 router.put('/product/star/:productId', authCheck, productStar)
+
+//related
+router.get("/product/related/:productId", listRelated);
 
 module.exports = router;
