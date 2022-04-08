@@ -142,9 +142,9 @@ const handlePrice = async (req, res, price) => {
   }
 }
 
-const handleCategory = async (req, res, price) => {
+const handleCategory = async (req, res, category) => {
   try {
-    let products = await Product.find({category})
+    let products = await Product.find({ category })
       .populate('category', '_id name')
       .populate('sub', '_id name')
       .populate('postedBy', '_id name')
@@ -157,8 +157,34 @@ const handleCategory = async (req, res, price) => {
   }
 }
 
+const handleStar = (req, res, stars) => {
+  Product.aggregate([
+    {
+      $project: {
+        document: '$$ROOT',
+        floorAverage: {
+          $floor: { $avg: "$ratings.star" }
+        }
+      }
+    },
+    { $match: { floorAverage: stars } }
+  ])
+    .limit(12)
+    .exec((err, aggregates) => {
+      if (err)
+        Product.find({ _id: aggregates })
+          .populate('category', '_id name')
+          .populate('sub', '_id name')
+          .populate('postedBy', '_id name')
+          .exec((err, products) => {
+            if (err)
+              res.json(products);
+          });
+    });
+}
+
 exports.searchFilters = async (req, res) => {
-  const { query, price, category } = req.body;
+  const { query, price, category, stars } = req.body;
   if (query) {
     await handleQuery(req, res, query);
   }
@@ -169,5 +195,9 @@ exports.searchFilters = async (req, res) => {
 
   if (category) {
     await handleCategory(req, res, category);
+  }
+
+  if (stars) {
+    await handleStar(req, res, stars);
   }
 }
