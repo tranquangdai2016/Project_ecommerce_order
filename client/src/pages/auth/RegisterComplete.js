@@ -64,7 +64,16 @@ const RegisterComplete = ({ history }) => {
 
   const completeRegistrationForm = () => (
     <form onSubmit={handleSubmit}>
-      <input type="email" value={email} className="form-control" disabled />
+      <input
+        type="email"
+        value={email}
+        className="form-control"
+        placeholder="Email"
+        autoFocus
+        onChange={(e) => setEmail(e.target.value)}
+        style={{ marginTop: "10px 0 0 0" }}
+      />
+      <br />
       <input
         type="password"
         value={password}
@@ -84,7 +93,7 @@ const RegisterComplete = ({ history }) => {
       <div className="row">
         <div className="col-md-6 offset-md-3">
           <h4>Register</h4>
-          <p>register Complete</p>
+          {/* <p>register Complete</p> */}
           {completeRegistrationForm()}
         </div>
       </div>

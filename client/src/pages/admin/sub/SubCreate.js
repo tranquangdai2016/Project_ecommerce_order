@@ -2,12 +2,7 @@ import React, { useState, useEffect } from "react";
 import AdminNav from "../../../components/nav/AdminNav";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-import {
-    createSub,
-    getSub,
-    removeSub,
-    getSubs,
-} from "../../../functions/sub";
+import { createSub, getSub, removeSub, getSubs } from "../../../functions/sub";
 import { getCategories } from "../../../functions/category";
 import { Link } from "react-router-dom";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
@@ -26,7 +21,6 @@ const SubCreate = () => {
   //set 1
   const [keyword, setKeyword] = useState("");
 
-
   useEffect(() => {
     loadCategories();
     loadSubs();
@@ -35,7 +29,7 @@ const SubCreate = () => {
   const loadCategories = () =>
     getCategories().then((c) => setCategories(c.data));
 
-    const loadSubs = () => getSubs().then((s) => setSubs(s.data));
+  const loadSubs = () => getSubs().then((s) => setSubs(s.data));
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -73,10 +67,9 @@ const SubCreate = () => {
   };
 
   //step 3
- 
 
   //step 4
-  const searched = (keyword) => (c) => c.name.toLowerCase().includes(keyword)
+  const searched = (keyword) => (c) => c.name.toLowerCase().includes(keyword);
 
   return (
     <div className="container-fluid">
@@ -92,34 +85,32 @@ const SubCreate = () => {
           )}
 
           <div className="form-group">
-              <label>Parent Category</label>
-              <select 
-              name="category" 
-              className="form-control" 
-              onChange={(e) => setCategory(e.target.value)}>
-
-                  <option>Please select</option>
-                { categories.length > 0 && categories.map((c) => (
-                <option key={c._id} value={c._id}>
+            <label>Parent Category</label>
+            <select
+              name="category"
+              className="form-control"
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <option>Please select</option>
+              {categories.length > 0 &&
+                categories.map((c) => (
+                  <option key={c._id} value={c._id}>
                     {c.name}
-                </option>
+                  </option>
                 ))}
-              </select>
+            </select>
           </div>
 
           {/* {JSON.stringify(category)} */}
 
-          <CategoryForm 
-          handleSubmit={handleSubmit} 
-          name={name} 
-          setName={setName}
-          />    
+          <CategoryForm
+            handleSubmit={handleSubmit}
+            name={name}
+            setName={setName}
+          />
           {/* step 2 and step 3 */}
           <hr />
-          <LocalSearch 
-          keyword={keyword} 
-          setKeyword={setKeyword} 
-          />
+          <LocalSearch keyword={keyword} setKeyword={setKeyword} />
 
           {/* step 5 */}
           {subs.filter(searched(keyword)).map((s) => (

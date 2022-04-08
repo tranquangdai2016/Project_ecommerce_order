@@ -22,7 +22,6 @@ const CategoryCreate = () => {
   //set 1
   const [keyword, setKeyword] = useState("");
 
-
   useEffect(() => {
     loadCategories();
   }, []);
@@ -66,10 +65,9 @@ const CategoryCreate = () => {
   };
 
   //step 3
- 
 
   //step 4
-  const searched = (keyword) => (c) => c.name.toLowerCase().includes(keyword)
+  const searched = (keyword) => (c) => c.name.toLowerCase().includes(keyword);
 
   return (
     <div className="container-fluid">
@@ -84,17 +82,14 @@ const CategoryCreate = () => {
             <h4> Create Category </h4>
           )}
 
-          <CategoryForm 
-          handleSubmit={handleSubmit} 
-          name={name} 
-          setName={setName}
-          />    
+          <CategoryForm
+            handleSubmit={handleSubmit}
+            name={name}
+            setName={setName}
+          />
           {/* step 2 and step 3 */}
           <hr />
-          <LocalSearch 
-          keyword={keyword} 
-          setKeyword={setKeyword} 
-          />
+          <LocalSearch keyword={keyword} setKeyword={setKeyword} />
 
           {/* step 5 */}
           {categories.filter(searched(keyword)).map((c) => (
