@@ -10,22 +10,13 @@ const {
 // controllers
 const {
     create,
-    listAll,
-    remove,
     read,
     update,
+    remove,
     list,
-    productCount,
-    productStar,
-    listRelated,
-} = require('../controllers/product');
+    getSubs,
+} = require('../controllers/category')
 
 //router
-
-//rating
-router.put('/product/star/:productId', authCheck, productStar)
-
-//related
-router.get("/product/related/:productId", listRelated);
 
 module.exports = router;
