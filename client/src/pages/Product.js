@@ -1,6 +1,8 @@
-import React from 'react';
-import {productStar} from '../functions/product'
-import {useSelector} from 'react-redux'
+import React, { useState, useEffect} from 'react';
+import {productStar, getProduct} from '../functions/product';
+import SingleProduct from '../components/cards/SingleProduct';
+import {useSelector} from 'react-redux';
+
 
 const Product = ({match}) =>{
     const [star, setStar] = useState(0);
