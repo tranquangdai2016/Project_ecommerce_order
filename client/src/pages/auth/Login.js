@@ -67,8 +67,8 @@ const Login = ({history}) => {
         }
     };
 
-    const googleLogin = () => {
-        auth.signInWithPopup(GoogleAuthProvider)
+    const googleLogin = async() => {
+        await getAuth.signInWithPopup(GoogleAuthProvider)
         .then(async (result) => {
             const { user } = result;
             const idTokenResult = await user.getIdTokenResult()
