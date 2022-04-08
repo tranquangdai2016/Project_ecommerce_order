@@ -2,15 +2,11 @@ import React, { useState, useEffect } from "react";
 import AdminNav from "../../../components/nav/AdminNav";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-import {
-    updateSub,
-    getSub,
-} from "../../../functions/sub";
+import { updateSub, getSub } from "../../../functions/sub";
 import { getCategories } from "../../../functions/category";
 import CategoryForm from "../../../components/forms/CategoryForm";
 
-
-const SubUpdate = ({match, history}) => {
+const SubUpdate = ({ match, history }) => {
   const { user } = useSelector((state) => ({ ...state }));
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
@@ -25,20 +21,21 @@ const SubUpdate = ({match, history}) => {
   const loadCategories = () =>
     getCategories().then((c) => setCategories(c.data));
 
-    const loadSub = () => getSub(match.params.slug).then((s) => {
-        setName(s.data.name);
-        setParent(s.data.parent)
+  const loadSub = () =>
+    getSub(match.params.slug).then((s) => {
+      setName(s.data.name);
+      setParent(s.data.parent);
     });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    updateSub(match.params.slug,{ name, parent }, user.token)
+    updateSub(match.params.slug, { name, parent }, user.token)
       .then((res) => {
         setLoading(false);
         setName("");
         toast.success(`"${res.data.name}" is update`);
-        history.push("/admin/sub")
+        history.push("/admin/sub");
       })
       .catch((err) => {
         console.error(err);
@@ -47,7 +44,6 @@ const SubUpdate = ({match, history}) => {
       });
   };
 
-  
   return (
     <div className="container-fluid">
       <div className="row">
@@ -62,27 +58,28 @@ const SubUpdate = ({match, history}) => {
           )}
 
           <div className="form-group">
-              <label>Parent Category</label>
-              <select 
-              name="category" 
-              className="form-control" 
-              onChange={(e) => setParent(e.target.value)}>
-
-                  <option>Please select</option>
-                { categories.length > 0 && categories.map((c) => (
-                <option key={c._id} value={c._id} selected={c._id === parent}>
+            <label>Parent Category</label>
+            <select
+              name="category"
+              className="form-control"
+              onChange={(e) => setParent(e.target.value)}
+            >
+              <option>Please select</option>
+              {categories.length > 0 &&
+                categories.map((c) => (
+                  <option key={c._id} value={c._id} selected={c._id === parent}>
                     {c.name}
-                </option>
+                  </option>
                 ))}
-              </select>
+            </select>
           </div>
 
           {/* {JSON.stringify(category)} */}
 
-          <CategoryForm 
-          handleSubmit={handleSubmit} 
-          name={name} 
-          setName={setName}
+          <CategoryForm
+            handleSubmit={handleSubmit}
+            name={name}
+            setName={setName}
           />
         </div>
       </div>

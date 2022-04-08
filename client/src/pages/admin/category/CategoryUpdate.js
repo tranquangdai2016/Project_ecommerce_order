@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 import { getCategory, updateCategory } from "../../../functions/category";
 import CategoryForm from "../../../components/forms/CategoryForm";
 
-
 const CategoryUpdate = ({ history, match }) => {
   const { user } = useSelector((state) => ({ ...state }));
 
