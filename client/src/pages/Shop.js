@@ -4,7 +4,7 @@ import { getCategories } from '../functions/category'
 import { getSubs } from '../functions/sub'
 import { useSelector, useDispatch } from 'react-redux'
 import ProductCard from '../components/cards/ProductCard'
-import { Menu, Slider, Checkbox } from 'antd'
+import { Menu, Slider, Checkbox, Radio } from 'antd'
 import { DollarOutlined, DownSquareOutlined, StarOutlined } from '@ant-design/icons'
 import Star from '../components/forms/Star'
 
@@ -20,6 +20,8 @@ const Shop = () => {
     const [star, setStar] = useState('');
     const [subs, setSubs] = useState([]);
     const [sub, setSub] = useState('');
+    const [brands, setBrands] = useState(["Apple", "Samsung", "Microsoft", "Lenovo", "Asus"]);
+    const [brand, setBrand] = useState('');
 
 
     let dispatch = useDispatch();
@@ -74,6 +76,8 @@ const Shop = () => {
         setPrice(value);
         setStar("");
         setSub('');
+        setBrand('');
+
         setTimeout(() => {
             setOk(!ok);
         }, 300);
@@ -103,6 +107,7 @@ const Shop = () => {
         setPrice([0, 0]);
         setStar("");
         setSub('');
+        setBrand('');
 
         let inTheState = [...categoryIds];
         let justChecked = e.target.value;
@@ -129,6 +134,7 @@ const Shop = () => {
         setCategoryIds([]);
         setStar(num);
         setSub('');
+        setBrand('');
         fetchProducts({ star: num });
     }
     const showStars = () => {
@@ -142,7 +148,7 @@ const Shop = () => {
     }
 
     //show products by subcategories
-    const showSubs = () =>
+    const showSubs = () => 
         subs.map((s) =>
             <div
                 key={s._id}
@@ -151,7 +157,7 @@ const Shop = () => {
                 style={{ cursor: "pointer" }}>
                 (s.name)
             </div>
-        )
+    )
 
     const handleSub = (sub) => {
         setSub(sub)
@@ -162,7 +168,27 @@ const Shop = () => {
         setPrice([0, 0]);
         setCategoryIds([]);
         setStar('');
+        setBrand('');
         fetchProducts({ sub });
+    }
+
+    const showBrands = () => brands.map((b) => 
+        <Radio value={b} name={b} checked={b === brand} onChange={handleBrand} className="pb-1 pl-4 pr-4">
+            {b}
+        </Radio>
+    )
+
+    const handleBrand = (e) => {
+        setSub('')
+        dispatch({
+            type: "SEARCH_QUERY",
+            payload: { text: "" },
+        });
+        setPrice([0, 0]);
+        setCategoryIds([]);
+        setStar('');
+        setBrand(e.target.value)
+        fetchProducts({ brand: e.target.value });
     }
 
     return (
@@ -171,7 +197,7 @@ const Shop = () => {
                 <div className="col-md-3 pt-2">
                     <h4>Search/filter</h4>
                     <hr />
-                    <Menu defaultOpenKeys={["1", "2", "3", "4"]} mode='inline'>
+                    <Menu defaultOpenKeys={["1", "2", "3", "4", "5", "6", "7"]} mode='inline'>
                         {/**price */}
                         <SubMenu key={"1"} title={<span className='h6'> <DollarOutlined />Price </span>}>
                             <div>
@@ -203,6 +229,13 @@ const Shop = () => {
                         <SubMenu key={"4"} title={<span className='h6'> <DownSquareOutlined />Sub Categories </span>}>
                             <div style={{ marginTop: "-10px" }} className="pr-4 pl-4">
                                 {showSubs()}
+                            </div>
+                        </SubMenu>
+
+                        {/** sub brands */}
+                        <SubMenu key={"5"} title={<span className='h6'> <DownSquareOutlined />Sub Brands </span>}>
+                            <div style={{ marginTop: "-10px" }} className="pr-5">
+                                {showBrands()}
                             </div>
                         </SubMenu>
                     </Menu>
