@@ -10,6 +10,7 @@ import Header from './components/nav/Header';
 import 'antd/dist/antd.min.css';
 import RegisterComplete from './pages/auth/RegisterComplete';
 import CategoryHome from './pages/category/CategoryHome';
+import SubHome from './pages/sub/SubHome';
 import {auth} from './firebase';
 import { useDispatch } from 'react-redux';
 // import { async } from '@firebase/util';
@@ -57,6 +58,7 @@ const App = () => {
         <Route  path="/Register/Complete" element={<RegisterComplete />} />
         <Route  path="/Forgot/Password" element={<ForgotPassword />} />
         <Route exact path="/category/:slug" components={CategoryHome} />
+        <Route exact path="/sub/:slug" components={SubHome} />
       </Routes>
     </>
   );
