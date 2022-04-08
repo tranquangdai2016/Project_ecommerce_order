@@ -12,7 +12,7 @@ import { createOrUpdateUser } from '../../functions/auth';
 
 
 
-const auth = getAuth();
+// const auth = getAuth();
 
 const Login = ({history}) => {
     const [email, setEmail] = useState("");
