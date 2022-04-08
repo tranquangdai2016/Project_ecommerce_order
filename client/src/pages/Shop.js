@@ -177,7 +177,7 @@ const Shop = () => {
                             <div>
                                 <Slider
                                     className='ml-4 mr-4'
-                                    tipFormatter={(v) => `VNĐ${v}`}
+                                    tipFormatter={(v) => `VNĐ ${v}`}
                                     range value={price}
                                     onChange={handleSlider}
                                     max='1000000000'
