@@ -80,7 +80,7 @@ const handleCategoryChange = (e)=>{
              <div className="col-md-10">
                  <h4>ProductCreate</h4>
                  <hr/>
-                 {JSON.stringify(values.images)}
+                 {/* {JSON.stringify(values.images)} */}
                  <div className="p-3">
                      <FileUpload values={values}  setvalues={setvalues} setLoading={setLoading} />
 
