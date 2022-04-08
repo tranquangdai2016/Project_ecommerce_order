@@ -6,9 +6,16 @@ const Product = ({match}) =>{
     const [star, setStar] = useState(0);
     const {user} = useSelector((state) => ({ ...state}))
 
+    useEffect(() => {
+        if (product.ratings && user){
+            let existingRatingObject = product.ratings.find((ele) => ele.postedBy.toString() === user._id.toString());
+            existingRatingObject && setStar(existingRatingObject.star); // current user's star
+        }
+    })
+
     const onStarClick = (newRating, name) =>{
         setStar(newRating);
-        productStar(name, star, user.token)
+        productStar(name, newRating, user.token)
         .then(res =>{
             console.log('rating clicked', res.data);
             loadSingleProduct();
