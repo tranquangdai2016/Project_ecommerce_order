@@ -22,6 +22,8 @@ const Shop = () => {
     const [sub, setSub] = useState('');
     const [brands, setBrands] = useState(["Apple", "Samsung", "Microsoft", "Lenovo", "Asus"]);
     const [brand, setBrand] = useState('');
+    const [colors, setColors] = useState(["Black", "Brown", "Silver", "White", "Blue"]);
+    const [color, setColor] = useState('');
 
 
     let dispatch = useDispatch();
@@ -77,6 +79,7 @@ const Shop = () => {
         setStar("");
         setSub('');
         setBrand('');
+        setColor('');
 
         setTimeout(() => {
             setOk(!ok);
@@ -107,6 +110,7 @@ const Shop = () => {
         setPrice([0, 0]);
         setStar("");
         setSub('');
+        setColor('');
         setBrand('');
 
         let inTheState = [...categoryIds];
@@ -134,6 +138,7 @@ const Shop = () => {
         setCategoryIds([]);
         setStar(num);
         setSub('');
+        setColor('');
         setBrand('');
         fetchProducts({ star: num });
     }
@@ -148,7 +153,7 @@ const Shop = () => {
     }
 
     //show products by subcategories
-    const showSubs = () => 
+    const showSubs = () =>
         subs.map((s) =>
             <div
                 key={s._id}
@@ -157,7 +162,7 @@ const Shop = () => {
                 style={{ cursor: "pointer" }}>
                 (s.name)
             </div>
-    )
+        )
 
     const handleSub = (sub) => {
         setSub(sub)
@@ -168,11 +173,13 @@ const Shop = () => {
         setPrice([0, 0]);
         setCategoryIds([]);
         setStar('');
+        setColor('');
         setBrand('');
         fetchProducts({ sub });
     }
 
-    const showBrands = () => brands.map((b) => 
+    //show products base on brands
+    const showBrands = () => brands.map((b) =>
         <Radio value={b} name={b} checked={b === brand} onChange={handleBrand} className="pb-1 pl-4 pr-4">
             {b}
         </Radio>
@@ -187,8 +194,30 @@ const Shop = () => {
         setPrice([0, 0]);
         setCategoryIds([]);
         setStar('');
+        setColor('');
         setBrand(e.target.value)
         fetchProducts({ brand: e.target.value });
+    }
+
+    //show products base on colors
+    const showColors = () => colors.map((c) =>
+        <Radio value={c} name={c} checked={c === color} onChange={handleColor} className="pb-1 pl-4 pr-4">
+            {c}
+        </Radio>
+    )
+
+    const handleColor = (e) => {
+        setSub('')
+        dispatch({
+            type: "SEARCH_QUERY",
+            payload: { text: "" },
+        });
+        setPrice([0, 0]);
+        setCategoryIds([]);
+        setStar('');
+        setBrand('');
+        setColor('e.target.value')
+        fetchProducts({ color: e.target.value });
     }
 
     return (
@@ -236,6 +265,13 @@ const Shop = () => {
                         <SubMenu key={"5"} title={<span className='h6'> <DownSquareOutlined />Sub Brands </span>}>
                             <div style={{ marginTop: "-10px" }} className="pr-5">
                                 {showBrands()}
+                            </div>
+                        </SubMenu>
+
+                        {/** sub Colors */}
+                        <SubMenu key={"6"} title={<span className='h6'> <DownSquareOutlined />Sub Colors </span>}>
+                            <div style={{ marginTop: "-10px" }} className="pr-5">
+                                {showColors()}
                             </div>
                         </SubMenu>
                     </Menu>
