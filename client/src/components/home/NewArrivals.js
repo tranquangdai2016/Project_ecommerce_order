@@ -7,15 +7,21 @@ import { Pagination } from "antd";
 const NewArrivals = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [productsCount, getProductsCount] = useState(0);
+  const [productsCount, setProductsCount] = useState(0);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
     loadAllProducts();
   }, [page]);
 
-  useEffect(() => {
-    getProductsCount().then((res) => getProductsCount(res.data));
+  // useEffect(() => {
+  //   getProductsCount().then((res) => getProductsCount(res.data));
+  // }, []);
+  // useEffect(() => {
+  //   get
+  // })
+  useEffect(() =>{
+    // setProductsCount().then((res) => setProductsCount(res.data));
   }, []);
 
   const loadAllProducts = () => {
