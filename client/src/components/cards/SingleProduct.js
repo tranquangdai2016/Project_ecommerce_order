@@ -1,10 +1,10 @@
 import React from "react";
 import { Card, Descriptions, Tabs } from "antd";
 import { Link } from "react-router-dom";
-import { ShoppingCartOutlined } from "@ant-design/icons";
+import { ShoppingCartOutlined, HeartOutlined } from "@ant-design/icons";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-// import Laptop from "../../images/laptop.png";
+import Laptop from "../../images/laptop.png";
 import ProductListItems from "./ProductListItems";
 
 const { TabPane } = Tabs;
@@ -15,13 +15,13 @@ const SingleProduct = ({ product }) => {
   return (
     <>
       <div className="col-md-7">
-        {/* {images && images.length ? (
+        {images && images.length ? (
           <Carousel showArrows={true} autoPlay infiniteLoop>
             {images && images.map((i) => <img src={i.url} key={i.public_id} />)}
           </Carousel>
         ) : (
           <Card cover={<img src={Laptop} className="mb-3 card-image" />} ></Card>
-        )} */}
+        )}
 
         <Tabs type="card">
           <TabPane tab="Description" key="1">
@@ -42,9 +42,9 @@ const SingleProduct = ({ product }) => {
               <ShoppingCartOutlined className="text-success" /> <br /> Add to
               Cart
             </>,
-            // <Link to="/">
-            //   <HearOutlined className="text-info" /> <br /> Add to Wishlist
-            // </Link>,
+            <Link to="/">
+              <HeartOutlined  className="text-info" /> <br /> Add to Wishlist
+            </Link>,
           ]}
         >
           <ProductListItems product={product} />
