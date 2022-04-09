@@ -27,7 +27,7 @@ exports.productStar = async (req, res) => {
         console.log('ratingAdded', ratingAdded);
         res.json(ratingAdded);
     } else {
-        const ratingUpdate = await Product.updateOne({
+        const ratingUpdated = await Product.updateOne({
             ratings: {
                 $elemMatch: existingRatingObject
             },

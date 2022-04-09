@@ -6,6 +6,7 @@ import StarRating from "react-star-ratings";
 import RatingModal from "../modal/RatingModal";
 import { showAverage } from "../../functions/rating";
 
+
 const { TabPane } = Tabs;
 
 const SingleProduct = ({ product, onStarClick, star }) => {

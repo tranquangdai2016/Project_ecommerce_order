@@ -7,7 +7,7 @@ export const showAverage = (p) => {
     let total = [];
     let length = ratingsArray.length;
 
-    ratingsArray.map((r) => total.push(r.star));
+    ratingsArray.map((r) => total.push(r.star));  
     let totalReduced = total.reduce((p, n) => p + n, 0);
 
     let highest = length * 5;
