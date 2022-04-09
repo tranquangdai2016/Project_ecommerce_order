@@ -2,9 +2,9 @@ import React from 'react'
 import {Card, Descriptions, Tabs} from 'antd'
 import {Link} from 'react-router-dom'
 import {HearOutlined, ShoppingCartOutlined} from '@ant-design/icons'
-import {Carousel} from 'react-responsive-carousel';
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-import loptop from '../../images/laptop.png';
+// import {Carousel} from 'react-responsive-carousel';
+// import "react-responsive-carousel/lib/styles/carousel.min.css";
+// import loptop from '../../images/laptop.png';
 import ProductListItems from './ProductListItems'
 
 const {TabPane} =Tabs;

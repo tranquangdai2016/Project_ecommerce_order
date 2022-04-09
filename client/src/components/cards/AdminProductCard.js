@@ -5,7 +5,7 @@ import{EditOutlined, DeleteOutlined} from "@ant-design/icons";
 import {Link} from 'react-router-dom';
 
 
-const {Mate} = Card;
+// const {Mate} = Card;
 
 const AdminProductCard = ({product, handleRemove}) => {
     const {title, description,images, slug } = product
