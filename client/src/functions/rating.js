@@ -1,5 +1,5 @@
 import React from "react";
-import StarRating from "react-star-rating";
+import StarRating from "react-star-ratings";
 
 export const showAverage = (p) => {
   if (p && p.ratings) {
