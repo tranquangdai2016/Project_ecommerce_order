@@ -19,6 +19,9 @@ import Home from "./pages/Home";
 import ProductUpdate from "./pages/admin/product/ProductUpdate";
 import AllProducts from "./pages/admin/product/AllProducts";
 import Product from "./pages/Product";
+import Shop from "./pages/Shop";
+import Cart from "./pages/Cart";
+
 
 const Routers = () => {
   return (
@@ -33,14 +36,16 @@ const Routers = () => {
       <UserRoute path="/user/wishlist" component={WishList} />
       <AdminRoute path="/admin/dashboard" component={AdminDashboard} />
       <AdminRoute path="/admin/category" component={CategoryCreate} />
-      <AdminRoute  exact path="/admin/category/:slug"  component={CategoryUpdate}  />
+      <AdminRoute exact path="/admin/category/:slug" component={CategoryUpdate} />
       <AdminRoute path="/admin/sub" component={SubCreate} />
-      <AdminRoute exact path="/admin/sub/:slug" component={SubUpdate}/>
-            
-      <AdminRoute exact path="/admin/products" component={AllProducts} />
-      <AdminRoute exact path="/admin/product/:slug" component = {ProductUpdate}/>
-       <Route exact path="/product/:slug" component={Product} />
+      <AdminRoute exact path="/admin/sub/:slug" component={SubUpdate} />
 
+      <AdminRoute exact path="/admin/products" component={AllProducts} />
+      <AdminRoute exact path="/admin/product/:slug" component={ProductUpdate} />
+      <Route exact path="/product/:slug" component={Product} />
+
+      <Route exact path="/shop" component = {Shop} />
+      <Route exact path="/cart" component = {Cart} />
     </Switch>
   );
 };
