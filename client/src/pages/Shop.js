@@ -14,6 +14,7 @@ const Shop = () => {
     const [price, setPrice] = useState([0, 0]);
     const [ok, setOk] = useState(false);
     const [categories, setCategories] = useState([]);
+    const [categoryIds, setCategoryIds] = useState([]);
 
     const dispatch = useDispatch();
     const { search } = useSelector((state) => ({ ...state }))
@@ -66,8 +67,38 @@ const Shop = () => {
     //load products based on category
     //show cateogories in a list of checkbox
     const showCategories = () => categories.map((c) => <div key={c._id}>
-        <CheckBox className='pb-2 pl-4 pr-4' value={c._id} name="category">{c.name}</CheckBox>
+        <CheckBox onChange={handleCheck}
+            className='pb-2 pl-4 pr-4'
+            value={c._id}
+            name="category"
+            checked={categoryIds.includes(c._id)}>{c.name}</CheckBox>
     </div>)
+
+    const handleCheck = (e) => {
+        dispatch({
+            type: 'SEARCH_QUERY',
+            payload: { text: "" }
+        });
+        setCategoryIds([]);
+        setPrice(value);
+        setTimeout(() => {
+            setOk(!ok);
+        }, 300);
+
+        let inTheState = [...categoryIds]
+        let justChecked = e.target.value
+        let foundInTheState = inTheState.indexOf(justChecked);
+
+        if (foundInTheState === -1) {
+            inTheState.push(justChecked);
+        } else {
+            //if found pull out one item from index
+            inTheState.splice(foundInTheState, 1)
+        }
+
+        setCategoryIds(inTheState);
+        fetchProducts({ category: inTheState })
+    }
 
 
     return (
