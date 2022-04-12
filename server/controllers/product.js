@@ -111,7 +111,6 @@ exports.productsCount = async (req, res) => {
   res.json(total);
 };
 
-<<<<<<< HEAD
 // search / filter
 
 const handleQuery = async (req, res, query) => {
@@ -255,7 +254,6 @@ exports.searchFilters = async (req, res) => {
     await handleBrand(req, res, brand);
   }
 }
-=======
 exports.productStar = async (req, res) => {
   const product = await Product.findById(req.params.productId).exec()
   const user = await User.findOne({
@@ -312,4 +310,3 @@ exports.listRelated = async (req, res) => {
 
   res.json(related);
 }
->>>>>>> b9208f162dbc921cb411327f2d5c7fe35186aac7
