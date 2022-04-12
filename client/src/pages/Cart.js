@@ -12,13 +12,15 @@ const Cart = () => {
         }, 0)
     }
 
+    const saveOrderToDb = () => 
+
     return (
         <div className="container-fluid pt-2">
             <div className="row">
             </div>
             <div className="row">
                 <div className="col-md-8">
-                <h4>Cart / {cart.length} Product</h4>
+                    <h4>Cart / {cart.length} Product</h4>
 
                     {!cart.length ? (<h4>No product in car. <Link to="/shop">Continue Shopping</Link> </h4>) : ("show cart items")}
                 </div>
@@ -32,19 +34,30 @@ const Cart = () => {
                         </div>
                     ))}
                     <hr />
-                        Total: <b>${getTotal()}</b>
+                    Total: <b>${getTotal()}</b>
                     <hr />
                     {
                         user ? (
-                            <button className="btn btn-small btn-primary mt-2">Proceed to checkout</button>
+                            <button
+                                onClick={saveOrderToDb}
+                                className="btn btn-small btn-primary mt-2"
+                                disabled={!cart.length}
+                            >
+                                Proceed to checkout
+                            </button>
                         ) : (
-                            <button className="btn btn-small btn-primary mt-2">Login to checkout</button>
+                            <button className="btn btn-small btn-primary mt-2">
+                                <Link to={{
+                                    pathname: "/login",
+                                    state: {from: "cart"},
+                                }}>Login to checkout</Link>
+                            </button>
                         )
                     }
                 </div>
             </div>
         </div>
     )
-}
+    }
 
-export default Cart;
+    export default Cart;
