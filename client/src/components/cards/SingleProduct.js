@@ -1,17 +1,21 @@
 import React, { useState } from "react";
 import { Card, Descriptions, Tabs, Tooltip } from "antd";
 import { Link } from "react-router-dom";
-import { ShoppingCartOutlined } from "@ant-design/icons";
+import { ShoppingCartOutlined, HeartOutlined } from "@ant-design/icons";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-// import Laptop from "../../images/laptop.png";
+import Laptop from "../../images/laptop.png";
 import ProductListItems from "./ProductListItems";
+import StarRating from "react-star-ratings";
+import { showAverage } from "../../functions/rating";
+import RatingModal from "../modal/RatingModal";
 
 import _ from "lodash";
 import { useSelector, useDispatch } from "react-redux";
 
 const { TabPane } = Tabs;
 
+<<<<<<< HEAD
 const SingleProduct = ({ product }) => {
   const [tooltip, setTooltip] = useState("Click to add");
   //redux
@@ -19,6 +23,10 @@ const SingleProduct = ({ product }) => {
   const dispatch = useDispatch();
 
   const { title, images, description } = product;
+=======
+const SingleProduct = ({ product, onStarClick, star }) => {
+  const { title, images, description, _id } = product;
+>>>>>>> b9208f162dbc921cb411327f2d5c7fe35186aac7
 
   const handleAddToCart = () => {
     //create cart array
@@ -52,13 +60,13 @@ const SingleProduct = ({ product }) => {
   return (
     <>
       <div className="col-md-7">
-        {/* {images && images.length ? (
+        {images && images.length ? (
           <Carousel showArrows={true} autoPlay infiniteLoop>
             {images && images.map((i) => <img src={i.url} key={i.public_id} />)}
           </Carousel>
         ) : (
           <Card cover={<img src={Laptop} className="mb-3 card-image" />} ></Card>
-        )} */}
+        )}
 
         <Tabs type="card">
           <TabPane tab="Description" key="1">
@@ -72,6 +80,7 @@ const SingleProduct = ({ product }) => {
 
       <div className="col-md-5">
         <h1 className="bg-info p-3">{title}</h1>
+<<<<<<< HEAD
         <Card
           actions={[
             <Tooltip title={tooltip}> 
@@ -82,6 +91,34 @@ const SingleProduct = ({ product }) => {
             // <Link to="/">
             //   <HearOutlined className="text-info" /> <br /> Add to Wishlist
             // </Link>,
+=======
+        
+        {product && product.ratings && product.ratings.length > 0 ? (
+          showAverage(product)
+        ) : (
+          <div className="text-center pt-1 pb-3">No rating yet</div>
+        )}
+
+        <Card
+          actions={[
+            <>
+              <ShoppingCartOutlined className="text-success" /> <br /> Add to
+              Cart
+            </>,
+            <Link to="/">
+              <HeartOutlined  className="text-info" /> <br /> Add to Wishlist
+            </Link>,
+            <RatingModal>
+              <StarRating
+                name={_id}
+                numberOfStars={5}
+                rating={star}
+                changeRating={onStarClick}
+                isSelectable={true}
+                starRatedColor="red"
+              />
+            </RatingModal>
+>>>>>>> b9208f162dbc921cb411327f2d5c7fe35186aac7
           ]}
         >
           <ProductListItems product={product} />

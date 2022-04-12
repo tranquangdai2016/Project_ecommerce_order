@@ -16,9 +16,14 @@ exports.list = async (req, res) => {
 };
 
 exports.read = async (req, res) => {
-    let sub = await Sub.findOne({ slug: req.params.slug }).exec();
-    res.json(sub);
-};
+    let sub = await Sub.findOne({ slug: req.params.slug}).exec();
+    const products = await Product.find({subs: sub}).populate('category').exec()
+
+    res.json({
+        sub,
+        products,
+    });
+}
 
 exports.update = async (req, res) => {
     const { name, parent } = req.body;
