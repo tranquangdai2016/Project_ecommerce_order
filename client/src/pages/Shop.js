@@ -90,7 +90,7 @@ const Shop = () => {
 
     //load products base on category
     //show category in a list of checkbox
-    const showCategories = () => categories.map((e) => <div key={c._id}>
+    const showCategories = () => categories.map((c) => <div key={c._id}>
         <Checkbox
             onChange={handleCheck}
             className='pb-2 pl-2 pr-2'
@@ -161,7 +161,7 @@ const Shop = () => {
         subs.map((s) =>
             <div
                 key={s._id}
-                onClick={() => handleSub(S)}
+                onClick={() => handleSub(s)}
                 className='p-1 m-1 badge badge-secondary'
                 style={{ cursor: "pointer" }}>
                 (s.name)
