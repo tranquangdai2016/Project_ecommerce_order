@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { getProductsByCount, fetchProductsByFilter } from '../functions/product'
 import { useDispatch, useSelector } from 'react-redux'
 import ProductCard from '../components/cards/ProductCard'
-import { Menu, Slider } from 'antd'
-import { DollarOulined } from '@ant-design/icons'
+import { Menu, Slider, Checkbox } from 'antd'
+import { getCategories } from '../functions/category'
+import { DollarOutlined, DownSquareOutlined } from '@ant-design/icons'
 
 
 const { SubMenu, ItemGroup } = Menu;
@@ -12,6 +13,7 @@ const Shop = () => {
     const [loading, setLoading] = useState(false);
     const [price, setPrice] = useState([0, 0]);
     const [ok, setOk] = useState(false);
+    const [categories, setCategories] = useState([]);
 
     const dispatch = useDispatch();
     const { search } = useSelector((state) => ({ ...state }))
@@ -19,6 +21,8 @@ const Shop = () => {
 
     useEffect(() => {
         loadAllProducts();
+        //fetch categories
+        getCategories().then(res => setCategories(res.data));
     })
 
     //load products by default on page load
@@ -59,6 +63,12 @@ const Shop = () => {
         }, 300);
     }
 
+    //load products based on category
+    //show cateogories in a list of checkbox
+    const showCategories = () => categories.map((c) => <div key={c._id}>
+        <CheckBox className='pb-2 pl-4 pr-4' value={c._id} name="category">{c.name}</CheckBox>
+    </div>)
+
 
     return (
         <div className="container-fluid">
@@ -66,20 +76,31 @@ const Shop = () => {
                 <div className="col-md-3 pt-2">
                     <h4>Search/Filter</h4>
                     <hr />
-                    <Menu defaultOpenKeys={['1']} mode='inline'>
+                    <Menu defaultOpenKeys={['1', '2']} mode='inline'>
+                        {/*price*/}
                         <SubMenu key={'1'} title={
                             <span className='h6'>
                                 <DollarOutlined /> Price
                             </span>
                         }>
                             <div>
-                                <Slideer className='ml-4 mr-4' tipFormatter={(v) => `$${v}`}
+                                <Slider className='ml-4 mr-4' tipFormatter={(v) => `$${v}`}
                                     range value={price}
                                     onChange={handleSlider}
                                     max="10000"
                                 />
                             </div>
+                        </SubMenu>
 
+                        {/*category*/}
+                        <SubMenu key={'2'} title={
+                            <span className='h6'>
+                                <DownSquareOutlined /> Categories
+                            </span>
+                        }>
+                            <div style={{ marginTop: "-10px" }}>
+                                {showCategories()}
+                            </div>
                         </SubMenu>
                     </Menu>
                 </div>
