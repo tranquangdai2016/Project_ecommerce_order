@@ -15,6 +15,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 const { TabPane } = Tabs;
 
+<<<<<<< HEAD
 const SingleProduct = ({ product }) => {
   const [tooltip, setTooltip] = useState("Click to add");
   //redux
@@ -22,104 +23,108 @@ const SingleProduct = ({ product }) => {
   const dispatch = useDispatch();
 
   const { title, images, description } = product;
-  const SingleProduct = ({ product, onStarClick, star }) => {
-    const { title, images, description, _id } = product;
+=======
+const SingleProduct = ({ product, onStarClick, star }) => {
+  const { title, images, description, _id } = product;
+>>>>>>> b9208f162dbc921cb411327f2d5c7fe35186aac7
 
-    const handleAddToCart = () => {
-      //create cart array
-      let cart = [];
-      if (typeof window !== 'undefined') {
-        //Nếu có cart ở localstorage thì GET
-        if (localStorage.getItem('cart')) {
-          cart = JSON.parse(localStorage.getItem('cart'))
-        }
-        //push new product to cart
-        cart.push({
-          ...product,
-          count: 1
-        })
-        //remove duplicates
-        let unique = _.uniqWith(cart, _.isEqual)
-        //save to localstorage
-        //console.log('unique', unique);
-        localStorage.setItem("cart", JSON.stringify(unique));
-        //show tooltip
-        setTooltip("Added");
-
-        //add to redux state
-        dispatch({
-          type: "ADD_TO_CART",
-          payload: unique,
-        })
+  const handleAddToCart = () => {
+    //create cart array
+    let cart = [];
+    if (typeof window !== 'undefined') {
+      //Nếu có cart ở localstorage thì GET
+      if (localStorage.getItem('cart')) {
+        cart = JSON.parse(localStorage.getItem('cart'))
       }
+      //push new product to cart
+      cart.push({
+        ...product,
+        count: 1
+      })
+      //remove duplicates
+      let unique = _.uniqWith(cart, _.isEqual)
+      //save to localstorage
+      //console.log('unique', unique);
+      localStorage.setItem("cart", JSON.stringify(unique));
+      //show tooltip
+      setTooltip("Added");
+
+      //add to redux state
+      dispatch({
+        type: "ADD_TO_CART",
+        payload: unique,
+      })
     }
+  }
 
-    return (
-      <>
-        <div className="col-md-7">
-          {images && images.length ? (
-            <Carousel showArrows={true} autoPlay infiniteLoop>
-              {images && images.map((i) => <img src={i.url} key={i.public_id} />)}
-            </Carousel>
-          ) : (
-            <Card cover={<img src={Laptop} className="mb-3 card-image" />} ></Card>
-          )}
+  return (
+    <>
+      <div className="col-md-7">
+        {images && images.length ? (
+          <Carousel showArrows={true} autoPlay infiniteLoop>
+            {images && images.map((i) => <img src={i.url} key={i.public_id} />)}
+          </Carousel>
+        ) : (
+          <Card cover={<img src={Laptop} className="mb-3 card-image" />} ></Card>
+        )}
 
-          <Tabs type="card">
-            <TabPane tab="Description" key="1">
-              {description && description}
-            </TabPane>
-            <TabPane tab="More" key="2">
-              Call use on xxxx xxx xxx to learn more about this product
-            </TabPane>
-          </Tabs>
-        </div>
+        <Tabs type="card">
+          <TabPane tab="Description" key="1">
+            {description && description}
+          </TabPane>
+          <TabPane tab="More" key="2">
+            Call use on xxxx xxx xxx to learn more about this product
+          </TabPane>
+        </Tabs>
+      </div>
 
-        <div className="col-md-5">
-          <h1 className="bg-info p-3">{title}</h1>
-          <Card
-            actions={[
-              <Tooltip title={tooltip}>
-                <a onClick={handleAddToCart}>
-                  <ShoppingCartOutlined className="text-danger" /> <br /> Add to card{" "}
-                </a>
-              </Tooltip>,
-              // <Link to="/">
-              //   <HearOutlined className="text-info" /> <br /> Add to Wishlist
-              // </Link>,
-
-              { product && product.ratings && product.ratings.length > 0 ? (
-                showAverage(product)
-              ) : (
-                <div className="text-center pt-1 pb-3">No rating yet</div>
-              )}
-
-              />
+      <div className="col-md-5">
+        <h1 className="bg-info p-3">{title}</h1>
+<<<<<<< HEAD
         <Card
-            actions={[
-              <>
-                <ShoppingCartOutlined className="text-success" /> <br /> Add to
-                Cart
-              </>,
-              <Link to="/">
-                <HeartOutlined className="text-info" /> <br /> Add to Wishlist
-              </Link>,
-              <RatingModal>
-                <StarRating
-                  name={_id}
-                  numberOfStars={5}
-                  rating={star}
-                  changeRating={onStarClick}
-                  isSelectable={true}
-                  starRatedColor="red"
-                />
-              </RatingModal>
-            ]}
-          >
-            <ProductListItems product={product} />
-          </Card>
-        </div >
-      </>
-    );
-  };
-  export default SingleProduct;
+          actions={[
+            <Tooltip title={tooltip}> 
+              <a onClick={handleAddToCart}>
+                <ShoppingCartOutlined className="text-danger" /> <br /> Add to card{" "}
+              </a>
+            </Tooltip>,
+            // <Link to="/">
+            //   <HearOutlined className="text-info" /> <br /> Add to Wishlist
+            // </Link>,
+=======
+        
+        {product && product.ratings && product.ratings.length > 0 ? (
+          showAverage(product)
+        ) : (
+          <div className="text-center pt-1 pb-3">No rating yet</div>
+        )}
+
+        <Card
+          actions={[
+            <>
+              <ShoppingCartOutlined className="text-success" /> <br /> Add to
+              Cart
+            </>,
+            <Link to="/">
+              <HeartOutlined  className="text-info" /> <br /> Add to Wishlist
+            </Link>,
+            <RatingModal>
+              <StarRating
+                name={_id}
+                numberOfStars={5}
+                rating={star}
+                changeRating={onStarClick}
+                isSelectable={true}
+                starRatedColor="red"
+              />
+            </RatingModal>
+>>>>>>> b9208f162dbc921cb411327f2d5c7fe35186aac7
+          ]}
+        >
+          <ProductListItems product={product} />
+        </Card>
+      </div>
+    </>
+  );
+};
+export default SingleProduct;
