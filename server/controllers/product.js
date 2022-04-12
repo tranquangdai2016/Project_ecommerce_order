@@ -1,6 +1,7 @@
 const Product = require("../models/product");
 const slugify = require("slugify");
-const User = require('../models/user')
+const User = require('../models/user');
+const { aggregate } = require("../models/product");
 
 exports.create = async (req, res) => {
   try {
@@ -216,6 +217,32 @@ const handleCategory = async (req, res, category) => {
   }
 }
 
+const handleStar = async (req, res, stars) => {
+  Product.aggregate([
+    {
+      $project: {
+        document: '$$ROOT',
+        floorAverage: {
+          $floor: { $avg: '$rating.star' }
+        },
+      },
+    },
+    { $match: { floorAverage: stars } }
+  ])
+    .limit(12)
+    .exec((err, aggregates) => {
+      if (err) console.log('AGGREGATE ERROR', err);
+      Product.find({ _id: aggregates })
+        .populate('category', '_id name')
+        .populate('subs', '_id name')
+        .populate('postedBy', '_id name')
+        .exec((err, products) => {
+          if (err) console.log('PRODUCT AGGREGATE ERROR', err);
+          res.json(products)
+        });
+    })
+}
+
 
 
 
@@ -224,7 +251,7 @@ const handleCategory = async (req, res, category) => {
 
 
 exports.searchFilters = async (req, res) => {
-  const { query, price, category } = req.query
+  const { query, price, category, stars } = req.query
   if (query) {
     await handleQuery(req, res, query);
   }
@@ -236,4 +263,9 @@ exports.searchFilters = async (req, res) => {
   if (category !== undefined) {
     await handleCategory(req, res, category);
   }
+
+  if (stars !== undefined) {
+    await handleStar(req, res, stars);
+  }
+
 }
