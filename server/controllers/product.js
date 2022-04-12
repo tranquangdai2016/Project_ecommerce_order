@@ -114,41 +114,41 @@ exports.productsCount = async (req, res) => {
 exports.productStar = async (req, res) => {
   const product = await Product.findById(req.params.productId).exec()
   const user = await User.findOne({
-      email: req.user.email
+    email: req.user.email
   }).exec()
   const {
-      star
+    star
   } = req.body
 
   let existingRatingObject = product.ratings.find((ele) => ele.postedBy.toString() === user._id.toString())
 
   if (existingRatingObject === undefined) {
-      let ratingAdded = await Product.findByIdAndUpdate(product._id, {
-          $push: {
-              ratings: {
-                  star,
-                  postedBy: user._id
-              }
-          },
-      }, {
-          new: true
-      }).exec();
-      console.log('ratingAdded', ratingAdded);
-      res.json(ratingAdded);
+    let ratingAdded = await Product.findByIdAndUpdate(product._id, {
+      $push: {
+        ratings: {
+          star,
+          postedBy: user._id
+        }
+      },
+    }, {
+      new: true
+    }).exec();
+    console.log('ratingAdded', ratingAdded);
+    res.json(ratingAdded);
   } else {
-      const ratingUpdated = await Product.updateOne({
-          ratings: {
-              $elemMatch: existingRatingObject
-          },
-      }, {
-          $set: {
-              'ratings.$.star': star
-          }
-      }, {
-          new: true
-      }).exec();
-      console.log('ratingUpdated', ratingUpdated);
-      res.json(ratingUpdated);
+    const ratingUpdated = await Product.updateOne({
+      ratings: {
+        $elemMatch: existingRatingObject
+      },
+    }, {
+      $set: {
+        'ratings.$.star': star
+      }
+    }, {
+      new: true
+    }).exec();
+    console.log('ratingUpdated', ratingUpdated);
+    res.json(ratingUpdated);
   }
 }
 
@@ -156,14 +156,37 @@ exports.listRelated = async (req, res) => {
   const product = await Product.findById(req.params.productId).exec();
 
   const related = await related.find({
-      _id: { $ne: product._id},
-      category: product.category,
+    _id: { $ne: product._id },
+    category: product.category,
   })
-  .limit(3)
-  .populate('category')
-  .populate('subs')
-  .populate('postedBy')
-  .exec()
+    .limit(3)
+    .populate('category')
+    .populate('subs')
+    .populate('postedBy')
+    .exec()
 
   res.json(related);
+}
+
+
+// search
+
+exports.handleQuery = async (req, res, query) => {
+  const products = await Product.find({ $text: { $search: query } })
+    .populate('category', '_id name')
+    .populate('subs', '_id name')
+    .populate('postedBy', '_id name')
+    .exec();
+
+  res.json(products)
+}
+
+
+
+
+exports.searchFilters = async (req, res) => {
+  const { query } = req.query
+  if (query) {
+    await handleQuery(req, res, query);
+  }
 }
