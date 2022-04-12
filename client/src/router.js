@@ -19,6 +19,7 @@ import Home from "./pages/Home";
 import ProductUpdate from "./pages/admin/product/ProductUpdate";
 import AllProducts from "./pages/admin/product/AllProducts";
 import Product from "./pages/Product";
+import Shop from "./pages/Shop";
 
 const Routers = () => {
   return (
@@ -40,6 +41,7 @@ const Routers = () => {
       <AdminRoute exact path="/admin/products" component={AllProducts} />
       <AdminRoute exact path="/admin/product/:slug" component = {ProductUpdate}/>
        <Route exact path="/product/:slug" component={Product} />
+       <Route exact path="/shop" component={Shop} />
 
     </Switch>
   );
