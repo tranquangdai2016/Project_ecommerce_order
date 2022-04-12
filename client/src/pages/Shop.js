@@ -11,7 +11,9 @@ const Shop = () => {
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(false);
     const [price, setPrice] = useState([0, 0]);
+    const [ok, setOk] = useState(false);
 
+    const dispatch = useDispatch();
     const { search } = useSelector((state) => ({ ...state }))
     const { text } = search
 
@@ -41,6 +43,22 @@ const Shop = () => {
         })
     }
 
+    //load products based on price range
+    useEffect(() => {
+        fetchProducts({ price });
+    }, [ok])
+
+    const handleSlider = (value) => {
+        dispatch({
+            type: 'SEARCH_QUERY',
+            payload: { text: "" }
+        });
+        setPrice(value);
+        setTimeout(() => {
+            setOk(!ok);
+        }, 300);
+    }
+
 
     return (
         <div className="container-fluid">
@@ -57,7 +75,7 @@ const Shop = () => {
                             <div>
                                 <Slideer className='ml-4 mr-4' tipFormatter={(v) => `$${v}`}
                                     range value={price}
-                                    onChange={(value) => setPrice(value)}
+                                    onChange={handleSlider}
                                     max="10000"
                                 />
                             </div>
