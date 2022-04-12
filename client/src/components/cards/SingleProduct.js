@@ -7,7 +7,6 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Laptop from "../../images/laptop.png";
 import ProductListItems from "./ProductListItems";
 import StarRating from "react-star-ratings";
-import { useSelector, useDispatch } from 'react-redux'
 import { showAverage } from "../../functions/rating";
 import RatingModal from "../modal/RatingModal";
 
