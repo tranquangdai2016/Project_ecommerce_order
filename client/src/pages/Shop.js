@@ -2,10 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { getProductsByCount, fetchProductsByFilter } from '../functions/product'
 import { useDispatch, useSelector } from 'react-redux'
 import ProductCard from '../components/cards/ProductCard'
+import { Menu, Slider } from 'antd'
+import { DollarOulined } from '@ant-design/icons'
 
+
+const { SubMenu, ItemGroup } = Menu;
 const Shop = () => {
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(false);
+    const [price, setPrice] = useState([0, 0]);
 
     const { search } = useSelector((state) => ({ ...state }))
     const { text } = search
@@ -25,7 +30,7 @@ const Shop = () => {
     //load products on user search input
     useEffect(() => {
         const delayed = setTimeout(() => {
-            fetchProducts({query: text});
+            fetchProducts({ query: text });
         }, 300)
         return () => clearTimeout(delayed)
     }, [text])
@@ -40,10 +45,27 @@ const Shop = () => {
     return (
         <div className="container-fluid">
             <div className="row">
-                <div className="col-md-3">
-                    Search/Filter menu
+                <div className="col-md-3 pt-2">
+                    <h4>Search/Filter</h4>
+                    <hr />
+                    <Menu defaultOpenKeys={['1']} mode='inline'>
+                        <SubMenu key={'1'} title={
+                            <span className='h6'>
+                                <DollarOutlined /> Price
+                            </span>
+                        }>
+                            <div>
+                                <Slideer className='ml-4 mr-4' tipFormatter={(v) => `$${v}`}
+                                    range value={price}
+                                    onChange={(value) => setPrice(value)}
+                                    max="10000"
+                                />
+                            </div>
+
+                        </SubMenu>
+                    </Menu>
                 </div>
-                <div className="col-md-9">
+                <div className="col-md-9 pt-2">
                     {loading ? (
                         <h4 className="text-danger">Loading...</h4>
                     ) : (
