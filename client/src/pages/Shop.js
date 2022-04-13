@@ -22,6 +22,8 @@ const Shop = () => {
     const [sub, setSub] = useState('');
     const [brands, setBrands] = useState(["Apple", "Samsung", "Microsoft", "Lenovo", "Asus"]);
     const [brand, setBrand] = useState('');
+    const [colors, setColors] = useState(["Black", "Brown", "Silver", "White", "Blue"]);
+    const [color, setColor] = useState('');
 
     const dispatch = useDispatch();
     const { search } = useSelector((state) => ({ ...state }))
@@ -72,6 +74,7 @@ const Shop = () => {
         setCategoryIds([])
         setPrice(value);
         setStar("")
+        setColor('')
         setBrand('')
         setSub("")
         setTimeout(() => {
@@ -97,6 +100,7 @@ const Shop = () => {
         setStar("")
         setBrand('')
         setSub("")
+        setColor('')
         setPrice([0, 0]);
         setTimeout(() => {
             setOk(!ok);
@@ -127,6 +131,7 @@ const Shop = () => {
         setPrice([0, 0]);
         setCategoryIds([]);
         setSub("")
+        setColor('')
         setBrand('')
         setStar(num)
         fetchProducts({ stars: num });
@@ -160,6 +165,7 @@ const Shop = () => {
         setPrice([0, 0]);
         setCategoryIds([]);
         setStar('')
+        setColor('')
         setBrand('')
         fetchProducts({ sub });
     }
@@ -184,9 +190,39 @@ const Shop = () => {
         setPrice([0, 0]);
         setCategoryIds([]);
         setStar('')
+        setColor('')
         setBrand(e.target.value)
         fetchProducts({ brand: e.target.value });
     }
+
+    //show product base on color
+    const showColors = () => colors.map((c) => (
+        <Radio value={c}
+            name={c}
+            checked={c === color}
+            onChange={handleColor}
+            className="pb-1 px-4"
+        >
+            {c}
+        </Radio>)
+    )
+
+    const handleColor = (e) => {
+        setSub('')
+        dispatch({
+            type: 'SEARCH_QUERY',
+            payload: { text: "" }
+        });
+        setPrice([0, 0]);
+        setCategoryIds([]);
+        setStar('')
+        setBrand('')
+        setColor('e.target.value')
+        fetchProducts({ color: e.target.value });
+    }
+
+
+
 
     return (
         <div className="container-fluid">
@@ -251,6 +287,17 @@ const Shop = () => {
                         }>
                             <div style={{ marginTop: "-10px" }} className="pr-5">
                                 {showBrands()}
+                            </div>
+                        </SubMenu>
+
+                        {/*Color*/}
+                        <SubMenu key={'6'} title={
+                            <span className='h6'>
+                                <DownSquareOutlined />Colors
+                            </span>
+                        }>
+                            <div style={{ marginTop: "-10px" }} className="pr-5">
+                                {showColors()}
                             </div>
                         </SubMenu>
                     </Menu>
