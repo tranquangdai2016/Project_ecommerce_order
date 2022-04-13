@@ -231,21 +231,21 @@ const Shop = () => {
     //show product base on shipping yes/no
     const showShipping = () => (
         <>
-            <CheckBox className="pb-2 px-4"
+            <Checkbox className="pb-2 px-4"
                 onChange={handleShippingchange}
                 value="Yes"
                 checked={shipping === "Yes"}
             >
                 Yes
-            </CheckBox>
+            </Checkbox>
 
-            <CheckBox className="pb-2 px-4"
+            <Checkbox className="pb-2 px-4"
                 onChange={handleShippingchange}
                 value="No"
                 checked={shipping === "No"}
             >
                 No
-            </CheckBox>
+            </Checkbox>
         </>
     )
 

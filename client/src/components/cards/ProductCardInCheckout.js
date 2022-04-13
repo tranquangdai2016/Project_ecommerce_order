@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { CheckCircleOutlined, CloseCircleOutlined, CloseOutlined } from '@ant-design/icons'
 
 
-const ProductCardInCheckout = () => {
+const ProductCardInCheckout = (p) => {
     const colors = ["Black", "Brown", "Silver", "White", "Blue"];
     const dispatch = useDispatch();
 
