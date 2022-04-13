@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from "react-router-dom";
-
+import ProductCardInCheckout from "../components/cards/ProductCardInCheckout"
 
 const Cart = () => {
     const { user, cart } = useSelector((state) => ({ ...state }));
@@ -17,6 +17,27 @@ const Cart = () => {
 
     }
 
+    const showCartItems = () => {
+        <table className="table table-bordered">
+            <thead className="thead-light">
+                <tr>
+                    <td scope="col">Image</td>
+                    <td scope="col">Name</td>
+                    <td scope="col">Price</td>
+                    <td scope="col">Brand</td>
+                    <td scope="col">Color</td>
+                    <td scope="col">Count</td>
+                    <td scope="col">Shipping</td>
+                    <td scope="col">Remove</td>
+                </tr>
+            </thead>
+
+            {cart.map((p) => 
+                <ProductCardInCheckout key={p._id} p={p}></ProductCardInCheckout>
+            )}
+        </table>
+    }
+
     return (
         <div className="container-fluid pt-2">
             <div className="row">
@@ -25,7 +46,7 @@ const Cart = () => {
                     {!cart.length ? (<h4>
                         No products in cart. <Link to="/shop">Continue Shopping</Link>
                     </h4>) : (
-                        "Show cart items"
+                        showCartItems()
                     )}
                 </div>
                 <div className="col-md-4">
