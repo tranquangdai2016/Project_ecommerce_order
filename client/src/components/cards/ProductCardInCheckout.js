@@ -29,6 +29,28 @@ const ProductCardInCheckout = () => {
         }
     }
 
+    const handleQuantityChange = e => {
+        let cart = []
+        if (typeof window !== 'undefined') {
+            //if cart is in localstorage GET it
+            if (localStorage.getItem('cart')) {
+                cart = JSON.parse(localStorage.getItem('cart'))
+            }
+
+            cart.map((product, i) => {
+                if (product._id === p._id) {
+                    cart[i].count = e.target.value
+                }
+            })
+            //console.log('cart update count', cart)
+            localStorage.setItem('cart', JSON.stringify(cart))
+            dispatch({
+                type: 'ADD_TO_CART',
+                payload: cart
+            });
+        }
+    }
+
 
     return (
         <tbody>
@@ -59,7 +81,9 @@ const ProductCardInCheckout = () => {
                             ))}
                     </select>
                 </td>
-                <td>{p.count}</td>
+                <td className="text-center">
+                    <input onChange={handleQuantityChange} type="number" className="form-control" value={p.count} />
+                </td>
                 <td>Shipping</td>
                 <td>Delete Icon</td>
             </tr>
