@@ -1,12 +1,32 @@
 import React from "react";
 import ModalImage from 'react-modal-image'
 import laptop from "../../images/laptop.png"
+import { useDispatch } from 'react-redux'
 
 const ProductCardInCheckout = () => {
     const colors = ["Black", "Brown", "Silver", "White", "Blue"];
+    const dispatch = useDispatch();
 
-    const handleColorChange = () => {
+    const handleColorChange = (e) => {
+        let cart = []
+        if (typeof window !== 'undefined') {
+            //if cart is in localstorage GET it
+            if (localStorage.getItem('cart')) {
+                cart = JSON.parse(localStorage.getItem('cart'))
+            }
 
+            cart.map((product, i) => {
+                if (product._id === p._id) {
+                    cart[i].color = e.target.value
+                }
+            })
+            //console.log('cart update color', cart)
+            localStorage.setItem('cart', JSON.stringify(cart))
+            dispatch({
+                type: 'ADD_TO_CART',
+                payload: cart
+            });
+        }
     }
 
 
