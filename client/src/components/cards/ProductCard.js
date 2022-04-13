@@ -4,6 +4,7 @@ import { EyeOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import { showAverage } from "../../functions/rating";
 import laptop from "../../images/laptop.png";
 import { Link } from "react-router-dom";
+import _ from "lodash"
 
 const { Meta } = Card;
 
@@ -22,6 +23,12 @@ const ProductCard = ({ product }) => {
         ...product,
         count: 1,
       })
+      //remove duplicates
+      let unique = _.uniqWith(cart, _.isEqual)
+      //console.log('unique', unique);
+
+      //save to localstorage
+      localStorage.setItem('cart', JSON.stringify(unique))
     }
   }
 
