@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { getProductsByCount, fetchProductsByFilter } from '../functions/product'
 import { useDispatch, useSelector } from 'react-redux'
 import ProductCard from '../components/cards/ProductCard'
-import { Menu, Slider, Checkbox } from 'antd'
+import { Menu, Slider, Checkbox, Radio } from 'antd'
 import { getCategories } from '../functions/category'
 import { getSubs } from '../functions/sub'
 import { DollarOutlined, DownSquareOutlined, StarOutlined } from '@ant-design/icons'
@@ -20,6 +20,8 @@ const Shop = () => {
     const [star, setStar] = useState('');
     const [subs, setSubs] = useState([]);
     const [sub, setSub] = useState('');
+    const [brands, setBrands] = useState(["Apple", "Samsung", "Microsoft", "Lenovo", "Asus"]);
+    const [brand, setBrand] = useState('');
 
     const dispatch = useDispatch();
     const { search } = useSelector((state) => ({ ...state }))
@@ -70,6 +72,7 @@ const Shop = () => {
         setCategoryIds([])
         setPrice(value);
         setStar("")
+        setBrand('')
         setSub("")
         setTimeout(() => {
             setOk(!ok);
@@ -79,11 +82,11 @@ const Shop = () => {
     //load products based on category
     //show cateogories in a list of checkbox
     const showCategories = () => categories.map((c) => <div key={c._id}>
-        <CheckBox onChange={handleCheck}
+        <Checkbox onChange={handleCheck}
             className='pb-2 pl-4 pr-4'
             value={c._id}
             name="category"
-            checked={categoryIds.includes(c._id)}>{c.name}</CheckBox>
+            checked={categoryIds.includes(c._id)}>{c.name}</Checkbox>
     </div>)
 
     const handleCheck = (e) => {
@@ -92,6 +95,7 @@ const Shop = () => {
             payload: { text: "" }
         });
         setStar("")
+        setBrand('')
         setSub("")
         setPrice([0, 0]);
         setTimeout(() => {
@@ -123,6 +127,7 @@ const Shop = () => {
         setPrice([0, 0]);
         setCategoryIds([]);
         setSub("")
+        setBrand('')
         setStar(num)
         fetchProducts({ stars: num });
     }
@@ -155,9 +160,33 @@ const Shop = () => {
         setPrice([0, 0]);
         setCategoryIds([]);
         setStar('')
+        setBrand('')
         fetchProducts({ sub });
     }
 
+    //show product base on brand name
+    const showBrands = () => brands.map((b) =>
+        <Radio value={b}
+            name={b}
+            checked={b === brand}
+            onChange={handleBrand}
+            className="pb-1 px-4"
+        >
+            {b}
+        </Radio>)
+
+    const handleBrand = (e) => {
+        setSub('')
+        dispatch({
+            type: 'SEARCH_QUERY',
+            payload: { text: "" }
+        });
+        setPrice([0, 0]);
+        setCategoryIds([]);
+        setStar('')
+        setBrand(e.target.value)
+        fetchProducts({ brand: e.target.value });
+    }
 
     return (
         <div className="container-fluid">
@@ -165,7 +194,7 @@ const Shop = () => {
                 <div className="col-md-3 pt-2">
                     <h4>Search/Filter</h4>
                     <hr />
-                    <Menu defaultOpenKeys={['1', '2', '3', '4', '5']} mode='inline'>
+                    <Menu defaultOpenKeys={['1', '2', '3', '4', '5', '6', '7']} mode='inline'>
                         {/*price*/}
                         <SubMenu key={'1'} title={
                             <span className='h6'>
@@ -211,6 +240,17 @@ const Shop = () => {
                         }>
                             <div style={{ marginTop: "-10px" }} className="px-4">
                                 {showSubs()}
+                            </div>
+                        </SubMenu>
+
+                        {/*Brand*/}
+                        <SubMenu key={'5'} title={
+                            <span className='h6'>
+                                <DownSquareOutlined />Brands
+                            </span>
+                        }>
+                            <div style={{ marginTop: "-10px" }} className="pr-5">
+                                {showBrands()}
                             </div>
                         </SubMenu>
                     </Menu>
