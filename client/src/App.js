@@ -3,6 +3,7 @@ import "./App.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "./components/nav/Header";
+import SideDrawer from "./components/drawer/SlideDrawer";
 import "antd/dist/antd.min.css";
 import { auth } from "./firebase";
 import { useDispatch } from "react-redux";
@@ -39,6 +40,7 @@ const App = () => {
   return (
     <>
       <Header />
+      <SideDrawer />
       <ToastContainer />
       <Router />
     </>
