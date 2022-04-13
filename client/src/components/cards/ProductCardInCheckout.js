@@ -30,6 +30,7 @@ const ProductCardInCheckout = () => {
     }
 
     const handleQuantityChange = e => {
+        let count = e.target.value < 1 ? 1 :  e.target.value;
         let cart = []
         if (typeof window !== 'undefined') {
             //if cart is in localstorage GET it
@@ -39,7 +40,7 @@ const ProductCardInCheckout = () => {
 
             cart.map((product, i) => {
                 if (product._id === p._id) {
-                    cart[i].count = e.target.value
+                    cart[i].count = count
                 }
             })
             //console.log('cart update count', cart)
