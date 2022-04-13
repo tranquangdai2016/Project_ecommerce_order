@@ -2,6 +2,7 @@ import React from "react";
 import ModalImage from 'react-modal-image'
 import laptop from "../../images/laptop.png"
 import { useDispatch } from 'react-redux'
+import { toast } from "react-toastify";
 
 const ProductCardInCheckout = () => {
     const colors = ["Black", "Brown", "Silver", "White", "Blue"];
@@ -30,8 +31,17 @@ const ProductCardInCheckout = () => {
     }
 
     const handleQuantityChange = e => {
-        let count = e.target.value < 1 ? 1 :  e.target.value;
+        //console.log('available quantity', p.quantity)
+
+        let count = e.target.value < 1 ? 1 : e.target.value;
+        
+        if (count > p.quantity) {
+            toast.error(`Max available quantity: ${p.quantity}`);
+            return;
+        }
+
         let cart = []
+
         if (typeof window !== 'undefined') {
             //if cart is in localstorage GET it
             if (localStorage.getItem('cart')) {
