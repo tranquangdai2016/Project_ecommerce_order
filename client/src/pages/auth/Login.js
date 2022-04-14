@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 // import { getAuth } from '../../firebase';
 import { toast } from "react-toastify";
-import { getAuth } from "firebase/auth";
+import { auth, googleAuthProvider } from "../../firebase";
 import { Button } from "antd";
 import { MailOutlined, GoogleOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { GoogleAuthProvider, signInWithEmailAndPassword } from "firebase/auth";
+import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { Link } from "react-router-dom";
 import { createOrUpdateUser } from "../../functions/auth";
 // , googleAuthProvider
@@ -50,7 +50,7 @@ const Login = ({ history }) => {
     setLoading(true);
     console.table(email, password);
     try {
-      const result = await signInWithEmailAndPassword(email, password);
+      const result = await signInWithEmailAndPassword(auth, email, password);
       console.log(result);
       const { user } = result;
       const idTokenResult = await user.getIdTokenResult();
@@ -72,17 +72,20 @@ const Login = ({ history }) => {
         .catch((err) => console.log(err));
       // history.push('/');
     } catch (error) {
-      console.log(error);
+      console.log('err', error);
       toast.error(error.message);
       setLoading(false);
     }
   };
 
-  const googleLogin = async () => {
-    await getAuth.signInWithPopup(GoogleAuthProvider).then(async (result) => {
-      const { user } = result;
-      const idTokenResult = await user.getIdTokenResult();
+  // const googleLogin = async () => {
+  //   await getAuth.signInWithPopup(GoogleAuthProvider).then(async (result) => {
+  //     const { user } = result;
+  //     const idTokenResult = await user.getIdTokenResult();
 
+  const googleLogin = async () => {
+    const { user } = await signInWithPopup( auth, googleAuthProvider );
+    const idTokenResult = await user.getIdTokenResult();
       createOrUpdateUser(idTokenResult.token)
         .then((res) => {
           dispatch({
@@ -99,9 +102,8 @@ const Login = ({ history }) => {
         })
         .catch((err) => console.log(err));
       history.push("/");
-    });
-    // .catch(error => console.log(error))
   };
+  
   const loginForm = () => (
     <form onSubmit={handleSubmit}>
       <div className="form-group">

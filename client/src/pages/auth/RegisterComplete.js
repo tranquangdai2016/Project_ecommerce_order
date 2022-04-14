@@ -3,6 +3,7 @@ import { auth } from "../../firebase";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { createOrUpdateUser } from "../../functions/auth";
+import { signInWithEmailLink } from "firebase/auth"
 
 const RegisterComplete = ({ history }) => {
   const [email, setEmail] = useState("");
@@ -26,7 +27,8 @@ const RegisterComplete = ({ history }) => {
     }
 
     try {
-      const result = await auth.signInWithEmailLink(
+      const result = await signInWithEmailLink(
+        auth,
         email,
         window.location.href
       );
