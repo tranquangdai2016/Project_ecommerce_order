@@ -47,7 +47,16 @@ let newCart = await new Cart({
     order: user._id,
 }).save();
 
-console.log("new cart", newCart);
+console.log("new cart ----->", newCart);
 res.json({ ok:true });
 
 };
+
+exports.getUserCart = async (req,res) => {
+    const user = await User.findOne({ email: req.user.email }).exec();
+    let cart = await Cart.findOne({ orderBy: user._id}).populate("products.product", "_id title price totalAfterDiscount")
+    .exec();
+
+    const { products, cartTotal, totalAfterDiscount } = cart;
+    res.json({ products, cartTotal, totalAfterDiscount })
+}
