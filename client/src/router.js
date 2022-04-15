@@ -21,7 +21,7 @@ import AllProducts from "./pages/admin/product/AllProducts";
 import Product from "./pages/Product";
 import Shop from "./pages/Shop";
 import Cart from "./pages/Cart";
-
+import Checkout from "./pages/Checkout";
 const Routers = () => {
   return (
     <Switch>
@@ -44,6 +44,7 @@ const Routers = () => {
       <Route exact path="/product/:slug" component={Product} />
       <Route exact path="/shop" component={Shop} />
       <Route exact path="/cart" component={Cart} />
+      <UserRoute exact path="/checkout" component={Checkout} />
 
     </Switch>
   );
