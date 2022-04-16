@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import { getUserCart } from '../functions/user';
+import { getUserCart, emptyUserCart } from '../functions/user';
 const Checkout = () => {
     const [products, setProducts] = useState([]);
     const [total, setTotal] = useState(0);
@@ -15,6 +15,24 @@ const Checkout = () => {
             setTotal(res.data.cartTotal);
         }, []);
     });
+
+    const emptyCart = () => {
+        //remove from local storage
+        if (typeof window !== "undefined") {
+            localStorage.removeItem("cart");
+        }
+        //remove from redux
+        dispatch({
+            type: "ADD_TO_CART",
+            payload: [],
+        });
+        //remove from backend
+        emptyUserCart(user.token).then((res) => {{
+            setProducts([]);
+            setTotal(0);
+            toast.sucess("card is empty. Continue shopping.");
+        }});
+    };
 
     const saveAddressToDb = () => {
         //
@@ -56,7 +74,12 @@ const Checkout = () => {
                     </div>
 
                     <div className='col-md-6'>
-                        <button className="btn btn-primary">Empty card</button>
+                        <button 
+                            disabled={!products.length} 
+                            onClick={emptyCart} 
+                            className="btn btn-primary"
+                        >
+                            Empty card</button>
                     </div>
                 </div>
             </div>
