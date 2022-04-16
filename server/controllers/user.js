@@ -4,8 +4,7 @@ exports.addToWishlist = async (req, res) => {
 
   const user = await User.findOneAndUpdate(
     { email: req.user.email },
-    { $addToSet: { wishlist: productId } },
-
+    { $addToSet: { wishlist: productId } }
   ).exec();
 
   res.json({ ok: true });
@@ -17,12 +16,15 @@ exports.wishlist = async (req, res) => {
     .populate("wishlist")
     .exec();
 
-    res.json(list);
+  res.json(list);
 };
 
 exports.removeFromWishlist = async (req, res) => {
-  const { productId} = req.params;
-  const user = await User.findOneAndUpdate({email: req.user.email}, {$pull: {wishlist: productId}}).exec();
+  const { productId } = req.params;
+  const user = await User.findOneAndUpdate(
+    { email: req.user.email },
+    { $pull: { wishlist: productId } }
+  ).exec();
 
-  res.json({ok: true})
+  res.json({ ok: true });
 };

@@ -6,7 +6,11 @@ const router = express.Router()
 const {authCheck} = require ('../middlewares/auth')
 
 //controllers
-
+const {
+    addToWishlist,
+    wishlist,
+    removeFromWishlist
+} = require('../controllers/user')
 //wishlist 
 router.post('/user/wishlist',authCheck, addToWishlist);
 router.get('/user/wishlist',authCheck, wishlist);
