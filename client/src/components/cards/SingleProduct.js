@@ -5,12 +5,28 @@ import { HeartOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import StarRating from "react-star-ratings";
 import RatingModal from "../modal/RatingModal";
 import { showAverage } from "../../functions/rating";
+import {addToWishlist} from "../../functions/user";
+import {toast} from "react-toastify";
+import {useHistory} from "react-router-dom";
 
 
 const { TabPane } = Tabs;
 
 const SingleProduct = ({ product, onStarClick, star }) => {
+
+  //router
+  let history = useHistory();
+
   const { title, images, description, _id } = product;
+
+  const handleAddToWishlist = e => {
+    e.preventDefault();
+    addToWishlist(product._id, user.token).then(res => {
+      toast.success('Added to wishlist')
+      history.push('/user/wishlist')
+    })
+  }
+
   return (
     <>
       <div className="col-md-5">
@@ -28,9 +44,9 @@ const SingleProduct = ({ product, onStarClick, star }) => {
               <ShoppingCartOutlined className="text-success" /> <br />
               Add to cart
             </>,
-            <Link to="/">
+            <a onClick={handleAddToWishlist}>
               <HeartOutlined className="text-info" /> <br /> Add to Wishlist
-            </Link>,
+            </a>,
             <RatingModal>
               <StarRating
                 name={_id}
