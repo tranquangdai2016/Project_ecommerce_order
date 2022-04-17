@@ -17,6 +17,19 @@ const Cart = () => {
 
     }
 
+    const saveCashOrderToDb = () => {
+        dispatch({
+            type: "COD",
+            payload: true,
+        });
+        useCart(cart, user.token)
+            .then((res) => {
+                console.log("Cart post res", res);
+                if (res.data.ok) history.pushState("/checkout")
+            })
+            .catch((err) => console.log('cart save err', err));
+    }
+
     const showCartItems = () => {
         <table className="table table-bordered">
             <thead className="thead-light">
@@ -32,7 +45,7 @@ const Cart = () => {
                 </tr>
             </thead>
 
-            {cart.map((p) => 
+            {cart.map((p) =>
                 <ProductCardInCheckout key={p._id} p={p}></ProductCardInCheckout>
             )}
         </table>
@@ -63,12 +76,21 @@ const Cart = () => {
                     <hr />
                     {
                         user ? (
-                            <button onClick={saveOrderToDb}
-                                className="btn btn-sm btn-primary mt-2"
-                                disabled={!cart.length}
-                            >
-                                Proceed to checkout
-                            </button>
+                            <>
+                                <button onClick={saveOrderToDb}
+                                    className="btn btn-sm btn-primary mt-2"
+                                    disabled={!cart.length}
+                                >
+                                    Proceed to checkout
+                                </button>
+                                <br />
+                                <button onClick={saveCashOrderToDb}
+                                    className="btn btn-sm btn-warming mt-2"
+                                    disabled={!cart.length}
+                                >
+                                    Pay Cash in Delivery
+                                </button>
+                            </>
                         ) : (
                             <button className="btn btn-sm btn-primary mt-2">
                                 <Link to={{
