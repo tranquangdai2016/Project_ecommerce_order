@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
-import ProductCardInCheckout from "../components/cards/ProductCardInCheckout"
+import ProductCardInCheckout from "../components/cards/ProductCardInCheckout";
 import { userCart } from "../functions/user";
 
-const Cart = () => {
+const Cart = ( {history} ) => {
     const { user, cart } = useSelector((state) => ({ ...state }));
     const dispatch = useDispatch();
 

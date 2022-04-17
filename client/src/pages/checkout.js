@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import { getUserCart, emptyUserCart } from '../functions/user';
+import { toast } from "react-toastify";
+import { getUserCart, emptyUserCart,saveUserAddress } from '../functions/user';
+
 const Checkout = () => {
     const [products, setProducts] = useState([]);
     const [total, setTotal] = useState(0);
@@ -30,7 +32,7 @@ const Checkout = () => {
         emptyUserCart(user.token).then((res) => {{
             setProducts([]);
             setTotal(0);
-            toast.sucess("card is empty. Continue shopping.");
+            toast.success("card is emapty. Continue shopping.");
         }});
     };
 
