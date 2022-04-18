@@ -17,7 +17,7 @@ const Checkout = () => {
     const [addressSaved, setAddressSaved] = useState(false);
     const [coupon, setCoupon] = useState('');
     //discount price
-    const [totalAfterDiscount, setTotalAfterDiscount] = useState("");
+    const [totalAfterDiscount, setTotalAfterDiscount] = useState(0);
     const [discountError, setDiscountError] = useState("");
 
     const dispatch = useDispatch();
@@ -45,6 +45,8 @@ const Checkout = () => {
         emptyUserCart(user.token).then((res) => {{
             setProducts([]);
             setTotal(0);
+            setTotalAfterDiscount(0);
+            setCoupon("");
             toast.success("card is emapty. Continue shopping.");
         }});
     };
@@ -101,7 +103,10 @@ const Checkout = () => {
     const showApplyCoupon = () => {
         <>
             <input 
-            onChange={(e) => setCoupon(e.target.value)} 
+            onChange={(e) => {
+                    setCoupon(e.target.value);
+                    setDiscountError("");
+                }} 
             value={coupon}
             type="text" 
             className='form-control' 
@@ -121,6 +126,8 @@ const Checkout = () => {
                 <h4>Got CouPon?</h4>
                 <br />
                 {showApplyCoupon}
+                <br />
+                (discountError && <p className='bg-danger p2'>{discountError}</p>)
             </div>
 
             <div className="col-md-6">
@@ -131,6 +138,11 @@ const Checkout = () => {
                 {showProductSummary}
                 <hr />
                 <p>Card total {total}</p>
+
+                {totalAfterDiscount = 0 && (
+                    <p className='bg-success p2'> 
+                    Discount Applied: Total payable: ${totalAfterDiscount}</p>
+                )}
                 <div className='row'>
                     <div className='col-md-6'>
                         <button className="btn btn-primary" disabled={!addressSaved || !products.length}>
