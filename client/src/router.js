@@ -22,6 +22,7 @@ import Product from "./pages/Product";
 import Shop from "./pages/Shop";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
+import CreateCounponPage from "./pages/admin/coupon/CreateCounpon";
 const Routers = () => {
   return (
     <Switch>
@@ -45,6 +46,7 @@ const Routers = () => {
       <Route exact path="/shop" component={Shop} />
       <Route exact path="/cart" component={Cart} />
       <UserRoute exact path="/checkout" component={Checkout} />
+      <AdminRoute exact path="/admin/coupon" component={CreateCounponPage} />
 
     </Switch>
   );
