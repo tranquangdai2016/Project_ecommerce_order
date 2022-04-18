@@ -23,6 +23,7 @@ import Shop from "./pages/Shop";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import CreateCounponPage from "./pages/admin/coupon/CreateCounponPage";
+import Payment from "./pages/Payment";
 const Routers = () => {
   return (
     <Switch>
@@ -47,6 +48,7 @@ const Routers = () => {
       <Route exact path="/cart" component={Cart} />
       <UserRoute exact path="/checkout" component={Checkout} />
       <AdminRoute exact path="/admin/coupon" component={CreateCounponPage} />
+      <UserRoute exact path="/payment" component={Payment} />
 
     </Switch>
   );

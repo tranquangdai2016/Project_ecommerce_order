@@ -103,7 +103,7 @@ exports.applyCouponToUserCart = async (req,res) => {
 
     //caculate the total after discount
     let totalAfterDiscount = (
-        cartTotal = 
+        cartTotal - 
         (cartTotal * validCoupon.discount)/100
     ).toFixed(2); //99.99
 
