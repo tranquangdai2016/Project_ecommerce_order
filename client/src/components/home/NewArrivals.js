@@ -14,15 +14,9 @@ const NewArrivals = () => {
     loadAllProducts();
   }, [page]);
 
-  // useEffect(() => {
-  //   getProductsCount().then((res) => getProductsCount(res.data));
-  // }, []);
-  // useEffect(() => {
-  //   get
-  // })
-  useEffect(() =>{
-    // setProductsCount().then((res) => setProductsCount(res.data));
-  }, []);
+  useEffect(() => {
+    getProductsCount().then(res => setProductsCount(res.data));
+  }, [])
 
   const loadAllProducts = () => {
     setLoading(true);

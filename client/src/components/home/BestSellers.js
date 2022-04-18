@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getProducts } from "../../functions/product";
+import {getProducts, getProductsCount} from "../../functions/product";
 import ProductCard from "../cards/ProductCard";
 import LoadingCard from "../cards/LoadingCard";
 import { Pagination } from "antd";
@@ -15,8 +15,9 @@ const BestSellers = () => {
   }, [page]);
 
   useEffect(() => {
-    // setProductsCount().then((res) => setProductsCount(res.data));
-  }, []);
+    getProductsCount()
+        .then(res => setProductsCount(res.data))
+  }, [])
 
   const loadAllProduct = () => {
     setLoading(true);

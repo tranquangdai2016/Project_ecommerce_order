@@ -41,6 +41,7 @@ const Routers = () => {
 
       <AdminRoute exact path="/admin/products" component={AllProducts} />
       <AdminRoute exact path="/admin/product/:slug" component={ProductUpdate} />
+      <AdminRoute exact path="/admin/product" component={ProductCreate} />
       <Route exact path="/product/:slug" component={Product} />
       <Route exact path="/shop" component={Shop} />
       <Route exact path="/cart" component={Cart} />
