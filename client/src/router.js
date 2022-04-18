@@ -22,7 +22,7 @@ import Product from "./pages/Product";
 import Shop from "./pages/Shop";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
-import CreateCounponPage from "./pages/admin/coupon/CreateCounpon";
+import CreateCounponPage from "./pages/admin/coupon/CreateCounponPage";
 const Routers = () => {
   return (
     <Switch>
