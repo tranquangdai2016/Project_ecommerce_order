@@ -47,7 +47,7 @@ const Register = ({ history }) => {
       <div className="row">
         <div className="col-md-6 offset-md-3">
           <h4>Register</h4>
-          <p>register form</p>
+          {/*<p>register form</p>*/}
 
           {registerForm()}
         </div>

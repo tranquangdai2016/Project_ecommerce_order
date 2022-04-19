@@ -50,6 +50,9 @@ const Shop = () => {
     useEffect(() => {
         const delayed = setTimeout(() => {
             fetchProducts({ query: text });
+            if( text ) {
+                loadAllProducts();
+            }
         }, 300)
         return () => clearTimeout(delayed)
     }, [text])
@@ -176,15 +179,19 @@ const Shop = () => {
     }
 
     //show product base on brand name
-    const showBrands = () => brands.map((b) =>
-        <Radio value={b}
+    const showBrands = () =>
+        brands.map((b) => (
+        <Radio
+            value={b}
+            key={b}
             name={b}
             checked={b === brand}
             onChange={handleBrand}
             className="pb-1 px-4"
         >
             {b}
-        </Radio>)
+        </Radio>
+    ))
 
     const handleBrand = (e) => {
         setSub('')
@@ -203,15 +210,17 @@ const Shop = () => {
 
     //show product base on color
     const showColors = () => colors.map((c) => (
-        <Radio value={c}
+        <Radio
+            value={c}
+            key={c}
             name={c}
             checked={c === color}
             onChange={handleColor}
             className="pb-1 px-4"
         >
             {c}
-        </Radio>)
-    )
+        </Radio>
+        ))
 
     const handleColor = (e) => {
         setSub('')

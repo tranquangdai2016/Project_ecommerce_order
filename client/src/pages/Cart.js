@@ -1,21 +1,29 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import ProductCardInCheckout from "../components/cards/ProductCardInCheckout"
+import ProductCardInCheckout from "../components/cards/ProductCardInCheckout";
+import { userCart } from "../functions/user";
 
-const Cart = () => {
+const Cart = ({ history }) => {
     const { user, cart } = useSelector((state) => ({ ...state }));
     const dispatch = useDispatch();
 
     const getTotal = () => {
         return cart.reduce((currentValue, nextValue) => {
-            return currentValue + nextValue.count * nextValue.price
-        }, 0)
-    }
+            return currentValue + nextValue.count * nextValue.price;
+        }, 0);
+    };
 
     const saveOrderToDb = () => {
-
-    }
+        // console.log("cart",Json.stringify(cart,null, 4));
+        userCart(cart, user.token)
+            .then((res) => {
+                console.log("CART POST RES");
+                if (res.data.ok) history.push("checkout");
+            })
+            .catch((err) => console.log("cart save err", err));
+        history.push("/checkout");
+    };
 
     const saveCashOrderToDb = () => {
         dispatch({
@@ -45,9 +53,10 @@ const Cart = () => {
                 </tr>
             </thead>
 
-            {cart.map((p) =>
+            {cart.map((p) => (
                 <ProductCardInCheckout key={p._id} p={p}></ProductCardInCheckout>
-            )}
+
+            ))}
         </table>
     }
 
@@ -102,8 +111,11 @@ const Cart = () => {
                     }
                 </div>
             </div>
+            {cart.map((p) => (
+                <ProductCardInCheckout key={p._id} p={p}></ProductCardInCheckout>
+            ))}
         </div>
     )
-}
+};
 
-export default Cart
+export default Cart;

@@ -28,3 +28,4 @@ exports.currentUser = async (req, res) => {
         res.json(user);
     });
 };
+
