@@ -154,19 +154,28 @@ exports.createOrder = async (req, res) => {
 
 
 exports.createCashOrder = async (req, res) => {
-    const { COD } = req.body;
-
+    const { COD, couponApplied } = req.body;
 
     //if cod true, create order with status of cash on delivery
+    if (!COD) return res.status(400).send("Create cash order failed");
+
     const user = await User.findOne({ email: req.user.email }).exec();
 
     let userCart = await Cart.findOne({ orderdBy: user._id }).exec();
+
+    let finalAmount = 0;
+
+    if( couponApplied && userCart.totalAfterDiscount ) {
+        finalAmount = userCart.totalAfterDiscount * 100 ;
+    } else {
+        finalAmount = userCart.cartTotal * 100;
+    }
 
     let newOrder = await new Order({
         products: userCart.products,
         paymentIntent: {
             id: uniqueid(),
-            amount: userCart.cartTotal,
+            amount: finalAmount,
             currency: "usd",
             status: "Cash On Delivery",
             created: Date.now(),
@@ -176,7 +185,7 @@ exports.createCashOrder = async (req, res) => {
     }).save();
 
     //decrement quantity, increment sold
-    let bulkOption = products.map((item) => {
+    let bulkOption = userCart.products.map((item) => {
         return {
             updateOne: {
                 filter: { _id: item.product._id },
