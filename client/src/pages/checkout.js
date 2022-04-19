@@ -6,7 +6,8 @@ import {
   emptyUserCart,
   saveUserAddress,
   applyCoupon,
-  createCashOrderForUser
+  createCashOrderForUser,
+  emptyUserCart
 } from "../functions/user";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -23,7 +24,7 @@ const Checkout = ({ history }) => {
 
   const dispatch = useDispatch();
   const { user, COD } = useSelector((state) => ({ ...state }));
-  const  couponTrueOrFalse = useSelector((state) => state.coupon);
+  const couponTrueOrFalse = useSelector((state) => state.coupon);
 
   useEffect(() => {
     getUserCart(user.token).then((res) => {
@@ -133,10 +134,35 @@ const Checkout = ({ history }) => {
 
   const createCashOrder = () => {
     createCashOrderForUser(user.token, COD, couponTrueOrFalse)
-    .then(res => {
-      //console.log('user cash order created res', res)
-      // emty cart form redux, local storage, reset coupon / cod, redirect
-    })
+      .then(res => {
+        console.log('user cash order created res', res)
+        // emty cart form redux, local storage, reset coupon / cod, redirect
+        if (res.data.ok) {
+          //EMPTY LOCAL STORAGE
+          if (typeof window !== 'undefined') localStorage.removeItem('cart');
+          // empty redux cart
+          dispatch({
+            type: "ADD_TO_CART",
+            payload: [],
+          });
+          // empty redux coupon
+          dispatch({
+            type: "COUPON_APPLIED",
+            payload: false,
+          });
+          // empty redux cod
+          dispatch({
+            type: "COD",
+            payload: false,
+          });
+          // empty cart from backend
+          emptyUserCart(user.token);
+          // redirect
+          setTimeout(() => {
+            history.push('user/history');
+          }, 1000)
+        }
+      })
   }
 
 
