@@ -22,7 +22,8 @@ const Checkout = ({ history }) => {
   const [discountError, setDiscountError] = useState("");
 
   const dispatch = useDispatch();
-  const { user, COD/* , coupon */ } = useSelector((state) => ({ ...state }));
+  const { user, COD } = useSelector((state) => ({ ...state }));
+  const  couponTrueOrFalse = useSelector((state) => state.coupon);
 
   useEffect(() => {
     getUserCart(user.token).then((res) => {
@@ -131,7 +132,7 @@ const Checkout = ({ history }) => {
   };
 
   const createCashOrder = () => {
-    createCashOrderForUser(user.token, COD, coupon)
+    createCashOrderForUser(user.token, COD, couponTrueOrFalse)
     .then(res => {
       //console.log('user cash order created res', res)
       // emty cart form redux, local storage, reset coupon / cod, redirect

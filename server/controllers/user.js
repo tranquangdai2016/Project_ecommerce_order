@@ -182,6 +182,7 @@ exports.createCashOrder = async (req, res) => {
             payment_method_types: ['cash']
         },
         orderdBy: user._id,
+        status: "Cash On Delivery",
     }).save();
 
     //decrement quantity, increment sold
