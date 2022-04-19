@@ -152,5 +152,38 @@ exports.createOrder = async (req, res) => {
 }
 
 
+exports.createCashOrder = async (req, res) => {
+    // console.log(req.body)
+    // return;
+    const { paymentIntent } = req.body.stripeResponse
+    const user = await User.findOne({ email: req.user.email }).exec();
+
+    let { products } = await Cart.findOne({ orderdBy: user._id }).exec();
+
+    let newOrder = await new Order({
+        products,
+        paymentIntent,
+        orderdBy: user._id,
+    }).save();
+
+    //decrement quantity, increment sold
+    let bulkOption = products.map((item) => {
+        return{
+            updateOne: {
+                filter: {_id: item.product._id},
+                update: {$inc: {quantity: -item.count, sold: +item.count}},
+            },
+        };
+    });
+
+    let update = await Product.bulkWrite(bulkOption, {});
+    console.log('PRODUCT QUANTITY-- AND SOLD++', update)
+
+    //product.bulkWrite({})
+
+    console.log('NEW ORDER SAVED', newOrder);
+    res.json({ ok: true });
+}
+
 
 
