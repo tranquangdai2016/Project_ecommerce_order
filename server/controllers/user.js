@@ -3,7 +3,7 @@ const Product = require("../models/product");
 const Cart = require("../models/cart");
 const product = require("../models/product");
 const Coupon = require("../models/coupon");
-const user = require("../models/user");
+const Order = require("../models/order")
 
 exports.userCart = async (red, res) => {
     //console.log(req.body); //{cart: []}
@@ -79,7 +79,7 @@ exports.saveAddress = async (req, res) => {
     ).exec();
 
     res.json({ ok: true })
-}
+};
 
 exports.applyCouponToUserCart = async (req,res) => {
     const { coupon } = req.body;
@@ -90,7 +90,7 @@ exports.applyCouponToUserCart = async (req,res) => {
         return res.json({
             err: "Invalid coupon",
         });
-    }
+    };
     console.log("VALID COUPON",validCoupon);
 
     const user = await User.findOne({ email: req.user.email }).exec();
@@ -107,11 +107,50 @@ exports.applyCouponToUserCart = async (req,res) => {
         (cartTotal * validCoupon.discount)/100
     ).toFixed(2); //99.99
 
+
+
     Cart.findOneAndUpdate(
         { orderBy: user._id}, 
-        { totalAfterDiscount }, 
+        { totalAfterDiscount },
         {new: true}
-        );
+        ).exec();
 
         res.json(totalAfterDiscount);
 };
+
+exports.createOrder = async (req, res) => {
+    // console.log(req.body)
+    // return;
+    const { paymentIntent } = req.body.stripeResponse
+    const user = await User.findOne({ email: req.user.email }).exec();
+
+    let { products } = await Cart.findOne({ orderdBy: user._id }).exec();
+
+    let newOrder = await new Order({
+        products,
+        paymentIntent,
+        orderdBy: user._id,
+    }).save();
+
+    //decrement quantity, increment sold
+    let bulkOption = products.map((item) => {
+        return{
+            updateOne: {
+                filter: {_id: item.product._id},
+                update: {$inc: {quantity: -item.count, sold: +item.count}},
+            },
+        };
+    });
+
+    let update = await Product.bulkWrite(bulkOption, {});
+    console.log('PRODUCT QUANTITY-- AND SOLD++', update)
+
+    //product.bulkWrite({})
+
+    console.log('NEW ORDER SAVED', newOrder);
+    res.json({ ok: true });
+}
+
+
+
+
