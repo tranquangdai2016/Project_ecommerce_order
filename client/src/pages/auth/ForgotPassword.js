@@ -39,7 +39,7 @@ const ForgotPassword = ({ history }) => {
       {loading ? (
         <h4 className="text-danger">loading</h4>
       ) : (
-        <h4>forgot password</h4>
+        <h4>Forgot password</h4>
       )}
 
       <form onSubmit={handleSbmit}>
