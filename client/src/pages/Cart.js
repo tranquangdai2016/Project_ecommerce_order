@@ -24,8 +24,8 @@ const Cart = () => {
         });
         useCart(cart, user.token)
             .then((res) => {
-                console.log("Cart post res", res);
-                if (res.data.ok) history.pushState("/checkout")
+                //console.log("Cart post res", res);
+                if (res.data.ok) history.push("/checkout")
             })
             .catch((err) => console.log('cart save err', err));
     }
