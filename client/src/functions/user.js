@@ -1,5 +1,4 @@
 import axios from "axios";
-import coupon from "../../../server/models/coupon";
 
 export const userCart = async (cart, authtoken) =>
     await axios.post(
@@ -66,7 +65,12 @@ export const createCashOrderForUser = async (authtoken, COD, couponTrueOrFalse) 
     await axios.post(
         `${process.env.REACT_APP_API}/user/cash-order`,
         { couponApplied: couponTrueOrFalse, COD },
-        {
+        { 
+            headers: {
+            authtoken,
+        },
+    }
+);
 export const getUserOrders = async (authtoken) =>
     await axios.get(`${process.env.REACT_APP_API}/user/orders`,{
             headers: {
