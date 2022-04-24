@@ -11,11 +11,8 @@ const rootReducer = combineReducers({
   search: searchReducer,
   cart: cartReducer,
   drawer: drawerReducer,
-<<<<<<< HEAD
   COD: CODReducer,
-=======
   coupon: couponReducer,
->>>>>>> d581738bcad2dfd30f8a927b75fca993a49760cb
 });
 
 export default rootReducer;

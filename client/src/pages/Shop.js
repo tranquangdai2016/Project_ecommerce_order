@@ -50,7 +50,7 @@ const Shop = () => {
     useEffect(() => {
         const delayed = setTimeout(() => {
             fetchProducts({ query: text });
-            if( text ) {
+            if (text) {
                 loadAllProducts();
             }
         }, 300)
@@ -143,7 +143,7 @@ const Shop = () => {
         setStar(num)
         fetchProducts({ stars: num });
     }
-    const showStars = () => {
+    const showStars = () => (
         <div className="px-4 pb-2">
             <Star starClick={handleStarClick} numberOfStars={5} />
             <Star starClick={handleStarClick} numberOfStars={4} />
@@ -151,7 +151,9 @@ const Shop = () => {
             <Star starClick={handleStarClick} numberOfStars={2} />
             <Star starClick={handleStarClick} numberOfStars={1} />
         </div>
-    }
+    )
+
+
 
     //show product by sub categories
     const showSubs = () => subs.map((s) => (
@@ -181,17 +183,17 @@ const Shop = () => {
     //show product base on brand name
     const showBrands = () =>
         brands.map((b) => (
-        <Radio
-            value={b}
-            key={b}
-            name={b}
-            checked={b === brand}
-            onChange={handleBrand}
-            className="pb-1 px-4"
-        >
-            {b}
-        </Radio>
-    ))
+            <Radio
+                value={b}
+                key={b}
+                name={b}
+                checked={b === brand}
+                onChange={handleBrand}
+                className="pb-1 px-4"
+            >
+                {b}
+            </Radio>
+        ))
 
     const handleBrand = (e) => {
         setSub('')
@@ -220,7 +222,7 @@ const Shop = () => {
         >
             {c}
         </Radio>
-        ))
+    ))
 
     const handleColor = (e) => {
         setSub('')

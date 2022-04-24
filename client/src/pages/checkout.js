@@ -90,7 +90,7 @@ const Checkout = ({ history }) => {
     });
   };
 
-  const showAddress = (e) => {
+  const showAddress = (e) => (
     <>
       <ReactQuill
         theme="snow"
@@ -100,21 +100,22 @@ const Checkout = ({ history }) => {
       <button className="btn btn-primary mt-2" onclick="{saveAddressToDb}">
         Save
       </button>
-    </>;
-  };
+    </>
+  );
+
 
   const showProductSummary = () => {
-    return products.map((p, i) => {
+    return products.map((p, i) => (
       <div key={i}>
         <p>
           {p.product.title} ({p.color}) x {p.count} ={" "}
           {p.product.price * p.count}
         </p>
-      </div>;
-    });
+      </div>
+    ));
   };
 
-  const showApplyCoupon = () => {
+  const showApplyCoupon = () => (
     <>
       <input
         onChange={(e) => {
@@ -128,8 +129,8 @@ const Checkout = ({ history }) => {
       <button onClick={applyDiscountCoupon} className="btn btn-primary mt-2">
         Apply
       </button>
-    </>;
-  };
+    </>
+  )
 
   const createCashOrder = () => {
     createCashOrderForUser(user.token, COD, couponTrueOrFalse)

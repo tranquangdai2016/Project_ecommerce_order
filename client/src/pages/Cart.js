@@ -30,7 +30,7 @@ const Cart = ({ history }) => {
             type: "COD",
             payload: true,
         });
-        useCart(cart, user.token)
+        userCart(cart, user.token)
             .then((res) => {
                 //console.log("Cart post res", res);
                 if (res.data.ok) history.push("/checkout")
@@ -38,7 +38,7 @@ const Cart = ({ history }) => {
             .catch((err) => console.log('cart save err', err));
     }
 
-    const showCartItems = () => {
+    const showCartItems = () => (
         <table className="table table-bordered">
             <thead className="thead-light">
                 <tr>
@@ -58,7 +58,8 @@ const Cart = ({ history }) => {
 
             ))}
         </table>
-    }
+    )
+
 
     return (
         <div className="container-fluid pt-2">
