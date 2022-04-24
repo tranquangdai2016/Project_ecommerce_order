@@ -15,7 +15,13 @@ const {
   createCashOrder
 =======
   orders,
+<<<<<<< HEAD
 >>>>>>> 89d428e6e2c8c5c8e468b8b8cb0d00d3e3ca73d2
+=======
+  addToWishlist,
+  wishlist,
+  removeFromWishlist
+>>>>>>> a790d222433b5be15894f79ad1989593bfd4cc9b
 } = require("../controllers/user");
 
 router.post("/user/cart", authCheck, userCart); //save cart
@@ -34,5 +40,10 @@ router.get('user/orders', authCheck, orders);
 //coupon
 
 router.post("/user/cart/coupon", authCheck, applyCouponToUserCart);
+
+//wishlist 
+router.post('/user/wishlist',authCheck, addToWishlist);
+router.get('/user/wishlist',authCheck, wishlist);
+router.put('/user/wishlist/:productId',authCheck, removeFromWishlist);
 
 module.exports = router;
