@@ -7,7 +7,6 @@ import {
   saveUserAddress,
   applyCoupon,
   createCashOrderForUser,
-  emptyUserCart
 } from "../functions/user";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";

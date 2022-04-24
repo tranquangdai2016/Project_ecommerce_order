@@ -124,6 +124,7 @@ const CreateCounponPage = () => {
                         </thead>
                         <tbody>
                             {coupons.map((c) => {
+                                return(
                                 <tr key={c._id}>
                                     <td>{c.name}</td>
                                     <td>{new Date(c.expiry).toDateString()}</td>
@@ -135,6 +136,7 @@ const CreateCounponPage = () => {
                                         />
                                     </td>
                                 </tr>
+                                )
                             })}
                         </tbody>
                     </table>

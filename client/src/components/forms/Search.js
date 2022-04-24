@@ -22,15 +22,30 @@ const Search = () => {
         history.push(`/shop?${text}`)
     }
 
+    const outlinedStyle = {
+        cursor: "pointer",
+        outline: "none",
+        border: "none",
+    }
+
     return (
         <form className='form-inline my-2 my-lg-0' onSubmit={handleSubmit} action="">
-            <input type="search"
-                value={text}
-                className='form-control mr-sm-2'
-                placeholder='Search'
-                   onChange={ handleChange }
-            />
-            <SearchOutlined onClick={handleSubmit} style={{ cursor: "pointer" }} />
+            <div style={{display: "flex",}}>
+                <input
+                    type="search"
+                    value={text}
+                    className='form-control mr-sm-2'
+                    placeholder='Search'
+                    onChange={ handleChange }
+
+                />
+                <div>
+                    <SearchOutlined
+                        onClick={handleSubmit}
+                        style={{ outlinedStyle }}
+                    />
+                </div>
+            </div>
         </form>
     )
 }
