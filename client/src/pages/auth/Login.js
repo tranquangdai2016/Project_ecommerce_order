@@ -53,6 +53,7 @@ const Login = ({ history }) => {
       const result = await signInWithEmailAndPassword(auth, email, password);
       console.log(result);
       const { user } = result;
+      // console.log("1",user);
       const idTokenResult = await user.getIdTokenResult();
 
       createOrUpdateUser(idTokenResult.token)
@@ -78,13 +79,9 @@ const Login = ({ history }) => {
     }
   };
 
-  // const googleLogin = async () => {
-  //   await getAuth.signInWithPopup(GoogleAuthProvider).then(async (result) => {
-  //     const { user } = result;
-  //     const idTokenResult = await user.getIdTokenResult();
-
   const googleLogin = async () => {
     const { user } = await signInWithPopup( auth, googleAuthProvider );
+    console.log("user", user);
     const idTokenResult = await user.getIdTokenResult();
       createOrUpdateUser(idTokenResult.token)
         .then((res) => {
@@ -92,6 +89,7 @@ const Login = ({ history }) => {
             type: "LOGGID_IN_USER",
             payload: {
               name: res.data.name,
+              displayname: res.data.displayName,
               email: res.data.email,
               token: idTokenResult.token,
               role: res.data.role,
@@ -103,6 +101,46 @@ const Login = ({ history }) => {
         .catch((err) => console.log(err));
       history.push("/");
   };
+
+  // const googleLogin = async () => {
+  //   await getAuth.signInWithPopup(GoogleAuthProvider).then(async (result) => {
+  //     const { user } = result;
+  //     const idTokenResult = await user.getIdTokenResult();
+
+  // const googleLogin = async () => {
+  //   const { user } = await signInWithPopup( auth, googleAuthProvider );
+  //   console.log("user", user);
+  //   dispatch({
+  //     type: "LOGGID_IN_USER",
+  //     payload: {
+  //       name: user.data.name,
+  //       email: user.data.email,
+  //       token: user.token,
+  //       role: user.role,
+  //       _id: user.data._id,
+  //     },
+  //   })
+  //   // roleBasedRedirect(user)
+  //   .catch((err) => console.log(err))
+
+  //   // const idTokenResult = await user.getIdTokenResult();
+  //   //   createOrUpdateUser(user.accessToken)
+  //   //     .then((res) => {
+  //   //       dispatch({
+  //   //         type: "LOGGID_IN_USER",
+  //   //         payload: {
+  //   //           name: res.data.name,
+  //   //           email: res.data.email,
+  //   //           token: idTokenResult.token,
+  //   //           role: res.data.role,
+  //   //           _id: res.data._id,
+  //   //         },
+  //   //       });
+  //   //       roleBasedRedirect(res);
+  //   //     })
+  //   //     .catch((err) => console.log(err));
+  //     history.push("/");
+  // };
   
   const loginForm = () => (
     <form onSubmit={handleSubmit}>

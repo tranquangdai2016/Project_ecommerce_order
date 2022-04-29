@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { sendSignInLinkToEmail } from "firebase/auth"
 
+
 const Register = ({ history }) => {
   const [email, setEmail] = useState("");
   const { user } = useSelector((state) => ({ ...state }));
@@ -20,9 +21,14 @@ const Register = ({ history }) => {
       handleCodeInApp: true,
     };
     //save user email in local storage
-    await sendSignInLinkToEmail(auth, email, config);
-    toast.success(`Email is send to ${email}. Click links to registration`);
+    await sendSignInLinkToEmail( auth, email, config);
+    toast.success(
+      `Email is send to ${email}. Click the links to complette your registration`
+      );
     //clear state
+
+    // window.localStorage.setItem("emailForRegistration", email);
+
     setEmail("");
   };
 
@@ -38,7 +44,7 @@ const Register = ({ history }) => {
       />
       <br />
       <button type="submit" className="btn btn-raised">
-        Register
+        REGISTER
       </button>
     </form>
   );
@@ -47,8 +53,6 @@ const Register = ({ history }) => {
       <div className="row">
         <div className="col-md-6 offset-md-3">
           <h4>Register</h4>
-          {/*<p>register form</p>*/}
-
           {registerForm()}
         </div>
       </div>

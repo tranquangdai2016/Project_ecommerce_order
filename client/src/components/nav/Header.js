@@ -90,7 +90,7 @@ const Header = () => {
           </Item>
         </SubMenu>
       )}
-      <span className="float-right p-1">
+      <span className="float-right p-2">
         <Search></Search>
       </span>
     </Menu>

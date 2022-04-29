@@ -9,6 +9,7 @@ import { auth } from "./firebase";
 import { useDispatch } from "react-redux";
 import { currentUser } from "./functions/auth";
 import Router from "./router";
+import 'react-toastify/dist/ReactToastify.css'
 
 const App = () => {
   const dispatch = useDispatch();
@@ -24,6 +25,7 @@ const App = () => {
             dispatch({
               type: "LOGGID_IN_USER",
               payload: {
+                displayName: res.data.displayName,
                 name: res.data.name,
                 email: res.data.email,
                 token: idTokenResult.token,
