@@ -2,7 +2,10 @@ const express = require("express");
 const router = express.Router();
 
 //middlewates
-const { authCheck, adminCheck } = require("../middlewares/auth");
+const {
+  verifyToken,
+  isAdmin
+} = require('../middlewares/auth');
 // controleer
 const {
   create,
@@ -18,18 +21,18 @@ const {
 } = require("../controllers/product");
 
 // routers
-router.post("/product", authCheck, adminCheck, create);
+router.post("/product", verifyToken, isAdmin, create);
 router.get("/products/total", productsCount);
 
 router.get("/products/:count", listAll); //product //100
-router.delete("/product/:slug", authCheck, adminCheck, remove);
+router.delete("/product/:slug", verifyToken, isAdmin, remove);
 router.get("/product/:slug", read);
-router.put("/product/:slug", authCheck, adminCheck, update);
+router.put("/product/:slug", verifyToken, isAdmin, update);
 
 router.post("/products", list);
 
 //rating
-router.put('/product/star/:productId', authCheck, productStar)
+router.put('/product/star/:productId', verifyToken, productStar)
 
 //related
 router.get("/product/related/:productId", listRelated);

@@ -1,16 +1,11 @@
 const express = require("express");
-
 const router = express.Router();
 
-//middlewares
-const { authCheck, adminCheck } = require("../middlewares/auth");
+const { register, login, forgotPassword } = require("../controllers/auth");
 
-//import
-const { createOrUpdateUser, currentUser, login } = require("../controllers/auth");
+router.post("/register", register);
+router.post("/login", login);
 
-router.post("/create-or-update-user", authCheck, createOrUpdateUser);
-router.post("/current-user", authCheck, currentUser);
-router.post("/current-admin", authCheck, adminCheck, currentUser);
-router.post("/login", authCheck, adminCheck, login);
+router.put("/forgot-password", forgotPassword);
 
 module.exports = router;

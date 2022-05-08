@@ -1,44 +1,39 @@
-const admin = require('../firebase')
-const User = require('../models/user')
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
+exports.verifyToken = (req, res, next) => {
+  const authHeader = req.header("Authorization");
 
+  const token = authHeader && authHeader.split(" ")[1];
 
+  if (!token) {
+    return res.status(401).json({
+      success: false,
+      message: "Không tìm thấy token",
+    });
+  }
 
-exports.authCheck = async (req, res, next) => {
-    // const token = req.headers('code-token')
-    // console.log(req.headers); //token
-    try {
-        const firebaseUser = await admin
-        .auth()
-        .verifyIdToken(req.headers.authtoken);
+  try {
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
-        // const codetoken = jwt.verify(token, config.get('jwtSS'))
+    req.userId = decoded;
 
-        // let user = await User.findOne({
-        //     _id: codetoken._id,
-        //     'tokens.token': token
-        // });
-        // console.log('FIREBASE USER IN AUTHCHECK',firebaseUser)
-        req.user = firebaseUser;
-        next();
-    }catch (err){
-        res.status(401).json({
-            err: "Invalid or expired token"
-        });
-    }
+    next();
+  } catch (error) {
+    console.log(error);
+    res.status(403).json({
+      success: false,
+      message: "Token không hợp lệ",
+    });
+  }
 };
 
-exports.adminCheck = async (req, res, next) => {
-    const {email} = req.user
+exports.isAdmin = (req, res, next) => {
+  if (req.userId.role === 0) {
+    return res.status(403).json({
+      success: false,
+      message: "Bạn không có quyền",
+    });
+  }
 
-    const adminUser = await User.findOne({email}).exec()
-
-    if(adminUser.role !== 'admin'){
-        res.status(403).json({
-            err: 'Admin resource. Access denied.'
-        });
-    }else{
-        next();
-    }
+  next();
 };

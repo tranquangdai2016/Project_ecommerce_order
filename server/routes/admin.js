@@ -1,20 +1,13 @@
-const express = require('express')
-const {auth} = require('../firebase')
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 
 //middlewares
-const {
-    authCheck,
-    adminCheck
-} = require('../middlewares/auth');
+const { verifyToken, isAdmin } = require("../middlewares/auth");
 
-const {
-    orders,
-    orderStatus
-} = require('../controllers/admin');
+const { orders, orderStatus } = require("../controllers/admin");
 
 //routes
-router.get('/admin/orders', authCheck, adminCheck, orders);
-router.put('/admin/order-status', authCheck, adminCheck, orderStatus);
+router.get("/admin/orders", verifyToken, isAdmin, orders);
+router.put("/admin/order-status", verifyToken, isAdmin, orderStatus);
 
 module.exports = router;
