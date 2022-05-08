@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Menu, Badge } from "antd";
+import React, { useCallback, useEffect, useState } from 'react'
+import { Menu, Badge } from 'antd'
 import {
   AppstoreOutlined,
   SettingOutlined,
@@ -8,33 +8,35 @@ import {
   LogoutOutlined,
   ShoppingOutlined,
   ShoppingCartOutlined,
-} from "@ant-design/icons";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { getAuth } from "firebase/auth";
-import Search from "../forms/Search";
+} from '@ant-design/icons'
+import { Link, useLocation, useHistory } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import Search from '../forms/Search'
+import { getDataLocalstorage } from '../../functions/user'
 
-const { SubMenu, Item } = Menu;
 const Header = () => {
-  const [current, setCurrent] = useState();
-  let dispatch = useDispatch();
-  let { user, cart } = useSelector((state) => ({ ...state }));
-  let history = useHistory();
-  const handleClick = (e) => {
-    console.log(e.key);
-    setCurrent(e.key);
-  };
-  const logout = async () => {
-    await getAuth().signOut();
-    dispatch({
-      type: "LOGOUT",
-      payload: null,
-    });
-    history.push("/login");
-  };
+  const [userValue, setUserValue] = useState()
+  const [current, setCurrent] = useState()
+  let dispatch = useDispatch()
+  let { cart } = useSelector((state) => ({ ...state }))
+  let history = useHistory()
+  const location = useLocation()
+  const [reloadHome, setReloadHome] = useState(false)
+
+  const { SubMenu, Item } = Menu
+
+  useEffect(() => {
+    getDataLocalstorage() && setReloadHome(true)
+  }, [location.pathname])
+
+  const logout = useCallback(() => {
+    localStorage.removeItem('users')
+    setReloadHome(false)
+    history.push('/')
+  }, [getDataLocalstorage()])
+
   return (
-    <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
+    <Menu mode="horizontal" defaultSelectedKeys={['home']}>
       <Item key="home" icon={<AppstoreOutlined />}>
         <Link to="/">Home </Link>
       </Item>
@@ -51,49 +53,48 @@ const Header = () => {
         </Link>
       </Item>
 
-      {!user && (
-        <Item
-          key="register"
-          icon={<UserAddOutlined />}
-          style={{ marginLeft: "auto" }}
-        >
-          <Link to="register">Register</Link>
-        </Item>
+      {!getDataLocalstorage() && (
+        <>
+          <Item key="register" icon={<UserAddOutlined />} style={{ marginLeft: 'auto' }}>
+            <Link to="register">Register</Link>
+          </Item>
+          <Item key="login" icon={<UserOutlined />}>
+            <Link to="login">Login</Link>
+          </Item>
+        </>
       )}
-      {!user && (
-        <Item key="login" icon={<UserOutlined />}>
-          <Link to="login">Login</Link>
-        </Item>
-      )}
-      {user && (
-        <SubMenu
-          key="SubMenu"
-          icon={<SettingOutlined />}
-          title={user.email && user.email.split("@")[0]}
-          className="float-right"
-          style={{ marginLeft: "auto" }}
-        >
-          {user && user.role === "subscriber" && (
-            <Item>
-              <Link to="/user/history">Dashboard</Link>
-            </Item>
-          )}
+      {reloadHome && (
+        <>
+          <SubMenu
+            key="SubMenu"
+            icon={<SettingOutlined />}
+            title={
+              getDataLocalstorage().user.email && getDataLocalstorage().user.email.split('@')[0]
+            }
+            className="float-right"
+            style={{ marginLeft: 'auto' }}
+          >
+            {getDataLocalstorage() && getDataLocalstorage().user.role === 'subscriber' && (
+              <Item key="two">
+                <Link to="/user/history">Dashboard</Link>
+              </Item>
+            )}
 
-          {user && user.role === "admin" && (
+            {/* {user && user.role === 'admin' && (
             <Item>
               <Link to="/admin/dashboard">Dashboard</Link>
             </Item>
-          )}
+          )} */}
 
-          <Item icon={<LogoutOutlined />} onClick={logout}>
-            Logout
-          </Item>
-        </SubMenu>
+            {/* <div onClick={logout}>Logout</div> */}
+          </SubMenu>
+          <div onClick={logout}>Logout</div>
+        </>
       )}
       <span className="float-right p-2">
         <Search></Search>
       </span>
     </Menu>
-  );
-};
-export default Header;
+  )
+}
+export default Header

@@ -1,48 +1,36 @@
-import React, { useState, useEffect } from "react";
-import { auth } from "../../firebase";
-import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
-// import { async } from '@firebase/util';
+import axios from 'axios'
+import React, { useState } from 'react'
+import { Link, useHistory } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
-const ForgotPassword = ({ history }) => {
-  const [email, setEmail] = useState();
-  const [loading, setLoading] = useState(false);
+const ForgotPassword = () => {
+  const [email, setEmail] = useState('')
+  const [loading, setLoading] = useState(true)
 
-  const { user } = useSelector((state) => ({ ...state }));
+  // const onChangeEmail = (e) => {
+  //   setEmail(e.target.value)
+  // }
 
-  useEffect(() => {
-    if (user && user.token) history.push("/");
-  }, [user, history]);
-  const handleSbmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+  const history = useHistory()
 
-    const config = {
-      url: process.env.REACT_APP_FORGOT_PASSWORD_REDIRECT,
-      handleCodeInApp: true,
-    };
-    await auth
-      .sendPasswordResetEmail(email, config)
-      .then(() => {
-        setEmail("");
-        setLoading(false);
-        toast.success("check your email for password reset Link");
+  const handleEmail = async (e) => {
+    e.preventDefault()
+    try {
+      await axios.put('http://localhost:5000/api/auth/forgot-password', { email })
+
+      toast.success('Bạn kiểm tra email đăng kí để nhận lại mật khẩu mới', {
+        position: toast.POSITION.TOP_RIGHT,
       })
-      .catch((error) => {
-        setLoading(false);
-        toast.error(error.message);
-        console.log("ERROR MSG IN FORGOT PASSWORD", error);
-      });
-  };
+      history.push('/login')
+    } catch (error) {
+      console.log('error', error.response)
+    }
+  }
+
   return (
     <div className="container col-md-6 offset-md-3 p-5">
-      {loading ? (
-        <h4 className="text-danger">loading</h4>
-      ) : (
-        <h4>Forgot password</h4>
-      )}
-
-      <form onSubmit={handleSbmit}>
+      {loading ? <h4 className="text-danger">loading</h4> : <h4>Forgot password</h4>}
+      <form>
         <input
           type="email"
           className="form-control"
@@ -52,12 +40,12 @@ const ForgotPassword = ({ history }) => {
           autoFocus
         />
         <br />
-        <button className="btn btn-raised" disabled={!email}>
+        <button onClick={handleEmail} className="btn btn-raised" disabled={!email}>
           Submit
         </button>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default ForgotPassword;
+export default ForgotPassword
