@@ -37,37 +37,40 @@ const Header = () => {
 
   return (
     <Menu mode="horizontal" defaultSelectedKeys={['home']}>
-      <Item key="home" icon={<AppstoreOutlined />}>
+      <Menu.Item key="home" icon={<AppstoreOutlined />}>
         <Link to="/">Home </Link>
-      </Item>
+      </Menu.Item>
 
-      <Item key="shop" icon={<ShoppingOutlined />}>
+      <Menu.Item key="shop" icon={<ShoppingOutlined />}>
         <Link to="/shop">Shop </Link>
-      </Item>
+      </Menu.Item>
 
-      <Item key="cart" icon={<ShoppingCartOutlined />}>
+      <Menu.Item key="cart" icon={<ShoppingCartOutlined />}>
         <Link to="/cart">
           <Badge count={cart.length} offset={[9, 0]}>
             Cart
           </Badge>
         </Link>
-      </Item>
+      </Menu.Item>
+      <Menu.Item className="float-right p-2">
+        <Search></Search>
+      </Menu.Item>
 
       {!getDataLocalstorage() && (
         <>
-          <Item key="register" icon={<UserAddOutlined />} style={{ marginLeft: 'auto' }}>
+          <Menu.Item key="register" icon={<UserAddOutlined />} style={{ marginLeft: 'auto' }}>
             <Link to="register">Register</Link>
-          </Item>
-          <Item key="login" icon={<UserOutlined />}>
+          </Menu.Item>
+          <Menu.Item key="login" icon={<UserOutlined />}>
             <Link to="login">Login</Link>
-          </Item>
+          </Menu.Item>
         </>
       )}
       {reloadHome && (
         <>
           <SubMenu
             key="SubMenu"
-            icon={<SettingOutlined />}
+            icon={<UserOutlined />}
             title={
               getDataLocalstorage().user.email && getDataLocalstorage().user.email.split('@')[0]
             }
@@ -75,25 +78,24 @@ const Header = () => {
             style={{ marginLeft: 'auto' }}
           >
             {getDataLocalstorage() && getDataLocalstorage().user.role === 'subscriber' && (
-              <Item key="two">
+              <Menu.Item key="two">
                 <Link to="/user/history">Dashboard</Link>
-              </Item>
+              </Menu.Item>
             )}
 
             {/* {user && user.role === 'admin' && (
-            <Item>
-              <Link to="/admin/dashboard">Dashboard</Link>
-            </Item>
-          )} */}
+              <Item>
+                <Link to="/admin/dashboard">Dashboard</Link>
+              </Item>
+            )} */}
 
             {/* <div onClick={logout}>Logout</div> */}
           </SubMenu>
-          <div onClick={logout}>Logout</div>
+          <Menu.Item onClick={logout} icon={<LogoutOutlined />}>
+            Logout
+          </Menu.Item>
         </>
       )}
-      <span className="float-right p-2">
-        <Search></Search>
-      </span>
     </Menu>
   )
 }
