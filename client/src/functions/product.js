@@ -1,28 +1,29 @@
 import axios from "axios";
+import {setAuthToken} from '../utils/setAuthToken'
 
-export const createProduct = async (product, authtoken) =>
+export const createProduct = async (product, setAuthToken) =>
   await axios.post(`${process.env.REACT_APP_API}/product`, product, {
     headers: {
-      authtoken,
+      setAuthToken,
     },
   });
 
 export const getProductsByCount = async (count) =>
   await axios.get(`${process.env.REACT_APP_API}/products/${count}`);
 
-export const removeProduct = async (slug, authtoken) =>
+export const removeProduct = async (slug, setAuthToken) =>
   await axios.delete(`${process.env.REACT_APP_API}/product/${slug}`, {
     headers: {
-      authtoken,
+      setAuthToken,
     },
   });
 export const getProduct = async (slug) =>
   await axios.get(`${process.env.REACT_APP_API}/product/${slug}`);
 
-export const updateProduct = async (slug, product, authtoken) =>
+export const updateProduct = async (slug, product, setAuthToken) =>
   await axios.put(`${process.env.REACT_APP_API}/product/${slug}`, product, {
     headers: {
-      authtoken,
+      setAuthToken,
     },
   });
 
@@ -36,10 +37,10 @@ export const getProducts = async (sort, order, page) =>
 export const getProductsCount = async () =>
   await axios.get(`${process.env.REACT_APP_API}/products/total`);
 
-export const productStar = async (productId, star, authtoken) =>
+export const productStar = async (productId, star, setAuthToken) =>
   await axios.put(`${process.env.REACT_APP_API}/product/star/${productId}`, { star }, {
     headers: {
-      authtoken,
+      setAuthToken,
     }
   })
 

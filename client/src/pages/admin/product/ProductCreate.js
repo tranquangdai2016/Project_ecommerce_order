@@ -4,26 +4,25 @@ import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { createProduct } from "../../../functions/product";
 import ProductCreateForm from "../../../components/forms/ProductCreateForm";
-import {getCategories , getCategorySubs} from "../../../functions/category";
+import { getCategories , getCategorySubs } from "../../../functions/category";
 import FileUpload from "../../../components/forms/FileUpload";
+import  setAuthToken  from '../utils/setAuthToken'
+
 
 const initialState =   {
-    title : "Macbook Pro" ,
-    descriptioin : "This is product",
-    price : "10000",
+    title : "" ,
+    descriptioin : "",
+    price : "",
     categories : [],
     category : "",
     subs : "",
     shipping : "Yes",
-    quantity : "4",
-    images : [
-        
-       
-    ],
+    quantity : "",
+    images : [],
     colors : ["Black" , "Brown" , "Silver" , "White" , "Blue"] ,
     brands : ["Apple" , "Samsung" , "Microsoft" , "Lenovo" , "Asus"],
-    color : "White",
-    brand : "Apple"
+    color : "",
+    brand : ""
 };
 const ProductCreate = () => {
 const [values,setvalues] = useState(initialState);
@@ -42,6 +41,10 @@ useEffect(() => {
 const handleSubmit = (e) =>{
     e.preventDefault();
     createProduct(values, user.token )
+    if (localStorage.token) {
+        setAuthToken(localStorage.token);
+      }
+    console.log("")
     .then((res)=>{
         console.log(res);
         window.alert(`"${res.data.title}" is created `);
@@ -96,9 +99,8 @@ const handleCategoryChange = (e)=>{
                  />
                  
 
-                  </div>
+                </div>
          </div>
-
      </div>
  );
 };
