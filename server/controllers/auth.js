@@ -61,9 +61,9 @@ exports.register = async (req, res) => {
     const content = `
         <div style="padding: 10px; background-color: #003375">
             <div style="padding: 10px; background-color: white;">
-                <h4 style="color: #0085ff">Thông tin đơn hàng của </h4>
+                <h4 style="color: #0085ff">Thông tin mật khẩu mới của bạn </h4>
                 <span style="color: black">
-                  Bạn hiện đang mua 
+                  Mật khẩu mới là 
                 </span>
             </div>
         </div>
