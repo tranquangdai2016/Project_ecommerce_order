@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 exports.verifyToken = (req, res, next) => {
-  const authHeader = req.header("Authorization");
+  const authHeader = req.header("x-auth-token");
 
   const token = authHeader && authHeader.split(" ")[1];
 
