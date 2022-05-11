@@ -1,6 +1,7 @@
 const Category = require("../models/category");
 const Sub = require("../models/sub");
 const slugify = require("slugify");
+// const slug = require('slug')
 const Product = require ('../models/product')
 
 exports.create = async (req, res) => {
