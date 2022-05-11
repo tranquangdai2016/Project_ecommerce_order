@@ -25,7 +25,7 @@ router.post("/user/address", verifyToken, saveAddress);
 
 router.post('user/order', verifyToken, createOrder); //stripe
 router.post('user/cash-order', verifyToken, createCashOrder); //cod
-router.post('user/order', verifyToken, createOrder);
+// router.post('user/order', verifyToken, createOrder);
 router.get('user/orders', verifyToken, orders);
 
 //coupon

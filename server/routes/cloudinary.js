@@ -11,6 +11,6 @@ const {
 const { upload, remove } = require("../controllers/cloudinary");
 
 router.post("/uploadimages", verifyToken, isAdmin, upload);
-router.post("/removeimage", verifyToken, isAdmin, remove);
+router.delete("/removeimage", verifyToken, isAdmin, remove);
 
 module.exports = router;
