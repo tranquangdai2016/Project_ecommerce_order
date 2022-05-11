@@ -6,7 +6,7 @@ import { createProduct } from "../../../functions/product";
 import ProductCreateForm from "../../../components/forms/ProductCreateForm";
 import { getCategories , getCategorySubs } from "../../../functions/category";
 import FileUpload from "../../../components/forms/FileUpload";
-import  setAuthToken  from '../utils/setAuthToken'
+// import  setAuthToken  from '../utils/setAuthToken'
 
 
 const initialState =   {
@@ -41,9 +41,9 @@ useEffect(() => {
 const handleSubmit = (e) =>{
     e.preventDefault();
     createProduct(values, user.token )
-    if (localStorage.token) {
-        setAuthToken(localStorage.token);
-      }
+    // if (localStorage.token) {
+    //     setAuthToken(localStorage.token);
+    //   }
     console.log("")
     .then((res)=>{
         console.log(res);
