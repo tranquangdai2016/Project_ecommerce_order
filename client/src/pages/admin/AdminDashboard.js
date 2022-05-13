@@ -20,13 +20,13 @@ const AdminDashboard = () => {
   //     setOrders(res.data)
   //   })
   const loadOrders = () =>
-    getOrders(user.token).then((res) => {
+    getOrders().then((res) => {
       console.log(JSON.stringify(res.data, null, 4))
       setOrders(res.data)
     })
 
   const handleStatusChange = (orderId, orderStatus) => {
-    changeStatus(orderId, orderStatus, user.token).then((res) => {
+    changeStatus(orderId, orderStatus).then((res) => {
       toast.success('Status Updated')
       loadOrders()
     })

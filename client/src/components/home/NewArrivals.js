@@ -22,10 +22,13 @@ const NewArrivals = () => {
   const loadAllProducts = () => {
     setLoading(true);
     // sort, order, limit
-    getProducts("createdAt", "desc", page).then((res) => {
-      // console.log('get',getProducts)
-      setProducts(res.data);
-      setLoading(false);
+    getProducts("createdAt", "desc", page).then((response) => {
+      if(response){
+        console.log(response)
+        // console.log('get',getProducts)
+        setProducts(response.data);
+        setLoading(false);
+      }
     });
   };
   return (

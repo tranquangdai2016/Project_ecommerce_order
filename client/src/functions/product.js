@@ -51,12 +51,12 @@ export const getProductsCount = async () => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
-  await axios.get(`${process.env.REACT_APP_API}/products/total`);
+  return await axios.get(`${process.env.REACT_APP_API}/products/total`);
 }
 
 
 export const productStar = async (productId, star) => {
-  await axios.put(`${process.env.REACT_APP_API}/product/star/${productId}`, { star })
+  return await axios.put(`${process.env.REACT_APP_API}/product/star/${productId}`, { star })
 }
 
 

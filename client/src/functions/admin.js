@@ -1,17 +1,19 @@
-import axios from "axios";
+import axios from 'axios'
+import setAuthToken from '../utils/setAuthToken'
 
-export const getOrders = async (authtoken) =>
-  await axios.get(`${process.env.REACT_APP_API}/admin/orders`, {
-    headers: {
-      authtoken,
-    },
-  });
+export const getOrders = async () => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token)
+  }
+  await axios.get(`${process.env.REACT_APP_API}/admin/orders`)
+}
 
-export const changeStatus = async (orderId, orderStatus, authtoken) =>
-  await axios.put(`${process.env.REACT_APP_API}/admin/order-status`, 
-  {orderId, orderStatus}, 
-  {
-    headers: {
-      authtoken,
-    },
-  });
+export const changeStatus = async (orderId, orderStatus) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token)
+  }
+  await axios.put(
+    `${process.env.REACT_APP_API}/admin/order-status`,
+    { orderId, orderStatus },
+  )
+}

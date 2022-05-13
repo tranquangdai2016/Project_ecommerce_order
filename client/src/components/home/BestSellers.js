@@ -16,15 +16,20 @@ const BestSellers = () => {
 
   useEffect(() => {
     getProductsCount()
-        .then(res => setProductsCount(res.data))
+        .then(res => {
+          console.log(res);
+          setProductsCount(res.data)
+        })
   }, [])
 
   const loadAllProduct = () => {
     setLoading(true);
     // sort, order, limit
     getProducts("sold", "desc", 3).then((res) => {
-      setProducts(res.data);
-      setLoading(false);
+      if(res){
+        setProducts(res.data);
+        setLoading(false);
+      }
     });
   };
   return (
