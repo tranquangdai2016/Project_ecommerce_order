@@ -23,6 +23,7 @@ const NewArrivals = () => {
     setLoading(true);
     // sort, order, limit
     getProducts("createdAt", "desc", page).then((res) => {
+      // console.log('get',getProducts)
       setProducts(res.data);
       setLoading(false);
     });
