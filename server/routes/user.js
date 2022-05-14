@@ -23,10 +23,10 @@ router.get("/user/cart", verifyToken, getUserCart); //get cart
 router.delete("/user/cart", verifyToken, emptyCart); //empty cart
 router.post("/user/address", verifyToken, saveAddress);
 
-router.post('user/order', verifyToken, createOrder); //stripe
-router.post('user/cash-order', verifyToken, createCashOrder); //cod
+router.post('/user/order', verifyToken, createOrder); //stripe
+router.post('/user/cash-order', verifyToken, createCashOrder); //cod
 // router.post('user/order', verifyToken, createOrder);
-router.get('user/orders', verifyToken, orders);
+router.get('/user/orders', verifyToken, orders);
 
 //coupon
 

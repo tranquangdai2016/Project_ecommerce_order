@@ -6,7 +6,7 @@ const Coupon = require("../models/coupon");
 const Order = require("../models/order")
 const uniqueid = require("uniqueid");
 
-exports.userCart = async (red, res) => {
+exports.userCart = async (req, res) => {
     //console.log(req.body); //{cart: []}
     const { cart } = req.body;
 
@@ -16,12 +16,12 @@ exports.userCart = async (red, res) => {
 
     //check if cart with logged in user id already exits
     let cartExistByThisUser = await Cart.findOne({ orderBy: user._id }).exec();
-    if (cartExistByThisUse) {
-        cartExistByThisUse.remove();
+    if (cartExistByThisUser) {
+        cartExistByThisUser.remove();
         console.log("recomment old cart");
     }
 
-    for (i = 0; i < cart.length; i++) {
+    for (let i = 0; i < cart.length; i++) {
         let object = {}
 
         object.product = cart[i]._id;
@@ -34,13 +34,13 @@ exports.userCart = async (red, res) => {
             .exec();
         object.price = productFromDb.price;
 
-        product.push(object);
+        products.push(object);
     }
 
     //console.log('product',products);
     let cartTotal = 0;
 
-    for (i = 0; i < products.length; i++) {
+    for (let i = 0; i < products.length; i++) {
         cartTotal = cartTotal + products[i].price + products[i].count
     }
 
@@ -49,7 +49,7 @@ exports.userCart = async (red, res) => {
     let newCart = await new Cart({
         products,
         cartTotal,
-        order: user._id,
+        orderdBy: user._id,
     }).save();
 
     console.log("new cart ----->", newCart);
