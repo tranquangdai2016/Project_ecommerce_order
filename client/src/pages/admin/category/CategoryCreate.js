@@ -32,7 +32,7 @@ const CategoryCreate = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    createCategory({ name }, user.token)
+    createCategory({ name })
       .then((res) => {
         setLoading(false);
         setName("");
@@ -49,7 +49,7 @@ const CategoryCreate = () => {
   const handleRemove = async (slug) => {
     if (window.confirm("Delete?")) {
       setLoading(true);
-      removeCategory(slug, user.token)
+      removeCategory(slug)
         .then((res) => {
           setLoading(false);
           toast.error(`${res.data.name} deleted`);

@@ -34,7 +34,7 @@ const SubCreate = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    createSub({ name, parent: category }, user.token)
+    createSub({ name, parent: category })
       .then((res) => {
         setLoading(false);
         setName("");

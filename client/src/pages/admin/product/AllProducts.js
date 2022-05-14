@@ -20,6 +20,7 @@ const AllProducts = () => {
     setLoading(true);
     getProductsByCount(100)
       .then((res) => {
+        console.log(res.data)
         setProducts(res.data);
         setLoading(false);
       })

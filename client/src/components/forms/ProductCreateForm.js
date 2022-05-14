@@ -1,11 +1,11 @@
-import React from "react";
-import { Select } from "antd";
-const { Option } = Select;
+import React from 'react'
+import { Select } from 'antd'
+const { Option } = Select
 
 const ProductCreateForm = ({
   handleSubmit,
   handleChange,
-  setValues,
+  setSubsOnchange,
   values,
   handleCategoryChange,
   subOptions,
@@ -13,7 +13,7 @@ const ProductCreateForm = ({
 }) => {
   const {
     title,
-    descriptioin,
+    description,
     price,
     categories,
     category,
@@ -25,7 +25,7 @@ const ProductCreateForm = ({
     brands,
     color,
     brand,
-  } = values;
+  } = values
 
   return (
     <form onSubmit={handleSubmit}>
@@ -40,12 +40,12 @@ const ProductCreateForm = ({
         />
       </div>
       <div className="form-group">
-        <label>Descriptioin</label>
+        <label>description</label>
         <input
           type="text"
-          name="descriptioin"
+          name="description"
           className="form-control"
-          value={descriptioin}
+          value={description}
           onChange={handleChange}
         />
       </div>
@@ -63,11 +63,7 @@ const ProductCreateForm = ({
         <label>Shipping</label>
         <option>Please select </option>
 
-        <select
-          name="shipping"
-          className="form-control"
-          onChange={handleChange}
-        >
+        <select name="shipping" className="form-control" onChange={handleChange}>
           <option value="No">No</option>
           <option value="Yes">Yes</option>
         </select>
@@ -107,11 +103,7 @@ const ProductCreateForm = ({
 
       <div className="form-group">
         <label> Category</label>
-        <select
-          name="category"
-          className="form-control"
-          onChange={handleCategoryChange}
-        >
+        <select name="category" className="form-control" onChange={handleCategoryChange}>
           <option>Please select</option>
           {categories.length > 0 &&
             categories.map((c) => (
@@ -124,25 +116,27 @@ const ProductCreateForm = ({
       {showSub && (
         <div>
           <label>Sub categories</label>
-          <select
+          <Select
             mode="multiple"
-            style={{ width: "100%" }}
+            style={{ width: '100%' }}
             placeholder="Please select"
             value={subs}
-            onChange={(value) => setValues({ ...values, subs: value })}
+            onChange={(value) => {
+              console.log(value)
+              setSubsOnchange(value)
+            }}
           >
-            {subOptions.length &&
-              subOptions.map((s) => (
-                <Option key={s._id} value={s._id}>
-                  {s.name}
-                </Option>
-              ))}
-          </select>
+            {subOptions.map((s) => (
+              <Option key={s._id} value={s._id}>
+                {s.name}
+              </Option>
+            ))}
+          </Select>
         </div>
       )}
 
       <button className="btn btn-outline-info">Save</button>
     </form>
-  );
-};
-export default ProductCreateForm;
+  )
+}
+export default ProductCreateForm

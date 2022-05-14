@@ -22,6 +22,10 @@ const Login = () => {
     localStorage.setItem('users', JSON.stringify(data))
   }
 
+  const saveTokenLocalstorage = (data) => {
+    localStorage.setItem('token', data)
+  }
+
   useEffect(() => {
     getDataLocalstorage() && history.push('/')
   }, [])
@@ -36,6 +40,7 @@ const Login = () => {
         user: res.data.user,
       }
       await saveUserLocalstorage(dataUser)
+      await saveTokenLocalstorage(res.data.token)
       history.push('/')
     } catch (error) {
       console.log('error', error.response.data.message)

@@ -31,6 +31,7 @@ const Header = () => {
 
   const logout = useCallback(() => {
     localStorage.removeItem('users')
+    localStorage.removeItem('token')
     setReloadHome(false)
     history.push('/')
   }, [getDataLocalstorage()])

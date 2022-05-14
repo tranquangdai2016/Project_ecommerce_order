@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const {ObjectId} = mongoose.Schema;
 
 const subSchema = new mongoose.Schema({
-    nam: {
+    name: {
         type: String,
         trim: true,
         required: 'Name is required',

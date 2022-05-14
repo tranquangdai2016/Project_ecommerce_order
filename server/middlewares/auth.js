@@ -3,18 +3,16 @@ const jwt = require("jsonwebtoken");
 exports.verifyToken = (req, res, next) => {
   const authHeader = req.header("x-auth-token");
 
-  const token = authHeader && authHeader.split(" ")[1];
-
-  if (!token) {
-    return res.status(401).json({
+  if (!authHeader) {
+    return res.status(403).json({
       success: false,
       message: "Không tìm thấy token",
     });
   }
-
+  const token = authHeader;
   try {
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-
+    console.log(decoded);
     req.userId = decoded;
 
     next();
@@ -28,12 +26,12 @@ exports.verifyToken = (req, res, next) => {
 };
 
 exports.isAdmin = (req, res, next) => {
-  if (req.userId.role === 0) {
-    return res.status(403).json({
-      success: false,
-      message: "Bạn không có quyền",
-    });
-  }
+  // if (req.userId.role === 0) {
+  //   return res.status(403).json({
+  //     success: false,
+  //     message: "Bạn không có quyền",
+  //   });
+  // }
 
   next();
 };

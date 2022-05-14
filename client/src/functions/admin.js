@@ -5,14 +5,14 @@ export const getOrders = async () => {
   if (localStorage.token) {
     setAuthToken(localStorage.token)
   }
-  await axios.get(`${process.env.REACT_APP_API}/admin/orders`)
+  return axios.get(`${process.env.REACT_APP_API}/admin/orders`)
 }
 
 export const changeStatus = async (orderId, orderStatus) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token)
   }
-  await axios.put(
+  return axios.put(
     `${process.env.REACT_APP_API}/admin/order-status`,
     { orderId, orderStatus },
   )
