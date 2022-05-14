@@ -1,109 +1,102 @@
 import axios from 'axios'
+import setAuthToken from '../utils/setAuthToken'
 
-export const userCart = async (cart, authtoken) =>
-  await axios.post(
-    `${process.env.REACT_APP_API}/user/cart`,
-    { cart },
-    {
-      headers: {
-        authtoken,
-      },
-    },
-  )
+export const userCart = async (cart, authtoken) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token)
+  }
 
-export const getUserCart = async (authtoken) =>
-  await axios.get(`${process.env.REACT_APP_API}/user/cart`, {
-    headers: {
-      authtoken,
-    },
-  })
+  return axios.post(`${process.env.REACT_APP_API}/user/cart`, { cart })
+}
 
-export const emptyUserCart = async (authtoken) =>
-  await axios.delete(`${process.env.REACT_APP_API}/user/cart`, {
-    headers: {
-      authtoken,
-    },
-  })
+export const getUserCart = async () => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token)
+  }
+  return axios.get(`${process.env.REACT_APP_API}/user/cart`)
+}
 
-export const saveUserAddress = async (authtoken, address) =>
-  await axios.post(
-    `${process.env.REACT_APP_API}/user/address`,
-    { address },
-    {
-      headers: {
-        authtoken,
-      },
-    },
-  )
+export const emptyUserCart = async () => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token)
+  }
 
-export const applyCoupon = async (authtoken, coupon) =>
-  await axios.post(
+  return axios.delete(`${process.env.REACT_APP_API}/user/cart`)
+}
+
+export const saveUserAddress = async (address) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token)
+  }
+
+  return axios.post(`${process.env.REACT_APP_API}/user/address`, { address })
+}
+
+export const applyCoupon = async (coupon) =>{
+  if (localStorage.token) {
+    setAuthToken(localStorage.token)
+  }
+  return axios.post(
     `${process.env.REACT_APP_API}/user/cart/coupon`,
-    { coupon },
-    {
-      headers: {
-        authtoken,
-      },
-    },
+    { coupon }
   )
+}
 
-export const createOrder = async (authtoken, stripeResponse) =>
-  await axios.post(
+
+export const createOrder = async (stripeResponse) =>{
+  if (localStorage.token) {
+    setAuthToken(localStorage.token)
+  }
+  return axios.post(
     `${process.env.REACT_APP_API}/user/order`,
-    { stripeResponse },
-    {
-      headers: {
-        authtoken,
-      },
-    },
+    { stripeResponse }
   )
+}
 
-export const createCashOrderForUser = async (authtoken, COD, couponTrueOrFalse) =>
-  await axios.post(
+
+export const createCashOrderForUser = async (COD, couponTrueOrFalse) =>{
+  if (localStorage.token) {
+    setAuthToken(localStorage.token)
+  }
+  return axios.post(
     `${process.env.REACT_APP_API}/user/cash-order`,
     { couponApplied: couponTrueOrFalse, COD },
-    {
-      headers: {
-        authtoken,
-      },
-    },
-  )
-export const getUserOrders = async (authtoken) =>
-  await axios.get(`${process.env.REACT_APP_API}/user/orders`, {
-    headers: {
-      authtoken,
-    },
-  })
-
-export const getWishlist = async (authtoken) => {
-  await axios.get(`${process.env.REACT_APP_API}/user/wishlist`, {
-    headers: {
-      authtoken,
-    },
-  })
-}
-
-export const removeWishlist = async (productId, authtoken) => {
-  await axios.put(
-    `${process.env.REACT_APP_API}/user/wishlist`,
-    { productId },
-    {
-      headers: {
-        authtoken,
-      },
-    },
   )
 }
 
-export const addToWishlist = async (productId, authtoken) => {
-  await axios.post(
+export const getUserOrders = async () =>{
+  if (localStorage.token) {
+    setAuthToken(localStorage.token)
+  }
+
+  return axios.get(`${process.env.REACT_APP_API}/user/orders`)
+}
+
+
+export const getWishlist = async () => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token)
+  }
+  return axios.get(`${process.env.REACT_APP_API}/user/wishlist`)
+}
+
+export const removeWishlist = async (productId) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token)
+  }
+  return axios.put(
     `${process.env.REACT_APP_API}/user/wishlist`,
-    { productId },
-    {
-      headers: {
-        authtoken,
-      },
-    },
+    { productId }
+  )
+}
+
+export const addToWishlist = async (productId) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token)
+  }
+  return axios.post(
+    `${process.env.REACT_APP_API}/user/wishlist`,
+    { productId }
   )
 }
 

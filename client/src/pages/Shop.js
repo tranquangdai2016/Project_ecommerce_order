@@ -29,6 +29,12 @@ const Shop = () => {
   const { search } = useSelector((state) => ({ ...state }))
   const { text } = search
 
+  useEffect(() => {
+    loadCategories()
+  }, [])
+  const loadCategories = () =>
+    getCategories().then((c) => setCategories(c.data))
+
   //load products by default on page load
   const loadAllProducts = () => {
     getProductsByCount(12).then((p) => {

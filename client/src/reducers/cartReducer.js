@@ -1,4 +1,4 @@
-let initialState = []
+let initialState = {}
 
 // load cart items from lacalstorage
 if (typeof window !== 'undefined') {

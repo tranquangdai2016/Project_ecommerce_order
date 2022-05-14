@@ -1,122 +1,139 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import ProductCardInCheckout from "../components/cards/ProductCardInCheckout";
-import { userCart } from "../functions/user";
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+import ProductCardInCheckout from '../components/cards/ProductCardInCheckout'
+import { userCart } from '../functions/user'
 
 const Cart = ({ history }) => {
-    const { user, cart } = useSelector((state) => ({ ...state }));
-    const dispatch = useDispatch();
+    const [user, setUser] = useState({})
+  const { cart } = useSelector((state) => ({ ...state }))
+  const dispatch = useDispatch()
 
-    const getTotal = () => {
-        return cart.reduce((currentValue, nextValue) => {
-            return currentValue + nextValue.count * nextValue.price;
-        }, 0);
-    };
-
-    const saveOrderToDb = () => {
-        // console.log("cart",Json.stringify(cart,null, 4));
-        userCart(cart, user.token)
-            .then((res) => {
-                console.log("CART POST RES");
-                if (res.data.ok) history.push("checkout");
-            })
-            .catch((err) => console.log("cart save err", err));
-        history.push("/checkout");
-    };
-
-    const saveCashOrderToDb = () => {
-        dispatch({
-            type: "COD",
-            payload: true,
-        });
-        userCart(cart, user.token)
-            .then((res) => {
-                //console.log("Cart post res", res);
-                if (res.data.ok) history.push("/checkout")
-            })
-            .catch((err) => console.log('cart save err', err));
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+        let user = {}
+        if (localStorage.getItem('users')) {
+            user = JSON.parse(localStorage.getItem('users'))
+        } else {
+            user = {}; 
+        }
+        setUser(user);
     }
+  }, [])
 
-    const showCartItems = () => (
-        <table className="table table-bordered">
-            <thead className="thead-light">
-                <tr>
-                    <td scope="col">Image</td>
-                    <td scope="col">Name</td>
-                    <td scope="col">Price</td>
-                    <td scope="col">Brand</td>
-                    <td scope="col">Color</td>
-                    <td scope="col">Count</td>
-                    <td scope="col">Shipping</td>
-                    <td scope="col">Remove</td>
-                </tr>
-            </thead>
+  const getTotal = () => {
+    console.log(cart)
+    return cart.reduce((currentValue, nextValue) => {
+      return currentValue + nextValue.count * nextValue.price
+    }, 0)
+  }
 
-            {cart.map((p) => (
-                <ProductCardInCheckout key={p._id} p={p}></ProductCardInCheckout>
+  const saveOrderToDb = () => {
+    // console.log("cart",Json.stringify(cart,null, 4));
+    userCart(cart)
+      .then((res) => {
+        console.log('CART POST RES')
+        if (res.data.ok) history.push('checkout')
+      })
+      .catch((err) => console.log('cart save err', err))
+    // history.push('/checkout')
+  }
 
-            ))}
-        </table>
-    )
+  const saveCashOrderToDb = () => {
+    dispatch({
+      type: 'COD',
+      payload: true,
+    })
+    userCart(cart, user.token)
+      .then((res) => {
+        //console.log("Cart post res", res);
+        if (res.data.ok) history.push('/checkout')
+      })
+      .catch((err) => console.log('cart save err', err))
+  }
 
+  const showCartItems = () => (
+    <table className="table table-bordered">
+      <thead className="thead-light">
+        <tr>
+          <td scope="col">Image</td>
+          <td scope="col">Name</td>
+          <td scope="col">Price</td>
+          <td scope="col">Brand</td>
+          <td scope="col">Color</td>
+          <td scope="col">Count</td>
+          <td scope="col">Shipping</td>
+          <td scope="col">Remove</td>
+        </tr>
+      </thead>
 
-    return (
-        <div className="container-fluid pt-2">
-            <div className="row">
-                <div className="col-md-8">
-                    <h4>Cart / {cart.length} Product</h4>
-                    {!cart.length ? (<h4>
-                        No products in cart. <Link to="/shop">Continue Shopping</Link>
-                    </h4>) : (
-                        showCartItems()
-                    )}
-                </div>
-                <div className="col-md-4">
-                    <h4>Order Summary</h4>
-                    <hr />
-                    <p>Products</p>
-                    {cart.map((c, i) => (
-                        <div key={i}>
-                            <p>{cart.title} x {cart.count} = ${cart.price * cart.count}</p>
-                        </div>
-                    ))}
-                    <hr />
-                    Total: <b>${getTotal()}</b>
-                    <hr />
-                    {
-                        user ? (
-                            <>
-                                <button onClick={saveOrderToDb}
-                                    className="btn btn-sm btn-primary mt-2"
-                                    disabled={!cart.length}
-                                >
-                                    Proceed to checkout
-                                </button>
-                                <br />
-                                <button onClick={saveCashOrderToDb}
-                                    className="btn btn-sm btn-warming mt-2"
-                                    disabled={!cart.length}
-                                >
-                                    Pay Cash in Delivery
-                                </button>
-                            </>
-                        ) : (
-                            <button className="btn btn-sm btn-primary mt-2">
-                                <Link to={{
-                                    pathname: "/login",
-                                    state: { from: "cart" }
-                                }}>Login to checkout</Link>
-                            </button>
-                        )
-                    }
-                </div>
-            </div>
-            {cart.map((p) => (
-                <ProductCardInCheckout key={p._id} p={p}></ProductCardInCheckout>
-            ))}
+      {cart.map((product) => (
+        <ProductCardInCheckout key={product._id} product={product}></ProductCardInCheckout>
+      ))}
+    </table>
+  )
+
+  return (
+    <div className="container-fluid pt-2">
+      <div className="row">
+        <div className="col-md-8">
+          <h4>Cart / {cart.length} Product</h4>
+          {!cart.length ? (
+            <h4>
+              No products in cart. <Link to="/shop">Continue Shopping</Link>
+            </h4>
+          ) : (
+            showCartItems()
+          )}
         </div>
-    )
-};
+        <div className="col-md-4">
+          <h4>Order Summary</h4>
+          <hr />
+          <p>Products</p>
+          {cart.map((c, i) => (
+            <div key={i}>
+              <p>
+                {cart.title} x {cart.count} = ${cart.price * cart.count}
+              </p>
+            </div>
+          ))}
+          <hr />
+          Total: <b>${getTotal()}</b>
+          <hr />
+          {user ? (
+            <>
+              <button
+                onClick={saveOrderToDb}
+                className="btn btn-sm btn-primary mt-2"
+                disabled={!cart.length}
+              >
+                Proceed to checkout
+              </button>
+              <br />
+              <button
+                onClick={saveCashOrderToDb}
+                className="btn btn-sm btn-warming mt-2"
+                disabled={!cart.length}
+              >
+                Pay Cash in Delivery
+              </button>
+            </>
+          ) : (
+            <button className="btn btn-sm btn-primary mt-2">
+              <Link
+                to={{
+                  pathname: '/login',
+                  state: { from: 'cart' },
+                }}
+              >
+                Login to checkout
+              </Link>
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
 
-export default Cart;
+export default Cart
