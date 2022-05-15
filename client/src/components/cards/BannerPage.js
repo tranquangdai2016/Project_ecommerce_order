@@ -3,7 +3,7 @@ import {
   FieldTimeOutlined,
   CustomerServiceOutlined,
   HistoryOutlined,
-  ClockCircleOutlined,
+  HourglassOutlined,
 } from '@ant-design/icons'
 
 const BannerPage = () => {
@@ -34,7 +34,7 @@ const BannerPage = () => {
         }}
       >
         <div>
-          <FieldTimeOutlined />
+          <FieldTimeOutlined style={{ color: '#dc2626' }} />
           <div>
             <h3>KHÔNG CÓ THỜI GIAN TRỄ</h3>
             <p style={{ fontSize: '15px' }}>
@@ -44,7 +44,7 @@ const BannerPage = () => {
         </div>
 
         <div>
-          <HistoryOutlined />
+          <HistoryOutlined style={{ color: '#0ea5e9' }} />
           <h3>CAM KẾT MUA HÀNG TRONG 24H</h3>
           <p style={{ fontSize: '15px' }}>
             Miễn phí mua hàng nếu mua quá thời gian chúng tôi cam kết
@@ -52,7 +52,7 @@ const BannerPage = () => {
         </div>
 
         <div>
-          <CustomerServiceOutlined />
+          <CustomerServiceOutlined style={{ color: '#fb923c' }} />
           <h3>HỖ TRỢ TRỤC TUYẾN 24/7</h3>
           <p style={{ fontSize: '15px' }}>
             Luôn sẵn sàng giải quyết thắc mắc Quý khách kể cả ngoài khung giờ làm việc
@@ -60,7 +60,7 @@ const BannerPage = () => {
         </div>
 
         <div>
-          <ClockCircleOutlined />
+          <HourglassOutlined style={{ color: '#22c55e' }} />
           <h3>TIẾT KIỆM THỜI GIAN QUẢN LÝ</h3>
           <p style={{ fontSize: '15px' }}>
             Hệ thống quản lý thông minh, giúp Quý khách chủ động theo dõi thông tin đơn hàng mọi lúc
