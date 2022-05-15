@@ -6,6 +6,8 @@ import { createProduct } from '../../../functions/product'
 import ProductCreateForm from '../../../components/forms/ProductCreateForm'
 import { getCategories, getCategorySubs } from '../../../functions/category'
 import FileUpload from '../../../components/forms/FileUpload'
+import ImageUploader from 'react-images-upload';
+import GetBase64 from '../../../utils/getbase64';
 
 const initialState = {
   title: '',
@@ -71,6 +73,17 @@ const ProductCreate = () => {
     })
   }
 
+  const onDrop = (thumbnail) => {
+    setTimeout(async () => {
+      if (thumbnail && thumbnail[0]) {
+        const base64 = await GetBase64(thumbnail[0]);
+        setvalues({ ...values, ...{images: base64} })
+      } else {
+        setvalues({ ...values, ...{images: null} })
+      }
+    }, 500);
+  };
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -82,7 +95,16 @@ const ProductCreate = () => {
           <hr />
           {/* {JSON.stringify(values.images)} */}
           <div className="p-3">
-            <FileUpload values={values} setvalues={setvalues} setLoading={setLoading} />
+          <ImageUploader
+              withIcon={false}
+              singleImage={true}
+              withPreview={true}
+              onChange={onDrop}
+              imgExtension={['.jpg', '.gif', '.png', '.gif']}
+              maxFileSize={5242880}
+            />
+
+            {/* <FileUpload values={values} setvalues={setvalues} setLoading={setLoading} /> */}
           </div>
           <ProductCreateForm
             handleSubmit={handleSubmit}

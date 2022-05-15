@@ -5,13 +5,14 @@ const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const cors = require("cors");
 const { readdirSync } = require("fs");
+const path = require('path');
 
 //import routes
 const authRoutes = require("./routes/auth");
 
 //app
 const app = express();
-
+global.__basedir = __dirname;
 //db
 mongoose
   .connect(process.env.DATABASE, {
@@ -41,6 +42,10 @@ app.use("/api/coupon", require('./routes/coupon'));
 app.use("/api/stripe", require('./routes/stripe'));
 app.use("/api/sub", require('./routes/sub'));
 app.use("/api/user", require('./routes/user'));
+
+app.get('/media/image/:filename', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'media', 'image', req.params.filename));
+});
 
 //port
 const port = process.env.PORT || 5500;

@@ -1,12 +1,18 @@
 const Product = require("../models/product");
 const slugify = require("slugify");
 const User = require("../models/user");
+const SaveImage = require("../helps/saveimage");
 const { aggregate } = require("../models/product");
 
 exports.create = async (req, res) => {
   try {
     console.log(req.body);
     req.body.slug = slugify(req.body.title);
+    if (req.body.images) {
+      const imagePath = SaveImage.SaveImage(req.body.images);
+      req.body.images = imagePath;
+    }
+
     const newProduct = await new Product(req.body).save();
     res.json(newProduct);
   } catch (err) {
