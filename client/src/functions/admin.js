@@ -17,3 +17,13 @@ export const changeStatus = async (orderId, orderStatus) => {
     { orderId, orderStatus },
   )
 }
+
+export const changeTranferCode = async (orderId, transportCode) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token)
+  }
+  return axios.put(
+    `${process.env.REACT_APP_API}/admin/tranfer-code`,
+    { orderId, transportCode: transportCode },
+  )
+}

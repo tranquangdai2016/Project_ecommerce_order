@@ -1,8 +1,8 @@
-import React from "react";
-import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
-import ShowPaymentInfo from "../cards/ShowPaymentInfo";
+import React from 'react'
+import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons'
+import ShowPaymentInfo from '../cards/ShowPaymentInfo'
 
-const Orders = ({ orders, handleStatusChange }) => {
+const Orders = ({ orders, handleStatusChange, handleTranferCodeChange, updateTranferCode }) => {
   const showOrderInTable = (order) => (
     <table className="table table-bordered">
       <thead className="thead-light">
@@ -26,17 +26,17 @@ const Orders = ({ orders, handleStatusChange }) => {
             <td>{p.color}</td>
             <td>{p.count}</td>
             <td>
-              {p.product.shipping === "Yes" ? (
-                <CheckCircleOutlined style={{ color: "green" }} />
+              {p.product.shipping === 'Yes' ? (
+                <CheckCircleOutlined style={{ color: 'green' }} />
               ) : (
-                <CloseCircleOutlined style={{ color: "red" }} />
+                <CloseCircleOutlined style={{ color: 'red' }} />
               )}
             </td>
           </tr>
         ))}
       </tbody>
     </table>
-  );
+  )
 
   return (
     <>
@@ -45,12 +45,10 @@ const Orders = ({ orders, handleStatusChange }) => {
           <div className="btn btn-block bg-light">
             <ShowPaymentInfo order={order} showStatus={false} />
             <div class="row">
-              <div class="col-md-4">Delivery Status</div>
+              <div class="col-md-4">Trạng thái đơn hàng</div>
               <div class="col-md-8">
                 <select
-                  onChange={(e) =>
-                    handleStatusChange(order._id, e.target.value)
-                  }
+                  onChange={(e) => handleStatusChange(order._id, e.target.value)}
                   className="form-control"
                   defaultValue={order.orderStatus}
                   name="status"
@@ -64,13 +62,34 @@ const Orders = ({ orders, handleStatusChange }) => {
                 </select>
               </div>
             </div>
+            <div class="row  mt-2">
+              <div class="col-md-2">Mã vận đơn</div>
+              <div class="col-md-3">
+                <b>{order.transportCode}</b>
+              </div>
+              <div class="col-md-3">
+                <input
+                  class="form-control"
+                  // value={order.transportCode}
+                  onChange={(e) => handleTranferCodeChange(order, e.target.value)}
+                ></input>
+              </div>
+              <div class="col-md-4">
+                <button
+                  class="btn btn-primary"
+                  onClick={(e) => updateTranferCode(order._id, order.transportCode)}
+                >
+                  Cập nhật mã vận đơn
+                </button>
+              </div>
+            </div>
           </div>
 
           {showOrderInTable(order)}
         </div>
       ))}
     </>
-  );
-};
+  )
+}
 
-export default Orders;
+export default Orders

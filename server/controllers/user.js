@@ -1,9 +1,11 @@
 const User = require("../models/user");
+const Address = require("../models/address");
 const Product = require("../models/product");
 const Cart = require("../models/cart");
 const product = require("../models/product");
 const Coupon = require("../models/coupon");
 const Order = require("../models/order")
+const OrderHistory = require("../models/orderHistory")
 const uniqueid = require("uniqueid");
 
 exports.userCart = async (req, res) => {
@@ -41,7 +43,7 @@ exports.userCart = async (req, res) => {
     let cartTotal = 0;
 
     for (let i = 0; i < products.length; i++) {
-        cartTotal = cartTotal + products[i].price + products[i].count
+        cartTotal = cartTotal + products[i].price * products[i].count
     }
 
     //console.log('cartTotal',cartTotal);
@@ -74,12 +76,21 @@ exports.emptyCart = async (req, res) => {
 }
 
 exports.saveAddress = async (req, res) => {
-    const userAddress = await User.findOneAndUpdate(
-        { email: req.user.email },
-        { address: req.body.address }
-    ).exec();
+    let receiveAddress = req.body.address;
+    const { name, phone } = req.body;
+    let address = await new Address({
+        name,
+        receiveAddress,
+        phone,
+        userId: req.user._id,
+    }).save();
 
     res.json({ ok: true })
+};
+
+exports.getAllAddress = async (req, res) => {
+    let addresses = await Address.find({userId: req.user._id}).exec();
+    res.json(addresses)
 };
 
 exports.applyCouponToUserCart = async (req, res) => {
@@ -122,7 +133,7 @@ exports.applyCouponToUserCart = async (req, res) => {
 exports.createOrder = async (req, res) => {
     // console.log(req.body)
     // return;
-    const { paymentIntent } = req.body.stripeResponse
+    const { paymentIntent, addressId } = req.body.stripeResponse
     const user = await User.findOne({ email: req.user.email }).exec();
 
     let { products } = await Cart.findOne({ orderdBy: user._id }).exec();
@@ -130,6 +141,7 @@ exports.createOrder = async (req, res) => {
     let newOrder = await new Order({
         products,
         paymentIntent,
+        addressId,
         orderdBy: user._id,
     }).save();
 
@@ -159,6 +171,12 @@ exports.orders = async (req, res) => {
         .populate("products.product")
         .exec();
     res.json(userOrders);
+};
+
+exports.orderHistory = async (req, res) => {
+    let history = await OrderHistory.find({ orderId: req.body.orderId }).populate('updateBy').exec();
+
+    res.json(history);
 };
 // addToWishlist wishlist removeFromWishlist
 exports.addToWishlist = async (req, res) => {
@@ -193,7 +211,7 @@ exports.addToWishlist = async (req, res) => {
   
 
 exports.createCashOrder = async (req, res) => {
-    const { COD, couponApplied } = req.body;
+    const { COD, couponApplied, addressId } = req.body;
 
     //if cod true, create order with status of cash on delivery
     if (!COD) return res.status(400).send("Create cash order failed");
@@ -221,6 +239,7 @@ exports.createCashOrder = async (req, res) => {
             payment_method_types: ['cash']
         },
         orderdBy: user._id,
+        addressId: addressId,
         status: "Cash On Delivery",
     }).save();
 
@@ -239,6 +258,12 @@ exports.createCashOrder = async (req, res) => {
 
     //product.bulkWrite({})
 
+    let orderHistory = await new OrderHistory({
+        orderId: newOrder._id,
+        updateBy: user._id,
+        orderStatus: "Cash On Delivery",
+    }).save();
+    
     console.log('NEW ORDER SAVED', newOrder);
     res.json({ ok: true });
 }

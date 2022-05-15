@@ -20,13 +20,15 @@ const orderSchema = new mongoose.Schema({
         enum: [
             "Not processed",
             "Cash On Delivery",
-            "processing",
+            "Processing",
             "Dispatched",
             "Cancelled",
             "Completed",
         ]
     },
+    transportCode: {type: String, default: ''},
     orderdBy: { type: ObjectId, ref: "User"},
+    addressId: { type: ObjectId, ref: "Address"},
 },
  {timestamps: true});
 module.exports = mongoose.model("Order", orderSchema);

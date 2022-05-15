@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import AdminNav from '../../components/nav/AdminNav'
-import { getOrders, changeStatus } from '../../functions/admin'
+import { getOrders, changeStatus, changeTranferCode } from '../../functions/admin'
 import { useSelector, useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
 import Orders from '../../components/order/Orders'
@@ -31,6 +31,20 @@ const AdminDashboard = () => {
     })
   }
 
+  const handleTranferCodeChange = (order, transportCode) => {
+    order.transportCode = transportCode;
+    console.log(order);
+    console.log(transportCode);
+  }
+
+  const updateTranferCode = (orderId, transportCode)=> {
+    console.log(orderId, transportCode);
+    changeTranferCode(orderId, transportCode).then((res) => {
+      toast.success('TranferCode Updated')
+      loadOrders()
+    })
+  }
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -41,7 +55,7 @@ const AdminDashboard = () => {
         <div className="col-md-10">
           <h4>Admin Dashboard</h4>
           {/* {JSON.stringify(orders)} */}
-          <Orders orders={orders} handleStatusChange={handleStatusChange} />
+          <Orders orders={orders} handleStatusChange={handleStatusChange} handleTranferCodeChange={handleTranferCodeChange} updateTranferCode={updateTranferCode}  />
         </div>
       </div>
     </div>

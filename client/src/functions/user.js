@@ -29,7 +29,15 @@ export const saveUserAddress = async (address) => {
     setAuthToken(localStorage.token)
   }
 
-  return axios.post(`${process.env.REACT_APP_API}/user/address`, { address })
+  return axios.post(`${process.env.REACT_APP_API}/user/address`, address)
+}
+
+export const getUserAddress = async (address) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token)
+  }
+
+  return axios.get(`${process.env.REACT_APP_API}/user/address`, { address })
 }
 
 export const applyCoupon = async (coupon) =>{
@@ -43,24 +51,24 @@ export const applyCoupon = async (coupon) =>{
 }
 
 
-export const createOrder = async (stripeResponse) =>{
+export const createOrder = async (stripeResponse, addressId) =>{
   if (localStorage.token) {
     setAuthToken(localStorage.token)
   }
   return axios.post(
     `${process.env.REACT_APP_API}/user/order`,
-    { stripeResponse }
+    { stripeResponse, addressId }
   )
 }
 
 
-export const createCashOrderForUser = async (COD, couponTrueOrFalse) =>{
+export const createCashOrderForUser = async (COD, couponTrueOrFalse, addressId) =>{
   if (localStorage.token) {
     setAuthToken(localStorage.token)
   }
   return axios.post(
     `${process.env.REACT_APP_API}/user/cash-order`,
-    { couponApplied: couponTrueOrFalse, COD },
+    { couponApplied: couponTrueOrFalse, COD, addressId },
   )
 }
 
@@ -70,6 +78,14 @@ export const getUserOrders = async () =>{
   }
 
   return axios.get(`${process.env.REACT_APP_API}/user/orders`)
+}
+
+export const getOrderHistory = async (orderId) =>{
+  if (localStorage.token) {
+    setAuthToken(localStorage.token)
+  }
+
+  return axios.post(`${process.env.REACT_APP_API}/user/order-history`, {orderId})
 }
 
 

@@ -15,18 +15,22 @@ const {
   orders,
   addToWishlist,
   wishlist,
-  removeFromWishlist
+  removeFromWishlist,
+  getAllAddress,
+  orderHistory
 } = require("../controllers/user");
 
 router.post("/user/cart", verifyToken, userCart); //save cart
 router.get("/user/cart", verifyToken, getUserCart); //get cart
 router.delete("/user/cart", verifyToken, emptyCart); //empty cart
 router.post("/user/address", verifyToken, saveAddress);
+router.get("/user/address", verifyToken, getAllAddress);
 
 router.post('/user/order', verifyToken, createOrder); //stripe
 router.post('/user/cash-order', verifyToken, createCashOrder); //cod
 // router.post('user/order', verifyToken, createOrder);
 router.get('/user/orders', verifyToken, orders);
+router.post('/user/order-history', verifyToken, orderHistory);
 
 //coupon
 

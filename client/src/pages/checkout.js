@@ -7,14 +7,22 @@ import {
   saveUserAddress,
   applyCoupon,
   createCashOrderForUser,
+  getUserAddress,
 } from '../functions/user'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
+import { Radio, Input, Space } from 'antd'
+import { Button } from 'antd'
+import { PlusOutlined } from '@ant-design/icons'
+import { set } from 'lodash'
 
 const Checkout = ({ history }) => {
   const [products, setProducts] = useState([])
+  const [addresses, setAddressess] = useState([])
   const [total, setTotal] = useState(0)
+  const [addAddress, setAddAddress] = useState(false)
   const [address, setAddress] = useState('')
+  const [addressId, setAddressId] = useState('')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
@@ -30,13 +38,16 @@ const Checkout = ({ history }) => {
 
   useEffect(() => {
     console.log(user)
-    setName(user.user.name)
+    setName(user.user.username)
   }, [user])
 
   useEffect(() => {
     getUserCart().then((res) => {
       setProducts(res.data.products)
       setTotal(res.data.cartTotal)
+    }, [])
+    getUserAddress().then((res) => {
+      setAddressess(res.data)
     }, [])
   }, [])
 
@@ -64,12 +75,28 @@ const Checkout = ({ history }) => {
 
   const saveAddressToDb = () => {
     console.log(address)
-    saveUserAddress(user.token, address).then((res) => {
+    let payload = {
+      name: name,
+      address: address,
+      phone: phone,
+    }
+    saveUserAddress(payload).then((res) => {
       if (res.data.ok) {
         setAddressSaved(true)
         toast.success('Address saved')
       }
     })
+  }
+
+  const addAddressVisible = () => {
+    setAddAddress(true)
+  }
+  
+  const cancelAddAddress = () => {
+    setAddress('')
+    setPhone('')
+    setName(user.user.username)
+    setAddAddress(false)
   }
 
   const applyDiscountCoupon = () => {
@@ -97,32 +124,62 @@ const Checkout = ({ history }) => {
     })
   }
 
-  const showAddress = () => (
+  const showAddAddress = () => (
     <>
-      <label>Username</label>
+      <label>Tên khách hàng</label>
       <input
         type="text"
         className="form-control"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
-      <label>Address</label>
+      <label>Địa chỉ</label>
       <input
         type="text"
         className="form-control"
         value={address}
         onChange={(e) => setAddress(e.target.value)}
       />
-      <label>Phone number</label>
+      <label>Số điện thoại</label>
       <input
         type="text"
         className="form-control"
         value={phone}
         onChange={(e) => setPhone(e.target.value)}
       />
-      <button className="btn btn-primary mt-2" onClick={saveAddressToDb}>
-        Save
-      </button>
+      <div className="d-flex justify-content-center">
+        <button className="btn btn-primary mt-2 mr-2" onClick={saveAddressToDb}>
+          Lưu địa chỉ
+        </button>
+        <button className="btn btn-danger mt-2" onClick={cancelAddAddress}>
+          Hủy
+        </button>
+      </div>
+    </>
+  )
+
+  const showAddress = () => (
+    <>
+      <Radio.Group onChange={(e) => setAddressId(e.target.value)} value={addressId}>
+        <Space direction="vertical">
+          {addresses.map((p, i) => (
+            <Radio value={p._id} key={i}>
+              <p>
+                <h5>{p.name}</h5>
+                <div>
+                  {p.receiveAddress} - {p.phone}
+                </div>
+              </p>
+            </Radio>
+          ))}
+        </Space>
+      </Radio.Group>
+      <br />
+      <div className="d-flex justify-content-center">
+        <Button type="primary" shape="dashed" icon={<PlusOutlined />} onClick={addAddressVisible}>
+          Thêm
+        </Button>
+      </div>
     </>
   )
 
@@ -147,14 +204,20 @@ const Checkout = ({ history }) => {
         type="text"
         className="form-control"
       />
-      <button onClick={applyDiscountCoupon} className="btn btn-primary mt-2">
-        Apply
-      </button>
+      <div className="d-flex justify-content-center">
+        <button onClick={applyDiscountCoupon} className="btn btn-primary mt-2">
+          Áp dụng
+        </button>
+      </div>
     </>
   )
 
   const createCashOrder = () => {
-    createCashOrderForUser(user.token, COD, couponTrueOrFalse).then((res) => {
+    if(addressId == ''){
+      toast.error('Bạn chưa chọn địa chỉ')
+      return;
+    }
+    createCashOrderForUser(COD, couponTrueOrFalse, addressId).then((res) => {
       console.log('user cash order created res', res)
       // emty cart form redux, local storage, reset coupon / cod, redirect
       if (res.data.ok) {
@@ -187,12 +250,13 @@ const Checkout = ({ history }) => {
 
   return (
     <div className="container">
+      <br />
       <div className="row">
         <div className="col-md-6">
           <h4>Địa chỉ nhận hàng</h4>
           <br />
-          <br />
-          {showAddress()}
+          {!addAddress && showAddress()}
+          {addAddress && showAddAddress()}
           <hr />
           <h4>Mã giảm giá?</h4>
           <br />
@@ -203,40 +267,43 @@ const Checkout = ({ history }) => {
 
         <div className="col-md-6">
           <h4>Đơn hàng</h4>
-          <hr />
+          <br />
           <p>Sản phẩm {products.length}</p>
           <hr />
           {showProductSummary()}
           <hr />
-          <b>Tổng: {total}</b>
+          <p>
+            <b>Tổng: {total}</b>
+          </p>
 
-          {totalAfterDiscount == 0 && (
+          {totalAfterDiscount != 0 && (
             <p className="bg-success p2">Discount Applied: Total payable: ${totalAfterDiscount}</p>
           )}
+
           <div className="row">
             <div className="col-md-6">
               {COD ? (
                 <button
                   className="btn btn-primary"
-                  disabled={!addressSaved || !products.length}
+                  disabled={!products.length}
                   onClick={createCashOrder}
                 >
-                  Place Order
+                  Đặt hàng
                 </button>
               ) : (
                 <button
                   className="btn btn-primary"
-                  disabled={!addressSaved || !products.length}
+                  disabled={!products.length}
                   onClick={() => history.push('/payment')}
                 >
-                  Place Order
+                  Đặt hàng
                 </button>
               )}
             </div>
 
             <div className="col-md-6">
               <button disabled={!products.length} onClick={emptyCart} className="btn btn-primary">
-                Empty card
+                Hủy bỏ
               </button>
             </div>
           </div>

@@ -11,7 +11,7 @@ const UserNav = () => {
           </Link>
         </li>
 
-        <li className="nav-item">
+        {/* <li className="nav-item">
           <Link to="/user/password" className="nav-link">
             Password
           </Link>
@@ -21,7 +21,7 @@ const UserNav = () => {
           <Link to="/user/wishlist" className="nav-link">
             WishList
           </Link>
-        </li>
+        </li> */}
       </ul>
     </nav>
   );
