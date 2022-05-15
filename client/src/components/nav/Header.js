@@ -60,10 +60,10 @@ const Header = () => {
       {!getDataLocalstorage() && (
         <>
           <Menu.Item key="register" icon={<UserAddOutlined />} style={{ marginLeft: 'auto' }}>
-            <Link to="register">Register</Link>
+            <Link to="register">Đăng kí</Link>
           </Menu.Item>
           <Menu.Item key="login" icon={<UserOutlined />}>
-            <Link to="login">Login</Link>
+            <Link to="login">Đăng nhập</Link>
           </Menu.Item>
         </>
       )}
@@ -93,7 +93,7 @@ const Header = () => {
             {/* <div onClick={logout}>Logout</div> */}
           </SubMenu>
           <Menu.Item onClick={logout} icon={<LogoutOutlined />}>
-            Logout
+            Đăng xuất
           </Menu.Item>
         </>
       )}

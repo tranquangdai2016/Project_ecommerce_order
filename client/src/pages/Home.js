@@ -18,27 +18,66 @@ const Home = () => {
             style={{ width: '150px', height: '100px' }}
           />
           <p style={{ fontSize: '20px', color: 'black' }}>Order.com</p>
-          <p style={{ fontSize: '20px', color: 'black' }}>Order hàng Quảng Châu</p>
+          {/* <p style={{ fontSize: '20px', color: 'black' }}>Order hàng Quảng Châu</p> */}
         </div>
-        <Jumbotron
-          text={['Latest Products', 'New Arrivals', 'Best Sellers']}
-          style={{ marginTop: '15px' }}
-        />
+        <Jumbotron text={['Order hàng Quảng Châu']} style={{ marginTop: '15px' }} />
       </div>
 
       <div className="text-center p-3 mt-5 mb-5 display-3 jumbotron">
         <BannerPage />
       </div>
 
-      <h4 className="text-center p-3 mt-5 mb-5 display-3 jumbotron"> New Arrivals</h4>
+      <div className="text-center p-3 mt-5 mb-5 display-3 jumbotron">
+        <p
+          style={{
+            background: 'black',
+            color: 'white',
+            width: '400px',
+            fontSize: '30px',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            'border-radius': '5px',
+          }}
+        >
+          XEM TẤT CẢ . NEW ARRIVALS
+        </p>
+      </div>
       <NewArrivals />
 
-      <h4 className="text-center p-3 mt-5 mb-5 display-3 jumbotron"> BestSellers</h4>
-      <BestSellers />
-      <h4 className="text-center p-3 mt-5 mb-5 display-4 jumbotron">Categories</h4>
+      {/* <h4 className="text-center p-3 mt-5 mb-5 display-3 jumbotron"> BestSellers</h4>
+      <BestSellers /> */}
+      <div className="text-center p-3 mt-5 mb-5 display-4 jumbotron">
+        <p
+          style={{
+            background: 'black',
+            color: 'white',
+            width: '350px',
+            fontSize: '30px',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            'border-radius': '5px',
+          }}
+        >
+          XEM TẤT CẢ . CATEGORIES
+        </p>
+      </div>
       <CategoryList />
 
-      <h4 className="text-center p-3 mt-5 mb-5 display-4 jumbotron">Sub Categories</h4>
+      <div className="text-center p-3 mt-5 mb-5 display-4 jumbotron">
+        <p
+          style={{
+            background: 'black',
+            color: 'white',
+            width: '450px',
+            fontSize: '30px',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            'border-radius': '5px',
+          }}
+        >
+          XEM TẤT CẢ . SUB CATEGORIES
+        </p>
+      </div>
       <SubList />
       <div className="text-center p-3 mt-5 mb-5 display-3 jumbotron">
         <Footer />
