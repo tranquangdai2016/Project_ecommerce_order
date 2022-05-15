@@ -32,7 +32,7 @@ const Search = () => {
                     type="search"
                     value={text}
                     className='form-control mr-sm-2'
-                    placeholder='Search'
+                    placeholder='Tìm kiếm'
                     onChange={ handleChange }
                 />
                 <SearchOutlined

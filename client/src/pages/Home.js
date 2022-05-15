@@ -9,7 +9,7 @@ import Footer from '../components/cards/Foodter'
 
 const Home = () => {
   return (
-    <>
+    <div className="container">
       <div className="jumbotron text-danger h1 font-weight-bold text-center">
         <div>
           <img
@@ -43,7 +43,7 @@ const Home = () => {
       <div className="text-center p-3 mt-5 mb-5 display-3 jumbotron">
         <Footer />
       </div>
-    </>
+    </div>
   )
 }
 export default Home

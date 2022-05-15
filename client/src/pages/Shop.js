@@ -325,7 +325,7 @@ const Shop = () => {
             </SubMenu>
 
             {/*star*/}
-            <SubMenu
+            {/* <SubMenu
               key={'3'}
               title={
                 <span className="h6">
@@ -334,10 +334,10 @@ const Shop = () => {
               }
             >
               <div style={{ marginTop: '-10px' }}>{showStars()}</div>
-            </SubMenu>
+            </SubMenu> */}
 
             {/*subCategory*/}
-            <SubMenu
+            {/* <SubMenu
               key={'4'}
               title={
                 <span className="h6">
@@ -349,7 +349,7 @@ const Shop = () => {
               <div style={{ marginTop: '-10px' }} className="px-4">
                 {showSubs()}
               </div>
-            </SubMenu>
+            </SubMenu> */}
 
             {/*Brand*/}
             <SubMenu
