@@ -95,8 +95,8 @@ const ProductCardInCheckout = ({ product }) => {
             <tr>
                 <td>
                     <div style={{ width: "100px", height: "auto" }}>
-                        {product.images && product.images.length ? (
-                            <ModalImage small={product.images[0].url} large={product.images[0].url} />
+                        {product.images ? (
+                            <ModalImage small={product.images} large={product.images} />
                         ) : (
                             <ModalImage small={laptop} large={laptop} />
                         )}
