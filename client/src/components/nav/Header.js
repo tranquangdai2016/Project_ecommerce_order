@@ -39,17 +39,17 @@ const Header = () => {
   return (
     <Menu mode="horizontal" defaultSelectedKeys={['home']}>
       <Menu.Item key="home" icon={<AppstoreOutlined />}>
-        <Link to="/">Home </Link>
+        <Link to="/">Trang chủ </Link>
       </Menu.Item>
 
       <Menu.Item key="shop" icon={<ShoppingOutlined />}>
-        <Link to="/shop">Shop </Link>
+        <Link to="/shop">Cửa hàng </Link>
       </Menu.Item>
 
       <Menu.Item key="cart" icon={<ShoppingCartOutlined />}>
         <Link to="/cart">
           <Badge count={cart.length} offset={[9, 0]}>
-            Cart
+            Giỏ hàng
           </Badge>
         </Link>
       </Menu.Item>
@@ -60,7 +60,7 @@ const Header = () => {
       {!getDataLocalstorage() && (
         <>
           <Menu.Item key="register" icon={<UserAddOutlined />} style={{ marginLeft: 'auto' }}>
-            <Link to="register">Đăng kí</Link>
+            <Link to="register">Đăng ký</Link>
           </Menu.Item>
           <Menu.Item key="login" icon={<UserOutlined />}>
             <Link to="login">Đăng nhập</Link>

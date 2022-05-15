@@ -41,3 +41,15 @@
     transform: rotate(360deg);
   }
 }
+
+.form-control:read-only{
+  background-image: none;
+}
+
+.form-control{
+  background-image: none;
+}
+
+.anticon{
+  vertical-align: 0.125em !important;
+}

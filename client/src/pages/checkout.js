@@ -15,6 +15,9 @@ const Checkout = ({ history }) => {
   const [products, setProducts] = useState([])
   const [total, setTotal] = useState(0)
   const [address, setAddress] = useState('')
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
   const [addressSaved, setAddressSaved] = useState(false)
   const [coupon, setCoupon] = useState('')
   //discount price
@@ -24,6 +27,11 @@ const Checkout = ({ history }) => {
   const dispatch = useDispatch()
   const { user, COD } = useSelector((state) => ({ ...state }))
   const couponTrueOrFalse = useSelector((state) => state.coupon)
+
+  useEffect(() => {
+    console.log(user)
+    setName(user.user.name)
+  }, [user])
 
   useEffect(() => {
     getUserCart().then((res) => {
@@ -91,11 +99,26 @@ const Checkout = ({ history }) => {
 
   const showAddress = () => (
     <>
+      <label>Username</label>
+      <input
+        type="text"
+        className="form-control"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <label>Address</label>
       <input
         type="text"
         className="form-control"
         value={address}
         onChange={(e) => setAddress(e.target.value)}
+      />
+      <label>Phone number</label>
+      <input
+        type="text"
+        className="form-control"
+        value={phone}
+        onChange={(e) => setPhone(e.target.value)}
       />
       <button className="btn btn-primary mt-2" onClick={saveAddressToDb}>
         Save
@@ -163,57 +186,59 @@ const Checkout = ({ history }) => {
   }
 
   return (
-    <div className="row">
-      <div className="col-md-6">
-        <h4>Delivery Adress</h4>
-        <br />
-        <br />
-        {showAddress()}
-        <hr />
-        <h4>Got Coupon?</h4>
-        <br />
-        {showApplyCoupon()}
-        <br />
-        {discountError && <p className="bg-danger p2">{discountError}</p>}
-      </div>
+    <div className="container">
+      <div className="row">
+        <div className="col-md-6">
+          <h4>Địa chỉ nhận hàng</h4>
+          <br />
+          <br />
+          {showAddress()}
+          <hr />
+          <h4>Mã giảm giá?</h4>
+          <br />
+          {showApplyCoupon()}
+          <br />
+          {discountError && <p className="bg-danger p2">{discountError}</p>}
+        </div>
 
-      <div className="col-md-6">
-        <h4>Order Summary</h4>
-        <hr />
-        <p>Products {products.length}</p>
-        <hr />
-        {showProductSummary()}
-        <hr />
-        <p>Card total {total}</p>
+        <div className="col-md-6">
+          <h4>Đơn hàng</h4>
+          <hr />
+          <p>Sản phẩm {products.length}</p>
+          <hr />
+          {showProductSummary()}
+          <hr />
+          <b>Tổng: {total}</b>
 
-        {totalAfterDiscount == 0 && (
-          <p className="bg-success p2">Discount Applied: Total payable: ${totalAfterDiscount}</p>
-        )}
-        <div className="row">
-          <div className="col-md-6">
-            {COD ? (
-              <button
-                className="btn btn-primary"
-                disabled={!addressSaved || !products.length}
-                onClick={createCashOrder}
-              >
-                Place Order
+          {totalAfterDiscount == 0 && (
+            <p className="bg-success p2">Discount Applied: Total payable: ${totalAfterDiscount}</p>
+          )}
+          <div className="row">
+            <div className="col-md-6">
+              {COD ? (
+                <button
+                  className="btn btn-primary"
+                  disabled={!addressSaved || !products.length}
+                  onClick={createCashOrder}
+                >
+                  Place Order
+                </button>
+              ) : (
+                <button
+                  className="btn btn-primary"
+                  disabled={!addressSaved || !products.length}
+                  onClick={() => history.push('/payment')}
+                >
+                  Place Order
+                </button>
+              )}
+            </div>
+
+            <div className="col-md-6">
+              <button disabled={!products.length} onClick={emptyCart} className="btn btn-primary">
+                Empty card
               </button>
-            ) : (
-              <button
-                className="btn btn-primary"
-                disabled={!addressSaved || !products.length}
-                onClick={() => history.push('/payment')}
-              >
-                Place Order
-              </button>
-            )}
-          </div>
-
-          <div className="col-md-6">
-            <button disabled={!products.length} onClick={emptyCart} className="btn btn-primary">
-              Empty card
-            </button>
+            </div>
           </div>
         </div>
       </div>

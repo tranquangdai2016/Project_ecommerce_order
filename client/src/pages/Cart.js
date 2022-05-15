@@ -90,10 +90,10 @@ const Cart = ({ history }) => {
           <h4>Order Summary</h4>
           <hr />
           <p>Products</p>
-          {cart.map((c, i) => (
+          {cart.map((product, i) => (
             <div key={i}>
               <p>
-                {cart.title} x {cart.count} = ${cart.price * cart.count}
+                {product.price} x {product.count} = {product.price * product.count}
               </p>
             </div>
           ))}
