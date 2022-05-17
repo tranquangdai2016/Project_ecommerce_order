@@ -5,19 +5,19 @@ import ProductCardInCheckout from '../components/cards/ProductCardInCheckout'
 import { userCart } from '../functions/user'
 
 const Cart = ({ history }) => {
-    const [user, setUser] = useState({})
+  const [user, setUser] = useState({})
   const { cart } = useSelector((state) => ({ ...state }))
   const dispatch = useDispatch()
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-        let user = {}
-        if (localStorage.getItem('users')) {
-            user = JSON.parse(localStorage.getItem('users'))
-        } else {
-            user = {}; 
-        }
-        setUser(user);
+      let user = {}
+      if (localStorage.getItem('users')) {
+        user = JSON.parse(localStorage.getItem('users'))
+      } else {
+        user = {}
+      }
+      setUser(user)
     }
   }, [])
 
@@ -61,6 +61,7 @@ const Cart = ({ history }) => {
           <td scope="col">Price</td>
           <td scope="col">Brand</td>
           <td scope="col">Color</td>
+          <td scope="col">Size</td>
           <td scope="col">Count</td>
           <td scope="col">Shipping</td>
           <td scope="col">Remove</td>

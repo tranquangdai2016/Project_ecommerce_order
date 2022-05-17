@@ -6,8 +6,8 @@ import { createProduct } from '../../../functions/product'
 import ProductCreateForm from '../../../components/forms/ProductCreateForm'
 import { getCategories, getCategorySubs } from '../../../functions/category'
 import FileUpload from '../../../components/forms/FileUpload'
-import ImageUploader from 'react-images-upload';
-import GetBase64 from '../../../utils/getbase64';
+import ImageUploader from 'react-images-upload'
+import GetBase64 from '../../../utils/getbase64'
 
 const initialState = {
   title: '',
@@ -15,14 +15,17 @@ const initialState = {
   price: '',
   categories: [],
   category: '',
+  link: '',
   subs: [],
   shipping: 'Yes',
   quantity: '',
   images: [],
-  colors: ['Black', 'Brown', 'Silver', 'White', 'Blue'],
-  brands: ['Apple', 'Samsung', 'Microsoft', 'Lenovo', 'Asus'],
+  colors: ['Đen', 'Trắng', 'Vàng', 'Xanh', 'Đỏ'],
+  brands: ['1Histhop', 'Emily Shop', 'Xiaozhaivn', 'CHADDIE', '1994CLOSET'],
+  sizes: ['S', 'M', 'L', 'XL', 'XXL'],
   color: '',
   brand: '',
+  size: '',
 }
 const ProductCreate = () => {
   const [values, setvalues] = useState(initialState)
@@ -44,7 +47,10 @@ const ProductCreate = () => {
       .then((res) => {
         if (res) {
           console.log(res)
-          window.alert(`"${res.data.title}" is created `)
+          // window.alert(`"${res.data.title}" is created `)
+          toast.success(res.data.title, 'Thêm sản phẩm thành công', {
+            position: toast.POSITION.TOP_RIGHT,
+          })
           window.location.reload()
         }
       })
@@ -76,13 +82,13 @@ const ProductCreate = () => {
   const onDrop = (thumbnail) => {
     setTimeout(async () => {
       if (thumbnail && thumbnail[0]) {
-        const base64 = await GetBase64(thumbnail[0]);
-        setvalues({ ...values, ...{images: base64} })
+        const base64 = await GetBase64(thumbnail[0])
+        setvalues({ ...values, ...{ images: base64 } })
       } else {
-        setvalues({ ...values, ...{images: null} })
+        setvalues({ ...values, ...{ images: null } })
       }
-    }, 500);
-  };
+    }, 500)
+  }
 
   return (
     <div className="container-fluid">
@@ -91,11 +97,11 @@ const ProductCreate = () => {
           <AdminNav />
         </div>
         <div className="col-md-10">
-          <h4>ProductCreate</h4>
+          <h4>Thêm sản phẩm</h4>
           <hr />
           {/* {JSON.stringify(values.images)} */}
           <div className="p-3">
-          <ImageUploader
+            <ImageUploader
               withIcon={false}
               singleImage={true}
               withPreview={true}

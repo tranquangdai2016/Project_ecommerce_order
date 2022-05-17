@@ -78,11 +78,16 @@ const Header = () => {
             className="float-right"
             style={{ marginLeft: 'auto' }}
           >
-            {getDataLocalstorage() && getDataLocalstorage().user.role === 'subscriber' && (
-              <Menu.Item key="two">
-                <Link to="/user/history">Dashboard</Link>
-              </Menu.Item>
-            )}
+            <Menu.Item>
+              Dashboard
+              <Link to="/admin/dashboard">
+                {getDataLocalstorage() && getDataLocalstorage().user.role === 'subscriber' && (
+                  <Menu.Item key="two">
+                    <Link to="/user/history">Dashboard</Link>
+                  </Menu.Item>
+                )}
+              </Link>
+            </Menu.Item>
 
             {/* {user && user.role === 'admin' && (
               <Item>
@@ -92,6 +97,7 @@ const Header = () => {
 
             {/* <div onClick={logout}>Logout</div> */}
           </SubMenu>
+
           <Menu.Item onClick={logout} icon={<LogoutOutlined />}>
             Đăng xuất
           </Menu.Item>

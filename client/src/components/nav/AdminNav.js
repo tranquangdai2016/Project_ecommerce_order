@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react'
+import { Link } from 'react-router-dom'
 
 const AdminNav = () => {
   return (
@@ -13,31 +13,31 @@ const AdminNav = () => {
 
         <li className="nav-item">
           <Link to="/admin/product" className="nav-link">
-            Product
+            Thêm sản phẩm
           </Link>
         </li>
 
         <li className="nav-item">
           <Link to="/admin/products" className="nav-link">
-            Products
+            Tất cả sản phẩm
           </Link>
         </li>
 
         <li className="nav-item">
           <Link to="/admin/category" className="nav-link">
-            Category
+            Danh mục
           </Link>
         </li>
 
         <li className="nav-item">
           <Link to="/admin/sub" className="nav-link">
-            Sub Category
+            Danh mục phụ
           </Link>
         </li>
 
         <li className="nav-item">
           <Link to="/admin/coupon" className="nav-link">
-            Coupon
+            Phiếu giảm giá
           </Link>
         </li>
 
@@ -48,6 +48,6 @@ const AdminNav = () => {
         </li>
       </ul>
     </nav>
-  );
-};
-export default AdminNav;
+  )
+}
+export default AdminNav

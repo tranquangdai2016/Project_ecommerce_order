@@ -1,8 +1,8 @@
-import React from "react";
-import { Select } from "antd";
-import ProductUpdate from "../../pages/admin/product/ProductUpdate";
+import React from 'react'
+import { Select } from 'antd'
+import ProductUpdate from '../../pages/admin/product/ProductUpdate'
 
-const { Option } = Select;
+const { Option } = Select
 
 const ProductUpdateFrom = ({
   handleSubmit,
@@ -30,13 +30,14 @@ const ProductUpdateFrom = ({
     brands,
     color,
     brand,
-  } = values;
+  } = values
+  console.log('Value', category)
 
   return (
     <form onSubmit={handleSubmit}>
       <div className="form-group">
         <label>Title</label>
-        <impot
+        <input
           type="text"
           name="title"
           className="form-control"
@@ -47,7 +48,7 @@ const ProductUpdateFrom = ({
 
       <div className="form-group">
         <label>description</label>
-        <impot
+        <input
           type="text"
           name="description"
           className="form-control"
@@ -58,7 +59,7 @@ const ProductUpdateFrom = ({
 
       <div className="form-group">
         <label>Price</label>
-        <impot
+        <input
           type="number"
           name="price"
           className="form-control"
@@ -70,7 +71,7 @@ const ProductUpdateFrom = ({
       <div className="form-group">
         <label>Shipping</label>
         <select
-          value={shipping === "Yes" ? "Yes" : "No"}
+          value={shipping === 'Yes' ? 'Yes' : 'No'}
           name="Shipping"
           className="form-control"
           onChange={handleChange}
@@ -83,7 +84,7 @@ const ProductUpdateFrom = ({
 
       <div className="form-group">
         <label>Quantity</label>
-        <impot
+        <input
           type="number"
           name="quantity"
           className="form-control"
@@ -94,12 +95,7 @@ const ProductUpdateFrom = ({
 
       <div className="form-group">
         <label>Color</label>
-        <select
-          value={color}
-          name="color"
-          className="form-control"
-          onChange={handleChange}
-        >
+        <select value={color} name="color" className="form-control" onChange={handleChange}>
           {colors.map((c) => (
             <option key={c} value={c}>
               {c}
@@ -110,12 +106,7 @@ const ProductUpdateFrom = ({
 
       <div className="form-group">
         <label>Brands</label>
-        <select
-          value={brand}
-          name="brand"
-          className="from-control"
-          onChange={handleChange}
-        >
+        <select value={brand} name="brand" className="from-control" onChange={handleChange}>
           {brands.map((b) => (
             <option key={b} value={b}>
               {b}
@@ -126,26 +117,17 @@ const ProductUpdateFrom = ({
 
       <div className="form-group">
         <label>Category</label>
-        <select
-          name="category"
-          className="form-control"
-          onChange={handleCategoryChange}
-          value={selectedCategory ? selectedCategory : category._id}
-        >
-          {categories.length > 0 &&
+        <select name="category" className="form-control" onChange={handleCategoryChange}>
+          {categories &&
             categories.map((c) => (
               <option key={c._id} value={c._id}>
                 {c.name}
               </option>
             ))}
         </select>
-      </div>
-
-      <div>
-        <label>Sub Categories</label>
         <select
           mode="multiple"
-          style={{ width: "100%" }}
+          style={{ width: '100%' }}
           placeholder="Please select"
           value={arrayOfSubs}
           onChange={(value) => setArryOfSubs(value)}
@@ -161,6 +143,6 @@ const ProductUpdateFrom = ({
       <br />
       <button className="btn btn-outline-info"> Save</button>
     </form>
-  );
-};
-export default ProductUpdateFrom;
+  )
+}
+export default ProductUpdateFrom

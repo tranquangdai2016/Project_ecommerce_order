@@ -9,12 +9,12 @@ import {
   createCashOrderForUser,
   getUserAddress,
 } from '../functions/user'
-import ReactQuill from 'react-quill'
+// import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import { Radio, Input, Space } from 'antd'
 import { Button } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
-import { set } from 'lodash'
+// import { set } from 'lodash'
 
 const Checkout = ({ history }) => {
   const [products, setProducts] = useState([])
@@ -22,6 +22,9 @@ const Checkout = ({ history }) => {
   const [total, setTotal] = useState(0)
   const [addAddress, setAddAddress] = useState(false)
   const [address, setAddress] = useState('')
+  const [addcity, setAddcity] = useState('')
+  const [adddistrict, setAdddistrict] = useState('')
+  const [addwards, setAddwards] = useState('')
   const [addressId, setAddressId] = useState('')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -33,6 +36,7 @@ const Checkout = ({ history }) => {
   const [discountError, setDiscountError] = useState('')
 
   const dispatch = useDispatch()
+
   const { user, COD } = useSelector((state) => ({ ...state }))
   const couponTrueOrFalse = useSelector((state) => state.coupon)
 
@@ -78,12 +82,17 @@ const Checkout = ({ history }) => {
     let payload = {
       name: name,
       address: address,
+      addcity: addcity,
+      adddistrict: adddistrict,
+      addwards: addwards,
       phone: phone,
     }
     saveUserAddress(payload).then((res) => {
       if (res.data.ok) {
+        console.log('ok', res.data.ok)
         setAddressSaved(true)
-        toast.success('Address saved')
+        setAddAddress(false)
+        toast.success('Thêm địa chỉ thành công')
       }
     })
   }
@@ -91,9 +100,12 @@ const Checkout = ({ history }) => {
   const addAddressVisible = () => {
     setAddAddress(true)
   }
-  
+
   const cancelAddAddress = () => {
     setAddress('')
+    setAddcity('')
+    setAdddistrict('')
+    setAddwards('')
     setPhone('')
     setName(user.user.username)
     setAddAddress(false)
@@ -133,13 +145,6 @@ const Checkout = ({ history }) => {
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
-      <label>Địa chỉ</label>
-      <input
-        type="text"
-        className="form-control"
-        value={address}
-        onChange={(e) => setAddress(e.target.value)}
-      />
       <label>Số điện thoại</label>
       <input
         type="text"
@@ -147,6 +152,35 @@ const Checkout = ({ history }) => {
         value={phone}
         onChange={(e) => setPhone(e.target.value)}
       />
+      <label>Tỉnh/Thành Phố</label>
+      <input
+        type="text"
+        className="form-control"
+        value={addcity}
+        onChange={(e) => setAddcity(e.target.value)}
+      />
+      <label>Quận/Huyện</label>
+      <input
+        type="text"
+        className="form-control"
+        value={adddistrict}
+        onChange={(e) => setAdddistrict(e.target.value)}
+      />
+      <label>Phường/Xã</label>
+      <input
+        type="text"
+        className="form-control"
+        value={addwards}
+        onChange={(e) => setAddwards(e.target.value)}
+      />
+      <label>Địa chỉ nhận hàng</label>
+      <input
+        type="text"
+        className="form-control"
+        value={address}
+        onChange={(e) => setAddress(e.target.value)}
+      />
+
       <div className="d-flex justify-content-center">
         <button className="btn btn-primary mt-2 mr-2" onClick={saveAddressToDb}>
           Lưu địa chỉ
@@ -213,9 +247,9 @@ const Checkout = ({ history }) => {
   )
 
   const createCashOrder = () => {
-    if(addressId == ''){
+    if (addressId == '') {
       toast.error('Bạn chưa chọn địa chỉ')
-      return;
+      return
     }
     createCashOrderForUser(COD, couponTrueOrFalse, addressId).then((res) => {
       console.log('user cash order created res', res)

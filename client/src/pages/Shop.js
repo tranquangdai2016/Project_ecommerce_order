@@ -19,10 +19,18 @@ const Shop = () => {
   const [star, setStar] = useState('')
   const [subs, setSubs] = useState([])
   const [sub, setSub] = useState('')
-  const [brands, setBrands] = useState(['Apple', 'Samsung', 'Microsoft', 'Lenovo', 'Asus'])
+  const [brands, setBrands] = useState([
+    '1Histhop',
+    'Emily Shop',
+    'Xiaozhaivn',
+    'CHADDIE',
+    '1994CLOSET',
+  ])
   const [brand, setBrand] = useState('')
-  const [colors, setColors] = useState(['Black', 'Brown', 'Silver', 'White', 'Blue'])
+  const [colors, setColors] = useState(['Đen', 'Trắng', 'Vàng', 'Xanh', 'Đỏ'])
   const [color, setColor] = useState('')
+  const [sizes, setSizes] = useState(['S', 'M', 'L', 'XL', 'XXL'])
+  const [size, setSize] = useState('')
   const [shipping, setShipping] = useState('')
 
   const dispatch = useDispatch()
@@ -32,8 +40,7 @@ const Shop = () => {
   useEffect(() => {
     loadCategories()
   }, [])
-  const loadCategories = () =>
-    getCategories().then((c) => setCategories(c.data))
+  const loadCategories = () => getCategories().then((c) => setCategories(c.data))
 
   //load products by default on page load
   const loadAllProducts = () => {
@@ -81,6 +88,7 @@ const Shop = () => {
     setColor('')
     setBrand('')
     setSub('')
+    setSize('')
     setTimeout(() => {
       setOk(!ok)
     }, 300)
@@ -113,6 +121,7 @@ const Shop = () => {
     setSub('')
     setShipping('')
     setColor('')
+    setSize('')
     setPrice([0, 0])
     setTimeout(() => {
       setOk(!ok)
@@ -145,6 +154,7 @@ const Shop = () => {
     setColor('')
     setShipping('')
     setBrand('')
+    setSize('')
     setStar(num)
     fetchProducts({ stars: num })
   }
@@ -183,6 +193,7 @@ const Shop = () => {
     setShipping('')
     setColor('')
     setBrand('')
+    setSize('')
     fetchProducts({ sub })
   }
 
@@ -212,6 +223,7 @@ const Shop = () => {
     setStar('')
     setShipping('')
     setColor('')
+    setSize('')
     setBrand(e.target.value)
     fetchProducts({ brand: e.target.value })
   }
@@ -242,7 +254,39 @@ const Shop = () => {
     setStar('')
     setBrand('')
     setShipping('')
+    setSize('')
     setColor('e.target.value')
+    fetchProducts({ color: e.target.value })
+  }
+
+  //show size
+  const showSizes = () =>
+    sizes.map((z) => (
+      <Radio
+        value={z}
+        key={z}
+        name={z}
+        checked={z === size}
+        onChange={handleSize}
+        className="pb-1 px-4"
+      >
+        {z}
+      </Radio>
+    ))
+
+  const handleSize = (e) => {
+    setSub('')
+    dispatch({
+      type: 'SEARCH_QUERY',
+      payload: { text: '' },
+    })
+    setPrice([0, 0])
+    setCategoryIds([])
+    setStar('')
+    setBrand('')
+    setShipping('')
+    setColor('')
+    setSize('e.target.value')
     fetchProducts({ color: e.target.value })
   }
 
@@ -280,6 +324,7 @@ const Shop = () => {
     setStar('')
     setBrand('')
     setColor('')
+    setSize('')
     setShipping('e.target.value')
     fetchProducts({ shipping: e.target.value })
   }
@@ -393,6 +438,19 @@ const Shop = () => {
             >
               <div style={{ marginTop: '-10px' }} className="pr-5">
                 {showShipping()}
+              </div>
+            </SubMenu>
+            <SubMenu
+              key={'8'}
+              title={
+                <span className="h6">
+                  <DownSquareOutlined />
+                  Size
+                </span>
+              }
+            >
+              <div style={{ marginTop: '-10px' }} className="pr-5">
+                {showSizes()}
               </div>
             </SubMenu>
           </Menu>

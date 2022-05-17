@@ -11,6 +11,7 @@ const Orders = ({ orders, handleStatusChange, handleTranferCodeChange, updateTra
           <th scope="col">Price</th>
           <th scope="col">Brand</th>
           <th scope="col">Color</th>
+          <th scope="col">Size</th>
           <th scope="col">Count</th>
           <th scope="col">Shipping</th>
         </tr>
@@ -24,6 +25,7 @@ const Orders = ({ orders, handleStatusChange, handleTranferCodeChange, updateTra
             <td>{p.product.price}</td>
             <td>{p.product.brand}</td>
             <td>{p.color}</td>
+            <td>{p.size}</td>
             <td>{p.count}</td>
             <td>
               {p.product.shipping === 'Yes' ? (
@@ -53,12 +55,18 @@ const Orders = ({ orders, handleStatusChange, handleTranferCodeChange, updateTra
                   defaultValue={order.orderStatus}
                   name="status"
                 >
-                  <option value="Not Processed">Not Processed</option>
-                  <option value="Cash on Delivery">Cash on Delivery</option>
-                  <option value="Processing">Processing</option>
-                  <option value="Dispatched">Dispatched</option>
-                  <option value="Cancelled">Cancelled</option>
-                  <option value="Completed">Completed</option>
+                  <option value="Not Processed">Đang xử lý</option>
+                  <option value="Cash on Delivery">Thanh toán khi giao hàng</option>
+                  <option value="Processing">Trung Quốc - Người giửi đang chuẩn bị hàng</option>
+                  <option value="Dispatched">Trung Quốc - Lấy hàng thành công</option>
+                  <option value="Cancelled">Trung Quốc - Đơn hàng đã đến kho Thẩm Quyền</option>
+                  <option value="Completed">
+                    Đơn hàng đang được vận chuyển từ Trung Quốc về Việt Nam
+                  </option>
+                  <option value="Completed">Đơn hàng đã về tới đơn vị order</option>
+                  <option value="Completed">Mời bạn đến kho để nhận hàng</option>
+                  <option value="Completed">Đơn hàng đã được giao thành công</option>
+                  <option value="Completed">Đơn hàng đã bị hủy</option>
                 </select>
               </div>
             </div>

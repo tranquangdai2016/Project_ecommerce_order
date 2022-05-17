@@ -1,22 +1,20 @@
-import React, { useState } from "react";
-import { Card, Tooltip } from "antd";
-import { EyeOutlined, ShoppingCartOutlined } from "@ant-design/icons";
-import { showAverage } from "../../functions/rating";
-import laptop from "../../images/laptop.png";
-import { Link } from "react-router-dom";
-import _ from "lodash"
+import React, { useState } from 'react'
+import { Card, Tooltip } from 'antd'
+import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons'
+import { showAverage } from '../../functions/rating'
+import laptop from '../../images/laptop.png'
+import { Link } from 'react-router-dom'
+import _ from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
 
-const { Meta } = Card;
+const { Meta } = Card
 
 const ProductCard = ({ product }) => {
-  const [tooltip, setTooltip] = useState('Click to add');
+  const [tooltip, setTooltip] = useState('Click to add')
 
   //redux
-  const { user, cart } = useSelector((state) => ({ ...state }));
-  const dispatch = useDispatch();
-
-
+  const { user, cart } = useSelector((state) => ({ ...state }))
+  const dispatch = useDispatch()
 
   const handleAddToCart = () => {
     //create cart array
@@ -39,24 +37,24 @@ const ProductCard = ({ product }) => {
       localStorage.setItem('cart', JSON.stringify(unique))
 
       //show tooltip
-      setTooltip('Added');
+      setTooltip('Added')
 
       // add to redux state
       dispatch({
         type: 'ADD_TO_CART',
-        payload: unique
-      });
+        payload: unique,
+      })
 
       // show cart item in side bar
       dispatch({
         type: 'SET_VISIBLE',
-        payload: true
-      });
+        payload: true,
+      })
     }
   }
 
   //destructure
-  const { images, title, description, slug, price } = product;
+  const { images, title, description, slug, price } = product
   return (
     <>
       {product && product.ratings && product.ratings.length > 0 ? (
@@ -68,7 +66,7 @@ const ProductCard = ({ product }) => {
         cover={
           <img
             src={images && images ? images : laptop}
-            style={{ height: "300px", width: "300px", objectFit: "cover", margin: "auto"}}
+            style={{ height: '300px', width: '300px', objectFit: 'cover', margin: 'auto' }}
             className="p-1"
           />
         }
@@ -91,7 +89,7 @@ const ProductCard = ({ product }) => {
         />
       </Card>
     </>
-  );
-};
+  )
+}
 
-export default ProductCard;
+export default ProductCard

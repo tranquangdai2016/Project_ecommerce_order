@@ -23,14 +23,17 @@ const ProductCreateForm = ({
     images,
     colors,
     brands,
+    sizes,
+    link,
     color,
+    size,
     brand,
   } = values
 
   return (
     <form onSubmit={handleSubmit}>
       <div className="form-group">
-        <label>Title</label>
+        <label>Tên sản phẩm</label>
         <input
           type="text"
           name="title"
@@ -40,7 +43,17 @@ const ProductCreateForm = ({
         />
       </div>
       <div className="form-group">
-        <label>description</label>
+        <label>Link sản phẩm</label>
+        <input
+          type="text"
+          name="link"
+          className="form-control"
+          value={values.link}
+          onChange={handleChange}
+        />
+      </div>
+      <div className="form-group">
+        <label>Mô tả sản phẩm</label>
         <input
           type="text"
           name="description"
@@ -50,7 +63,7 @@ const ProductCreateForm = ({
         />
       </div>
       <div className="form-group">
-        <label>Price</label>
+        <label>Giá</label>
         <input
           type="number"
           name="price"
@@ -69,7 +82,7 @@ const ProductCreateForm = ({
         </select>
       </div>
       <div className="form-group">
-        <label>Quantity</label>
+        <label>Số Lượng</label>
         <input
           type="number"
           name="quantity"
@@ -85,6 +98,17 @@ const ProductCreateForm = ({
           {colors.map((c) => (
             <option key={c} value={c}>
               {c}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className="form-group">
+        <label>Size</label>
+        <select name="size" className="form-control" onChange={handleChange}>
+          <option>Please select </option>
+          {sizes.map((z) => (
+            <option key={z} value={z}>
+              {z}
             </option>
           ))}
         </select>
