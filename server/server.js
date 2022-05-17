@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const cors = require("cors");
 const { readdirSync } = require("fs");
-const path = require('path');
+const path = require("path");
 
 //import routes
 const authRoutes = require("./routes/auth");
@@ -30,23 +30,22 @@ app.use(cors());
 //routes middlewares
 readdirSync("./routes").map((r) => app.use("/api", require("./routes/" + r)));
 
-
 // app.use("/api/auth", authRoutes);
 //router api
-app.use("/api/auth", require('./routes/auth'))
-app.use("/api/product", require('./routes/product'));
-app.use("/api/category", require('./routes/category'));
-app.use("/api/admin", require('./routes/admin'));
-app.use("/api/cloudinary", require('./routes/cloudinary'));
-app.use("/api/coupon", require('./routes/coupon'));
-app.use("/api/stripe", require('./routes/stripe'));
-app.use("/api/sub", require('./routes/sub'));
-app.use("/api/user", require('./routes/user'));
+app.use("/api/auth", require("./routes/auth"));
+app.use("/api/product", require("./routes/product"));
+app.use("/api/category", require("./routes/category"));
+app.use("/api/admin", require("./routes/admin"));
+app.use("/api/cloudinary", require("./routes/cloudinary"));
+app.use("/api/coupon", require("./routes/coupon"));
+app.use("/api/stripe", require("./routes/stripe"));
+app.use("/api/sub", require("./routes/sub"));
+app.use("/api/user", require("./routes/user"));
 
-app.get('/media/image/:filename', (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'media', 'image', req.params.filename));
+app.get("/media/image/:filename", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "media", "image", req.params.filename));
 });
 
 //port
-const port = process.env.PORT || 5500;
+const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Server is running on port ${port}`));

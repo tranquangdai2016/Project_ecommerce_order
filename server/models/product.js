@@ -1,68 +1,77 @@
-const mongoose = require('mongoose')
-const {ObjectId} = mongoose.Schema;
-const productSchema = new mongoose.Schema({
-    title:{
-        type :  String,
-        trim : true ,
-        required : true ,
-        maxlength : 32 ,
-        text : true 
+const mongoose = require("mongoose");
+const { ObjectId } = mongoose.Schema;
+const productSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      trim: true,
+      required: true,
+      maxlength: 32,
+      text: true,
     },
-    slug:{
-        type :  String,
-        unique  : true ,
-        lowercase : true ,
-        index : true ,
+    slug: {
+      type: String,
+      unique: true,
+      lowercase: true,
+      index: true,
     },
-    description :{
-        type :  String,
-        required : true ,
-        maxlength : 2000 ,
-        text : true 
+    description: {
+      type: String,
+      required: true,
+      maxlength: 2000,
+      text: true,
     },
-    price:{
-        type : Number ,
-        required : true ,
-        trim  : true ,
-        maxlength : 32 ,
+    price: {
+      type: Number,
+      required: true,
+      trim: true,
+      maxlength: 32,
     },
-    category:{
-        type : ObjectId,
-        ref : "Category",
+    category: {
+      type: ObjectId,
+      ref: "Category",
     },
-    subs:[
-        {
-            type : ObjectId ,
-            ref : "Sub",
-        },
+    subs: [
+      {
+        type: ObjectId,
+        ref: "Sub",
+      },
     ],
-    quantity : Number,
+    quantity: Number,
     sold: {
-        type: Number ,
-        default : 0
+      type: Number,
+      default: 0,
     },
     images: {
-        type : String,
+      type: String,
+    },
+    link: {
+      type: String,
+      default: "",
     },
     shipping: {
-        type : String ,
-        enum : ["Yes" , "No"],
+      type: String,
+      enum: ["Yes", "No"],
     },
     Color: {
-        type : String ,
-        enum : ["Black" , "Brown" , "Silver" , "White" , "Blue"],
+      type: String,
+      enum: ["Đen", "Trắng", "Vàng", "Xanh", "Đỏ"],
     },
     brand: {
-        type : String ,
-        enum : ["Apple" , "Samsung" , "Microsoft" , "Lenovo" , "Asus"],
+      type: String,
+      enum: ["1Histhop", "Emily Shop", "Xiaozhaivn", "CHADDIE", "1994CLOSET"],
+    },
+    size: {
+      type: String,
+      enum: ["S", "M", "L", "XL", "XXL"],
     },
     ratings: [
-        {
-            start :  Number ,
-            postedBy: {type: ObjectId, ref : "User"},
-        },
+      {
+        start: Number,
+        postedBy: { type: ObjectId, ref: "User" },
+      },
     ],
-},
- {timestamps :true}
+  },
+  { timestamps: true }
 );
-module.exports = mongoose.model("Product" , productSchema);
+module.exports = mongoose.model("Product", productSchema);

@@ -46,7 +46,10 @@ exports.remove = async (req, res) => {
   }
 };
 exports.read = async (req, res) => {
-  const product = await Product.findOne({ slug: req.params.slug }).populate("category").populate("subs").exec();
+  const product = await Product.findOne({ slug: req.params.slug })
+    .populate("category")
+    .populate("subs")
+    .exec();
   res.json(product);
 };
 
@@ -55,7 +58,11 @@ exports.update = async (req, res) => {
     if (req.body.title) {
       req.body.slug = slugify(req.body.title);
     }
-    const updated = await Product.findOneAndUpdate({ slug: req.params.slug }, req.body, { new: true }).exec();
+    const updated = await Product.findOneAndUpdate(
+      { slug: req.params.slug },
+      req.body,
+      { new: true }
+    ).exec();
     res.json(updated);
   } catch (err) {
     console.log("PRODUCT UPDATE ERROE ---->", err);
@@ -118,7 +125,9 @@ exports.productStar = async (req, res) => {
   }).exec();
   const { star } = req.body;
 
-  let existingRatingObject = product.ratings.find((ele) => ele.postedBy.toString() === user._id.toString());
+  let existingRatingObject = product.ratings.find(
+    (ele) => ele.postedBy.toString() === user._id.toString()
+  );
 
   if (existingRatingObject === undefined) {
     let ratingAdded = await Product.findByIdAndUpdate(
@@ -282,9 +291,38 @@ const handleBrand = async (req, res, brand) => {
   res.json(products);
 };
 
+const handleSize = async (req, res, size) => {
+  let products = await Product.find({ size })
+    .populate("category", "_id name")
+    .populate("subs", "_id name")
+    .populate("postedBy", "_id name")
+    .exec();
+  res.json(products);
+};
+
+const handleLink = async (req, res, size) => {
+  let products = await Product.find({ size })
+    .populate("category", "_id name")
+    .populate("subs", "_id name")
+    .populate("postedBy", "_id name")
+    .exec();
+  res.json(products);
+};
+
 exports.searchFilters = async (req, res) => {
   let serverQuery = {};
-  const { query, price, category, stars, sub, shipping, color, brand } = req.body;
+  const {
+    query,
+    price,
+    category,
+    stars,
+    sub,
+    shipping,
+    color,
+    brand,
+    size,
+    link,
+  } = req.body;
   console.log(req.body);
   if (query) {
     Object.assign(serverQuery, { $text: { $search: query } });
@@ -323,6 +361,12 @@ exports.searchFilters = async (req, res) => {
   if (brand) {
     Object.assign(serverQuery, { brand });
     // await handleBrand(brand);
+  }
+  if (size) {
+    Object.assign(serverQuery, { size });
+  }
+  if (link) {
+    Object.assign(serverQuery, { link });
   }
   console.log(serverQuery);
   const products = await Product.find(serverQuery)
