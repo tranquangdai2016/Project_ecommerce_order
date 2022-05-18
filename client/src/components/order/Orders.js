@@ -4,40 +4,45 @@ import ShowPaymentInfo from '../cards/ShowPaymentInfo'
 
 const Orders = ({ orders, handleStatusChange, handleTranferCodeChange, updateTranferCode }) => {
   const showOrderInTable = (order) => (
-    <table className="table table-bordered">
-      <thead className="thead-light">
-        <tr>
-          <th scope="col">Title</th>
-          <th scope="col">Price</th>
-          <th scope="col">Brand</th>
-          <th scope="col">Color</th>
-          <th scope="col">Size</th>
-          <th scope="col">Count</th>
-          <th scope="col">Shipping</th>
-        </tr>
-      </thead>
-      <tbody>
-        {order.products.map((p, i) => (
-          <tr key={i}>
-            <td>
-              <b>{p.product.title}</b>
-            </td>
-            <td>{p.product.price}</td>
-            <td>{p.product.brand}</td>
-            <td>{p.color}</td>
-            <td>{p.size}</td>
-            <td>{p.count}</td>
-            <td>
-              {p.product.shipping === 'Yes' ? (
-                <CheckCircleOutlined style={{ color: 'green' }} />
-              ) : (
-                <CloseCircleOutlined style={{ color: 'red' }} />
-              )}
-            </td>
+    console.log('order', order),
+    (
+      <table className="table table-bordered">
+        <thead className="thead-light">
+          <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Price</th>
+            <th scope="col">Brand</th>
+            <th scope="col">Color</th>
+            <th scope="col">Size</th>
+            <th scope="col">Count</th>
+            <th scope="col">Link sản phẩm</th>
+            <th scope="col">Shipping</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {order.products.map((p, i) => (
+            <tr key={i}>
+              <td>
+                <b>{p.product.title}</b>
+              </td>
+              <td>{p.product.price}</td>
+              <td>{p.product.brand}</td>
+              <td>{p.color}</td>
+              <td>{p.product.size}</td>
+              <td>{p.count}</td>
+              <td>{p.product.link}</td>
+              <td>
+                {p.product.shipping === 'Yes' ? (
+                  <CheckCircleOutlined style={{ color: 'green' }} />
+                ) : (
+                  <CloseCircleOutlined style={{ color: 'red' }} />
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    )
   )
 
   return (

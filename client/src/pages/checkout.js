@@ -72,7 +72,7 @@ const Checkout = ({ history }) => {
         setTotal(0)
         setTotalAfterDiscount(0)
         setCoupon('')
-        toast.success('card is emapty. Continue shopping.')
+        toast.success('Giỏ hàng của bạn đang trống')
       }
     })
   }
@@ -112,7 +112,7 @@ const Checkout = ({ history }) => {
   }
 
   const applyDiscountCoupon = () => {
-    console.log('send coupon to backend', coupon)
+    // console.log('send coupon to backend', coupon)
 
     applyCoupon(coupon).then((res) => {
       if (res.data) {

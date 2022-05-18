@@ -159,7 +159,7 @@ const ProductCreateForm = ({
         </div>
       )}
 
-      <button className="btn btn-outline-info">Save</button>
+      <button className="btn btn-outline-info">Lưu</button>
     </form>
   )
 }
