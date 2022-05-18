@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import AdminNav from '../../../components/nav/AdminNav'
-import { getListUser } from '../../../functions/admin'
+import { getListUser, updateRole } from '../../../functions/admin'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
+import { Switch } from 'antd'
 
 const AdminListUser = () => {
   const [users, setUsers] = useState([])
@@ -19,8 +21,17 @@ const AdminListUser = () => {
     getListUser()
       .then((res) => {
         setUsers(res.data.user)
-        console.log(res.data.user)
-        console.log(users)
+        setLoading(false)
+      })
+      .catch((err) => {
+        setLoading(false)
+      })
+  }
+
+  const onChange = (user, isAdmin) => {
+    console.log(user, isAdmin)
+    updateRole(user._id, isAdmin)
+      .then((res) => {
         setLoading(false)
       })
       .catch((err) => {
@@ -44,6 +55,8 @@ const AdminListUser = () => {
                   <th scope="col">Name</th>
                   <th scope="col">Email</th>
                   <th scope="col">Phone</th>
+                  <th scope="col">Admin</th>
+                  <th scope="col"></th>
                 </tr>
               </thead>
               <tbody>
@@ -53,6 +66,14 @@ const AdminListUser = () => {
                     <td>{user.username}</td>
                     <td>{user.email}</td>
                     <td>{user.phone}</td>
+                    <td>
+                      <Switch
+                        defaultChecked={user.isAdmin}
+                        checkedChildren={<CheckOutlined />}
+                        unCheckedChildren={<CloseOutlined />}
+                        onChange={(e) => onChange(user, e)}
+                      />
+                    </td>
                   </tr>
                 ))}
               </tbody>

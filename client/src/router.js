@@ -35,7 +35,7 @@ const Routers = () => {
       <Route path="/register/complete" component={RegisterComplete} />
       <Route path="/forgot/password" component={ForgotPassword} />
       <UserRoute path="/user/history" component={History} />
-      <UserRoute path="/user/password" component={Password} />
+      {/* <UserRoute path="/user/password" component={Password} /> */}
       <UserRoute path="/user/wishlist" component={WishList} />
       <AdminRoute path="/admin/dashboard" component={AdminDashboard} />
       <AdminRoute path="/admin/category" component={CategoryCreate} />

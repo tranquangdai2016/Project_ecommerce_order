@@ -41,11 +41,11 @@ const AdminNav = () => {
           </Link>
         </li>
 
-        <li className="nav-item">
+        {/* <li className="nav-item">
           <Link to="/user/password" className="nav-link">
             Password
           </Link>
-        </li>
+        </li> */}
 
         <li className="nav-item">
           <Link to="/admin/users" className="nav-link">

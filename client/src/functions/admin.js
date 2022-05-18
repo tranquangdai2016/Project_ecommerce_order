@@ -31,3 +31,10 @@ export const getListUser = async (userId) => {
   }
   return axios.get(`${process.env.REACT_APP_API}/admin/list-user`, { userId })
 }
+
+export const updateRole = async (userId, isAdmin) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token)
+  }
+  return axios.post(`${process.env.REACT_APP_API}/admin/update-role`, { userId, isAdmin })
+}

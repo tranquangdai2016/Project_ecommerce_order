@@ -114,11 +114,9 @@ const Checkout = ({ history }) => {
   const applyDiscountCoupon = () => {
     console.log('send coupon to backend', coupon)
 
-    applyCoupon(user.token, coupon).then((res) => {
-      console.log('RES ON COUPON APPLIED', res.data)
+    applyCoupon(coupon).then((res) => {
       if (res.data) {
         setTotalAfterDiscount(res.data)
-        //update redux coupon applied true/false
         dispatch({
           type: 'COUPON_APPLIED',
           payload: true,
@@ -126,8 +124,8 @@ const Checkout = ({ history }) => {
       }
       //error
       if (res.data.err) {
+        setCoupon('')
         setDiscountError(res.data.err)
-        //update redux coupon applied true/false
         dispatch({
           type: 'COUPON_APPLIED',
           payload: false,
@@ -251,8 +249,8 @@ const Checkout = ({ history }) => {
       toast.error('Bạn chưa chọn địa chỉ')
       return
     }
-    createCashOrderForUser(COD, couponTrueOrFalse, addressId).then((res) => {
-      console.log('user cash order created res', res)
+    createCashOrderForUser(COD, coupon, addressId).then((res) => {
+      // console.log('user cash order created res', res)
       // emty cart form redux, local storage, reset coupon / cod, redirect
       if (res.data.ok) {
         //EMPTY LOCAL STORAGE

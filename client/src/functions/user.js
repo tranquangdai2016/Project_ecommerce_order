@@ -62,13 +62,13 @@ export const createOrder = async (stripeResponse, addressId) =>{
 }
 
 
-export const createCashOrderForUser = async (COD, couponTrueOrFalse, addressId) =>{
+export const createCashOrderForUser = async (COD, couponCode, addressId) =>{
   if (localStorage.token) {
     setAuthToken(localStorage.token)
   }
   return axios.post(
     `${process.env.REACT_APP_API}/user/cash-order`,
-    { couponApplied: couponTrueOrFalse, COD, addressId },
+    { couponCode: couponCode, COD, addressId },
   )
 }
 
