@@ -32,10 +32,10 @@ const UserSchema = new Schema(
     phone: {
       type: String,
     },
-    address: {
-      type: String,
-      default: "",
-    },
+    // address: {
+    //   type: String,
+    //   default: "",
+    // },
     isAdmin: {
       type: Boolean,
       default: false,

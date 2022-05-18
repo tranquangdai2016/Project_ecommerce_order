@@ -48,7 +48,7 @@ const AdminNav = () => {
         </li>
 
         <li className="nav-item">
-          <Link to="/admin/listuser" className="nav-link">
+          <Link to="/admin/users" className="nav-link">
             Quản lý tài khoản
           </Link>
         </li>

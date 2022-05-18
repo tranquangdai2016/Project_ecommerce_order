@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import AdminNav from '../../../components/nav/AdminNav'
 import { getListUser } from '../../../functions/admin'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 
 const AdminListUser = () => {
-  const [users, setUsers] = (useState = [])
+  const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(false)
 
   const { user } = useSelector((state) => ({ state }))
@@ -18,45 +18,47 @@ const AdminListUser = () => {
     setLoading(true)
     getListUser()
       .then((res) => {
-        console.log(res.data)
-        setUsers(res.data)
+        setUsers(res.data.user)
+        console.log(res.data.user)
+        console.log(users)
         setLoading(false)
       })
       .catch((err) => {
         setLoading(false)
-        console.log(err)
       })
   }
 
   return (
     <>
       <div className="container-fluid">
-        <div>
-          <AdminNav />
-        </div>
-        <table class="table table-dark table-striped">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Name</th>
-              <th scope="col">Email</th>
-              <th scope="col">Phone</th>
-              <th scope="col">Địa chỉ</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((c) => {
-              return (
-                <tr key={c._id}>
-                  <td>{c.username}</td>
-                  <td>{c.email}</td>
-                  <td>{c.phone}</td>
-                  <td>{c.address}</td>
+        <div className="row">
+          <div className="col-2">
+            <AdminNav />
+          </div>
+          <div className="col-10">
+            {' '}
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Phone</th>
                 </tr>
-              )
-            })}
-          </tbody>
-        </table>
+              </thead>
+              <tbody>
+                {users.map((user, index) => (
+                  <tr key={user._id}>
+                    <td>{index + 1}</td>
+                    <td>{user.username}</td>
+                    <td>{user.email}</td>
+                    <td>{user.phone}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </>
   )
