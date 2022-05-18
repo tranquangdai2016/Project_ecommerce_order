@@ -18,7 +18,7 @@ const SideDrawer = () => {
   return (
     <Drawer
       className="text-center"
-      title={`Cart / ${cart.length} Product`}
+      title={`Giỏ hàng / ${cart.length} Sản phẩm`}
       placement="right"
       onClose={() => {
         // close side bar
@@ -61,7 +61,7 @@ const SideDrawer = () => {
           }
           className="text-center btn btn-primary btn-raised btn-block"
         >
-          Go to cart
+          Đi tới giỏ hàng
         </button>
       </Link>
     </Drawer>

@@ -1,35 +1,33 @@
-import React, { useState } from "react";
-import { Card, Descriptions, Tabs, Tooltip } from "antd";
-import { Link } from "react-router-dom";
-import { ShoppingCartOutlined, HeartOutlined } from "@ant-design/icons";
-import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-import Laptop from "../../images/laptop.png";
-import ProductListItems from "./ProductListItems";
-import StarRating from "react-star-ratings";
-import { showAverage } from "../../functions/rating";
-import RatingModal from "../modal/RatingModal";
-import _ from "lodash"
+import React, { useState } from 'react'
+import { Card, Descriptions, Tabs, Tooltip } from 'antd'
+import { Link } from 'react-router-dom'
+import { ShoppingCartOutlined, HeartOutlined } from '@ant-design/icons'
+import { Carousel } from 'react-responsive-carousel'
+import 'react-responsive-carousel/lib/styles/carousel.min.css'
+import Laptop from '../../images/laptop.png'
+import ProductListItems from './ProductListItems'
+import StarRating from 'react-star-ratings'
+import { showAverage } from '../../functions/rating'
+import RatingModal from '../modal/RatingModal'
+import _ from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
-import {addToWishlist} from "../../functions/user";
-import {toast} from "react-toastify";
-import {useHistory} from "react-router-dom";
+import { addToWishlist } from '../../functions/user'
+import { toast } from 'react-toastify'
+import { useHistory } from 'react-router-dom'
 
-
-const { TabPane } = Tabs;
+const { TabPane } = Tabs
 
 const SingleProduct = ({ product, onStarClick, star }) => {
-
-  const [tooltip, setTooltip] = useState('Click to add');
+  const [tooltip, setTooltip] = useState('Click to add')
 
   //router
-  let history = useHistory();
+  let history = useHistory()
 
   //redux
-  const { user, cart } = useSelector((state) => ({ ...state }));
-  const dispatch = useDispatch();
+  const { user, cart } = useSelector((state) => ({ ...state }))
+  const dispatch = useDispatch()
 
-  const { title, images, description, _id } = product;
+  const { title, images, description, _id } = product
 
   const handleAddToCart = () => {
     //create cart array
@@ -52,25 +50,25 @@ const SingleProduct = ({ product, onStarClick, star }) => {
       localStorage.setItem('cart', JSON.stringify(unique))
 
       //show tooltip
-      setTooltip('Added');
+      setTooltip('Added')
 
       // add to redux state
       dispatch({
         type: 'ADD_TO_CART',
-        payload: unique
-      });
+        payload: unique,
+      })
 
-       // show cart item in side bar
-       dispatch({
+      // show cart item in side bar
+      dispatch({
         type: 'SET_VISIBLE',
-        payload: true
-      });
+        payload: true,
+      })
     }
   }
 
-  const handleAddToWishlist = e => {
-    e.preventDefault();
-    addToWishlist(product._id, user.token).then(res => {
+  const handleAddToWishlist = (e) => {
+    e.preventDefault()
+    addToWishlist(product._id, user.token).then((res) => {
       toast.success('Added to wishlist')
       history.push('/user/wishlist')
     })
@@ -81,10 +79,10 @@ const SingleProduct = ({ product, onStarClick, star }) => {
       <div className="col-md-7">
         {images && images.length ? (
           <Carousel showArrows={true} autoPlay infiniteLoop>
-            {images && (<img src={images}/>)}
+            {images && <img src={images} />}
           </Carousel>
         ) : (
-          <Card cover={<img src={Laptop} className="mb-3 card-image" />} ></Card>
+          <Card cover={<img src={Laptop} className="mb-3 card-image" />}></Card>
         )}
 
         <Tabs type="card">
@@ -92,7 +90,7 @@ const SingleProduct = ({ product, onStarClick, star }) => {
             {description && description}
           </TabPane>
           <TabPane tab="More" key="2">
-            Call use on xxxx xxx xxx to learn more about this product
+            Gọi qua số điện thoại 0865854463 để tìm hiểu thêm về sản phẩm này
           </TabPane>
         </Tabs>
       </div>
@@ -109,15 +107,15 @@ const SingleProduct = ({ product, onStarClick, star }) => {
         <Card
           actions={[
             <>
-            <Tooltip title={tooltip}>
-              <a onClick={handleAddToCart}>
-                <ShoppingCartOutlined className="text-danger" /> <br /> Add to card{" "}
-              </a>
-            </Tooltip>
+              <Tooltip title={tooltip}>
+                <a onClick={handleAddToCart}>
+                  <ShoppingCartOutlined className="text-danger" /> <br /> Add to card{' '}
+                </a>
+              </Tooltip>
             </>,
             <a onClick={handleAddToWishlist}>
-            <HeartOutlined className="text-info" /> <br /> Add to Wishlist
-          </a>,
+              <HeartOutlined className="text-info" /> <br /> Add to Wishlist
+            </a>,
             <RatingModal>
               <StarRating
                 name={_id}
@@ -127,13 +125,13 @@ const SingleProduct = ({ product, onStarClick, star }) => {
                 isSelectable={true}
                 starRatedColor="red"
               />
-            </RatingModal>
+            </RatingModal>,
           ]}
         >
           <ProductListItems product={product} />
         </Card>
       </div>
     </>
-  );
-};
-export default SingleProduct;
+  )
+}
+export default SingleProduct

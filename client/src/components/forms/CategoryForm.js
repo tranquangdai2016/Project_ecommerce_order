@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 
 const CategoryForm = ({ handleSubmit, name, setName }) => (
   <form onSubmit={handleSubmit}>
@@ -13,9 +13,9 @@ const CategoryForm = ({ handleSubmit, name, setName }) => (
         required
       />
       <br />
-      <button className="btn btn-outline-primary">Save</button>
+      <button className="btn btn-outline-primary">Lưu</button>
     </div>
   </form>
-);
+)
 
-export default CategoryForm;
+export default CategoryForm

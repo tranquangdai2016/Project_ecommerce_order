@@ -1,36 +1,35 @@
-import React, { useEffect, useState } from "react";
-import { getProducts, getProductsCount } from "../../functions/product";
-import ProductCard from "../cards/ProductCard";
-import LoadingCard from "../cards/LoadingCard";
-import { Pagination } from "antd";
+import React, { useEffect, useState } from 'react'
+import { getProducts, getProductsCount } from '../../functions/product'
+import ProductCard from '../cards/ProductCard'
+import LoadingCard from '../cards/LoadingCard'
+import { Pagination } from 'antd'
 
 const NewArrivals = () => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [productsCount, setProductsCount] = useState(0);
-  const [page, setPage] = useState(1);
+  const [products, setProducts] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [productsCount, setProductsCount] = useState(0)
+  const [page, setPage] = useState(1)
 
   useEffect(() => {
-    loadAllProducts();
-  }, [page]);
+    loadAllProducts()
+  }, [page])
 
   useEffect(() => {
-    getProductsCount()
-        .then(res => setProductsCount(res.data));
+    getProductsCount().then((res) => setProductsCount(res.data))
   }, [])
 
   const loadAllProducts = () => {
-    setLoading(true);
+    setLoading(true)
     // sort, order, limit
-    getProducts("createdAt", "desc", page).then((response) => {
-      if(response){
+    getProducts('Đã tạo', 'Mô tả sản phẩm', page).then((response) => {
+      if (response) {
         console.log(response)
         // console.log('get',getProducts)
-        setProducts(response.data);
-        setLoading(false);
+        setProducts(response.data)
+        setLoading(false)
       }
-    });
-  };
+    })
+  }
   return (
     <>
       <div className="container">
@@ -56,6 +55,6 @@ const NewArrivals = () => {
         </nav>
       </div>
     </>
-  );
-};
-export default NewArrivals;
+  )
+}
+export default NewArrivals
