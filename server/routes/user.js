@@ -17,7 +17,7 @@ const {
   wishlist,
   removeFromWishlist,
   getAllAddress,
-  orderHistory
+  orderHistory,
 } = require("../controllers/user");
 
 router.post("/user/cart", verifyToken, userCart); //save cart
@@ -26,19 +26,22 @@ router.delete("/user/cart", verifyToken, emptyCart); //empty cart
 router.post("/user/address", verifyToken, saveAddress);
 router.get("/user/address", verifyToken, getAllAddress);
 
-router.post('/user/order', verifyToken, createOrder); //stripe
-router.post('/user/cash-order', verifyToken, createCashOrder); //cod
+router.post("/user/order", verifyToken, createOrder); //stripe
+router.post("/user/cash-order", verifyToken, createCashOrder); //cod
 // router.post('user/order', verifyToken, createOrder);
-router.get('/user/orders', verifyToken, orders);
-router.post('/user/order-history', verifyToken, orderHistory);
+router.get("/user/orders", verifyToken, orders);
+router.post("/user/order-history", verifyToken, orderHistory);
+
+//list-user
+// router.get("/user/list-user", verifyToken, isAdmin, listUser);
 
 //coupon
 
 router.post("/user/cart/coupon", verifyToken, applyCouponToUserCart);
 
-//wishlist 
-router.post('/user/wishlist',verifyToken, addToWishlist);
-router.get('/user/wishlist',verifyToken, wishlist);
-router.put('/user/wishlist/:productId',verifyToken, removeFromWishlist);
+//wishlist
+router.post("/user/wishlist", verifyToken, addToWishlist);
+router.get("/user/wishlist", verifyToken, wishlist);
+router.put("/user/wishlist/:productId", verifyToken, removeFromWishlist);
 
 module.exports = router;
