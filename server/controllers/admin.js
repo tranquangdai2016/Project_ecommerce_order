@@ -41,6 +41,18 @@ exports.tranferCode = async (req, res) => {
   res.json(updated);
 };
 
+exports.updateIsAdmin = async (req, res) => {
+  
+  const { userId, isAdmin } = req.body;
+  console.log(userId, isAdmin);
+  let updated = await User.findByIdAndUpdate(
+    userId,
+    { isAdmin }
+  ).exec();
+
+  res.json(updated);
+};
+
 exports.listUser = async (req, res) => {
   let page = req.query.page;
 

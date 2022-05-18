@@ -1,30 +1,31 @@
-const Coupon = require("../models/coupon")
+const Coupon = require("../models/coupon");
 
 //create, remove, list
 
 exports.create = async (req, res) => {
-    try {
-        // console.log(req.body);
-        // return;
-        const { name, expiry, discount } = req.body.coupon;
-        res.json(await new Coupon({ name, expiry, discount}).save());
-    } catch (error) {
-        console.log(err)
-    }
+  try {
+    // console.log(req.body);
+    // return;
+    const { code, expiry, discount } = req.body.coupon;
+    res.json(await new Coupon({ code, expiry, discount }).save());
+  } catch (error) {
+    res.json(500);
+  }
 };
 
 exports.remove = async (req, res) => {
-    try {
-        res.json(await Coupon.findByIdAndDelete(req.param.counponId).exec());
-    } catch (error) {
-        console.log(err)
-    }
+  try {
+    console.log(req.params.couponId);
+    res.json(await Coupon.findByIdAndDelete(req.params.couponId).exec());
+  } catch (error) {
+    console.log(err);
+  }
 };
 
 exports.list = async (req, res) => {
-    try {
-        res.json(await Coupon.find({}).sort({ createdAt: -1}).exec());
-    } catch (error) {
-        console.log(err)
-    }
+  try {
+    res.json(await Coupon.find({}).sort({ createdAt: -1 }).exec());
+  } catch (error) {
+    console.log(err);
+  }
 };

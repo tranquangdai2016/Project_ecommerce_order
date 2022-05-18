@@ -124,7 +124,7 @@ exports.login = async (req, res) => {
         email: user.email,
         role: user.role,
       },
-      process.env.ACCESS_TOKEN_SECRET
+      process.env.ACCESS_TOKEN_SECRET,
     );
 
     res.status(200).json({
@@ -136,6 +136,7 @@ exports.login = async (req, res) => {
         email: user.email,
         role: user.role,
         phone: user.phone,
+        isAdmin: user.isAdmin
       },
       token,
     });

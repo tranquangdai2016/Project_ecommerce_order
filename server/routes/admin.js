@@ -9,6 +9,7 @@ const {
   orderStatus,
   tranferCode,
   listUser,
+  updateIsAdmin
 } = require("../controllers/admin");
 
 //routes
@@ -18,5 +19,6 @@ router.put("/admin/tranfer-code", verifyToken, isAdmin, tranferCode);
 
 //list user
 router.get("/admin/list-user", verifyToken, isAdmin, listUser);
+router.post("/admin/update-role", verifyToken, isAdmin, updateIsAdmin);
 
 module.exports = router;

@@ -14,6 +14,7 @@ const orderSchema = new mongoose.Schema(
         color: String,
       },
     ],
+    coupon: { type: String, default: "" },
     paymentIntent: {},
     orderStatus: {
       type: String,

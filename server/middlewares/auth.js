@@ -26,12 +26,12 @@ exports.verifyToken = (req, res, next) => {
 };
 
 exports.isAdmin = (req, res, next) => {
-  // if (req.userId.role === 0) {
-  //   return res.status(403).json({
-  //     success: false,
-  //     message: "Bạn không có quyền",
-  //   });
-  // }
+  if (req.user.isAdmin) {
+    return res.status(403).json({
+      success: false,
+      message: "Bạn không có quyền",
+    });
+  }
 
   next();
 };
