@@ -62,7 +62,7 @@ const Orders = ({ orders, handleStatusChange, handleTranferCodeChange, updateTra
                   name="status"
                 >
                   <option value="Not Processed">Đang xử lý</option>
-                  <option value="Cash on Delivery">Thanh toán khi giao hàng</option>
+                  <option value="Cash on Delivery">Đang xử lý đơn hàng</option>
                   <option value="Processing">Trung Quốc - Người giửi đang chuẩn bị hàng</option>
                   <option value="Dispatched">Trung Quốc - Lấy hàng thành công</option>
                   <option value="Cancelled">Trung Quốc - Đơn hàng đã đến kho Thẩm Quyền</option>

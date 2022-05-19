@@ -25,10 +25,10 @@ const OrderTimeLine = ({ order, showStatus }) => {
         value = 'Đang xử lý'
         break
       case 'Cash On Delivery':
-        value = 'Thanh toán khi giao hàng'
+        value = 'Đang xử lý đơn hàng'
         break
       case 'Paid':
-        value = 'Khách hàng thanh toán'
+        value = 'Khách hàng đã thanh toán'
         break
       case 'Processing':
         value = 'Trung Quốc - Người giửi đang chuẩn bị hàng'
