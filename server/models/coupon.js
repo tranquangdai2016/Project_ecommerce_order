@@ -6,7 +6,6 @@ const couponSchema = new mongoose.Schema(
     code: {
       type: String,
       trim: true,
-      unique: true,
       uppercase: true,
       required: "name is requied",
       minlength: [6, "to short"],

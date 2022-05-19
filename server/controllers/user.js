@@ -16,14 +16,14 @@ exports.payment = async (req, res) => {
       const imagePath = SaveImage.SaveImage(req.body.image);
       req.body.image = imagePath;
     }
-    let order  = Order.findById(req.body.orderId);
-    if(order.isPaid){
+    let order = Order.findById(req.body.orderId);
+    if (order.isPaid) {
       return res.status(400).json({
         err: "Đơn hàng đã thanh toán",
       });
     }
     order.isPaid = true;
-    Order.findOneAndUpdate({_id : req.body.orderId}, {isPaid : true}).exec();
+    Order.findOneAndUpdate({ _id: req.body.orderId }, { isPaid: true }).exec();
 
     const payment = await new Payment(req.body).save();
     let orderHistory = await new OrderHistory({
@@ -64,7 +64,9 @@ exports.userCart = async (req, res) => {
     object.color = cart[i].color;
 
     //get price for creating total
-    let productFromDb = await Product.findById(cart[i]._id).select("price").exec();
+    let productFromDb = await Product.findById(cart[i]._id)
+      .select("price")
+      .exec();
     object.price = productFromDb.price;
 
     products.push(object);
@@ -144,7 +146,10 @@ exports.applyCouponToUserCart = async (req, res) => {
     .exec();
 
   //caculate the total after discount
-  let totalAfterDiscount = (cartTotal - (cartTotal * validCoupon.discount) / 100).toFixed(2); //99.99
+  let totalAfterDiscount = (
+    cartTotal -
+    (cartTotal * validCoupon.discount) / 100
+  ).toFixed(2); //99.99
 
   // Cart.findOneAndUpdate(
   //   { orderBy: user._id },
@@ -192,17 +197,25 @@ exports.createOrder = async (req, res) => {
 exports.orders = async (req, res) => {
   let user = await User.findOne({ email: req.user.email }).exec();
 
-  let userOrders = await Order.find({ orderdBy: user._id }).populate("products.product").populate("addressId").exec();
+  let userOrders = await Order.find({ orderdBy: user._id })
+    .populate("products.product")
+    .populate("addressId")
+    .exec();
   res.json(userOrders);
 };
 
 exports.order = async (req, res) => {
-  let order = await Order.findOne({ _id: req.params.orderId, orderdBy : req.user._id }).exec();
+  let order = await Order.findOne({
+    _id: req.params.orderId,
+    orderdBy: req.user._id,
+  }).exec();
   res.json(order);
 };
 
 exports.orderHistory = async (req, res) => {
-  let history = await OrderHistory.find({ orderId: req.body.orderId }).populate("updateBy").exec();
+  let history = await OrderHistory.find({ orderId: req.body.orderId })
+    .populate("updateBy")
+    .exec();
 
   res.json(history);
 };
@@ -210,20 +223,29 @@ exports.orderHistory = async (req, res) => {
 exports.addToWishlist = async (req, res) => {
   const { productId } = req.body;
 
-  const user = await User.findOneAndUpdate({ email: req.user.email }, { $addToSet: { wishlist: productId } }).exec();
+  const user = await User.findOneAndUpdate(
+    { email: req.user.email },
+    { $addToSet: { wishlist: productId } }
+  ).exec();
 
   res.json({ ok: true });
 };
 
 exports.wishlist = async (req, res) => {
-  const list = await User.findOne({ email: req.user.email }).select("wishlist").populate("wishlist").exec();
+  const list = await User.findOne({ email: req.user.email })
+    .select("wishlist")
+    .populate("wishlist")
+    .exec();
 
   res.json(list);
 };
 
 exports.removeFromWishlist = async (req, res) => {
   const { productId } = req.params;
-  const user = await User.findOneAndUpdate({ email: req.user.email }, { $pull: { wishlist: productId } }).exec();
+  const user = await User.findOneAndUpdate(
+    { email: req.user.email },
+    { $pull: { wishlist: productId } }
+  ).exec();
 
   res.json({ ok: true });
 };
@@ -250,7 +272,8 @@ exports.createCashOrder = async (req, res) => {
         });
       }
       //caculate the total after discount
-      totalAfterDiscount = (userCart.cartTotal - (userCart.cartTotal * validCoupon.discount) / 100).toFixed(2); //99.99
+      totalAfterDiscount =
+        userCart.cartTotal - (userCart.cartTotal * validCoupon.discount) / 100; //99.99
       validCoupon.isUse = true;
       validCoupon.save();
     }
@@ -295,6 +318,6 @@ exports.createCashOrder = async (req, res) => {
     res.json({ ok: true });
   } catch (err) {
     console.log(err);
-    res.json({ ok: false});
+    res.json({ ok: false });
   }
 };

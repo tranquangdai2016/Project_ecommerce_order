@@ -7,8 +7,10 @@ exports.create = async (req, res) => {
     // console.log(req.body);
     // return;
     const { code, expiry, discount } = req.body.coupon;
-    res.json(await new Coupon({ code, expiry, discount }).save());
+    console.log(code, expiry, discount);
+    res.json(await new Coupon({ code, expiry, discount, isUse: false }).save());
   } catch (error) {
+    console.log(error);
     res.json(500);
   }
 };
