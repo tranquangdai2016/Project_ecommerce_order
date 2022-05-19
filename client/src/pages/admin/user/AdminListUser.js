@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import AdminNav from '../../../components/nav/AdminNav'
 import { getListUser, updateRole } from '../../../functions/admin'
 import { useSelector } from 'react-redux'
-import { toast } from 'react-toastify'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import { Switch } from 'antd'
 
@@ -48,7 +47,7 @@ const AdminListUser = () => {
           </div>
           <div className="col-10">
             {' '}
-            <table class="table table-striped">
+            <table class="table">
               <thead>
                 <tr>
                   <th scope="col">#</th>

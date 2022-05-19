@@ -38,7 +38,8 @@ const CreateCounponPage = () => {
         setCode('')
         setDiscount('')
         setExpiry('')
-        toast.success(`"${res.data.code}" is created`)
+        toast.success(`"${res.data.code}" Thêm mã giảm giá thành công`)
+        console.log('mgg', res.data.code)
       })
       .catch((err) => {
         toast.error(`Không thể thêm mã giảm giá`)
@@ -70,7 +71,7 @@ const CreateCounponPage = () => {
           <form onSubmit={handleSubmit} className="col-6">
             <div className="form-group">
               <label for="" className="text-muted">
-                Code
+                Mã giảm giá
               </label>
               <input
                 type="text"
@@ -83,7 +84,7 @@ const CreateCounponPage = () => {
             </div>
             <div className="form-group">
               <label for="" className="text-muted">
-                Discount
+                Giảm giá
               </label>
               <input
                 type="number"
@@ -96,23 +97,23 @@ const CreateCounponPage = () => {
             </div>
             <div className="form-group">
               <label for="" className="text-muted">
-                Expiry
+                Ngày hết hạn
               </label>
               <br />
               <DatePicker showTime onChange={onChange} />
             </div>
             <div class="d-flex justify-content-center">
-              <button className="btn btn-outline-primary">save</button>
+              <button className="btn btn-outline-primary">Lưu</button>
             </div>
           </form>
           <br />
-          <h4>{coupons.length} Coupons</h4>
+          <h4>{coupons.length} Phiếu giảm giá</h4>
           <table className="table table-bodered">
             <thead>
               <tr>
-                <th scope="col">Code</th>
-                <th scope="col">Expire</th>
-                <th scope="col">Discount</th>
+                <th scope="col">Mã giảm giá</th>
+                <th scope="col">Ngày hết hạn</th>
+                <th scope="col">Giảm giá</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>

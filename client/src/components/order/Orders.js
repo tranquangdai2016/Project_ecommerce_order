@@ -1,6 +1,7 @@
 import React from 'react'
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons'
 import ShowPaymentInfo from '../cards/ShowPaymentInfo'
+// import showAddress from './ShowAddress'
 
 const Orders = ({ orders, handleStatusChange, handleTranferCodeChange, updateTranferCode }) => {
   const showOrderInTable = (order) => (
@@ -99,6 +100,7 @@ const Orders = ({ orders, handleStatusChange, handleTranferCodeChange, updateTra
           </div>
 
           {showOrderInTable(order)}
+          {/* {showAddress()} */}
         </div>
       ))}
     </>

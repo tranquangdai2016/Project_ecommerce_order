@@ -3,8 +3,7 @@ import React from 'react'
 const ShowPaymentInfo = ({ order, showStatus }) => (
   <div>
     <p>
-      <span>Order Id: {order.paymentIntent.id}</span>
-      {' / '}
+      <span>Order Id: {order._id}</span>c{' / '}
       <span>
         Amount :{' '}
         {(order.paymentIntent.amount /= 100).toLocaleString('en-US', {
@@ -29,6 +28,24 @@ const ShowPaymentInfo = ({ order, showStatus }) => (
         <span className="badge bg-primary text-white">STATUS: {order.orderStatus}</span>
       )}
     </p>
+    <div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Tên khách hàng</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Địa chỉ nhận hàng</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 )
 

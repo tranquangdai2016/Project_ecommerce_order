@@ -81,7 +81,7 @@ const Cart = ({ history }) => {
           <h4>Cart / {cart.length} Product</h4>
           {!cart.length ? (
             <h4>
-              No products in cart. <Link to="/shop">Continue Shopping</Link>
+              Không có sản phẩm trong giỏ hàng <Link to="/shop">Tiếp tục mua sắm</Link>
             </h4>
           ) : (
             showCartItems()
@@ -116,7 +116,7 @@ const Cart = ({ history }) => {
                 className="btn btn-sm btn-warming mt-2"
                 disabled={!cart.length}
               >
-                Pay Cash in Delivery
+                Thanh toán khi nhận được hàng
               </button>
             </>
           ) : (
