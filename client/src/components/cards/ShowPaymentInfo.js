@@ -47,9 +47,24 @@ const ShowPaymentInfo = ({ order, showStatus }) => (
       </p>
       <hr />
       <div className="text-left">
+        <b>ID: </b>{' '}
+        <span>
+          <i>{order.addressId && order.addressId._id}</i>
+        </span>
+        <br />
+        <b>Tên khách hàng: </b>{' '}
+        <span>
+          <i>{order.addressId && order.addressId.name}</i>
+        </span>
+        <br />
         <b>Địa chỉ nhận hàng: </b>{' '}
         <span>
           <i>{order.addressId && order.addressId.receiveAddress}</i>
+        </span>
+        <br />
+        <b>Số điện thoại: </b>{' '}
+        <span>
+          <i>{order.addressId && order.addressId.phone}</i>
         </span>
       </div>
     </div>

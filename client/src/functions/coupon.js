@@ -10,13 +10,10 @@ export const removeCoupon = async (couponId, authtoken) => {
   return axios.delete(`${process.env.REACT_APP_API}/coupon/${couponId}`)
 }
 
-export const createCoupon = async (coupon, authtoken) => {
+export const createCoupon = async (coupon) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token)
   }
 
-  return axios.post(
-    `${process.env.REACT_APP_API}/coupon`,
-    { coupon }
-  )
+  return axios.post(`${process.env.REACT_APP_API}/coupon`, { coupon })
 }

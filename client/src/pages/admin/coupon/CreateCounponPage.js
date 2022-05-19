@@ -31,12 +31,13 @@ const CreateCounponPage = () => {
     e.preventDefault()
     setLoading(true)
     // console.table(name, expiry, discount);
-    createCoupon({ code, expiry, discount }, user.token)
+    let discountValue = parseInt(discount)
+    createCoupon({ code, expiry, discount: discountValue }, user.token)
       .then((res) => {
         setLoading(false)
         loadAllCoupons() //load all coupons
         setCode('')
-        setDiscount('')
+        setDiscount(0)
         setExpiry('')
         toast.success(`"${res.data.code}" Thêm mã giảm giá thành công`)
         console.log('mgg', res.data.code)

@@ -316,9 +316,9 @@ const Checkout = ({ history }) => {
           <hr />
           {showProductSummary()}
           <hr />
-          {showApplyCoupon()}
-          <br />
           <h4>Mã giảm giá?</h4>
+          <br />
+          {showApplyCoupon()}
           {discountError && <p className="bg-danger p2">{discountError}</p>}
           <hr />
           <p>
