@@ -90,7 +90,7 @@ const History = () => {
           <UserNav />
         </div>
         <div className="col text-center">
-          <h4>{orders.length > 0 ? 'User purchase orders' : 'No purchase orders'}</h4>
+          <h4>{orders.length > 0 ? 'Đơn đặt đã được đặt' : 'Không có đơn đặt hàng'}</h4>
           {showEachOrders()}
         </div>
       </div>
