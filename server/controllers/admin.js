@@ -1,10 +1,12 @@
 const Order = require("../models/order");
 const OrderHistory = require("../models/orderHistory");
 const User = require("../models/user");
+const Address = require("../models/address");
 
 exports.orders = async (req, res) => {
   let allOrders = await Order.find({})
     .sort("-createdAt")
+    .populate("addressId")
     .populate("products.product")
     .exec();
 
@@ -42,13 +44,9 @@ exports.tranferCode = async (req, res) => {
 };
 
 exports.updateIsAdmin = async (req, res) => {
-  
   const { userId, isAdmin } = req.body;
   console.log(userId, isAdmin);
-  let updated = await User.findByIdAndUpdate(
-    userId,
-    { isAdmin }
-  ).exec();
+  let updated = await User.findByIdAndUpdate(userId, { isAdmin }).exec();
 
   res.json(updated);
 };
@@ -106,3 +104,14 @@ exports.listUser = async (req, res) => {
     });
   }
 };
+
+// exports.showAddress = async (req, res) => {
+//   console.log(req.body);
+//   Address.find({})
+//     .then((data) => {
+//       res.status(200).json(data);
+//     })
+//     .catch((err) => {
+//       console.log("err", err);
+//     });
+// };
