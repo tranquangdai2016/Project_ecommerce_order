@@ -89,8 +89,8 @@ const History = () => {
         <div className="col-md-2">
           <UserNav />
         </div>
-        <div className="col text-center">
-          <h4>{orders.length > 0 ? 'Đơn đặt đã được đặt' : 'Không có đơn đặt hàng'}</h4>
+        <div className="col">
+          <h4>{orders.length > 0 ? 'User purchase orders' : 'No purchase orders'}</h4>
           {showEachOrders()}
         </div>
       </div>

@@ -3,10 +3,43 @@ const Address = require("../models/address");
 const Product = require("../models/product");
 const Cart = require("../models/cart");
 const product = require("../models/product");
+const Payment = require("../models/payment");
 const Coupon = require("../models/coupon");
 const Order = require("../models/order");
 const OrderHistory = require("../models/orderHistory");
 const uniqueid = require("uniqueid");
+const SaveImage = require("../helps/saveimage");
+
+exports.payment = async (req, res) => {
+  try {
+    if (req.body.images) {
+      const imagePath = SaveImage.SaveImage(req.body.image);
+      req.body.image = imagePath;
+    }
+    let order  = Order.findById(req.body.orderId);
+    if(order.isPaid){
+      return res.status(400).json({
+        err: "Đơn hàng đã thanh toán",
+      });
+    }
+    order.isPaid = true;
+    Order.findOneAndUpdate({_id : req.body.orderId}, {isPaid : true}).exec();
+
+    const payment = await new Payment(req.body).save();
+    let orderHistory = await new OrderHistory({
+      orderId: req.body.orderId,
+      updateBy: req.user._id,
+      orderStatus: "Paid",
+    }).save();
+
+    res.json(payment);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({
+      err: err.message,
+    });
+  }
+};
 
 exports.userCart = async (req, res) => {
   //console.log(req.body); //{cart: []}
@@ -159,8 +192,13 @@ exports.createOrder = async (req, res) => {
 exports.orders = async (req, res) => {
   let user = await User.findOne({ email: req.user.email }).exec();
 
-  let userOrders = await Order.find({ orderdBy: user._id }).populate("products.product").exec();
+  let userOrders = await Order.find({ orderdBy: user._id }).populate("products.product").populate("addressId").exec();
   res.json(userOrders);
+};
+
+exports.order = async (req, res) => {
+  let order = await Order.findOne({ _id: req.params.orderId, orderdBy : req.user._id }).exec();
+  res.json(order);
 };
 
 exports.orderHistory = async (req, res) => {
@@ -191,66 +229,72 @@ exports.removeFromWishlist = async (req, res) => {
 };
 
 exports.createCashOrder = async (req, res) => {
-  const { COD, couponCode, addressId } = req.body;
+  try {
+    const { paymentType, couponCode, addressId } = req.body;
 
-  //if cod true, create order with status of cash on delivery
-  if (!COD) return res.status(400).send("Create cash order failed");
+    //if cod true, create order with status of cash on delivery
+    // if (!paymentType) return res.status(400).send("Create cash order failed");
 
-  const user = await User.findOne({ email: req.user.email }).exec();
+    const user = await User.findOne({ email: req.user.email }).exec();
 
-  let { products, cartTotal } = await Cart.findOne({ orderBy: user._id })
-    .populate("products.product", "_id title price")
-    .exec();
+    let userCart = await Cart.findOne({ orderBy: user._id })
+      .populate("products.product", "_id title price")
+      .exec();
 
-  let totalAfterDiscount = cartTotal;
-  if (couponCode) {
-    const validCoupon = await Coupon.findOne({ code: coupon }).exec();
-    if (validCoupon === null) {
-      return res.json({
-        err: "Invalid coupon",
-      });
+    let totalAfterDiscount = userCart.cartTotal;
+    if (couponCode) {
+      const validCoupon = await Coupon.findOne({ code: couponCode }).exec();
+      if (validCoupon === null) {
+        return res.json({
+          err: "Invalid coupon",
+        });
+      }
+      //caculate the total after discount
+      totalAfterDiscount = (userCart.cartTotal - (userCart.cartTotal * validCoupon.discount) / 100).toFixed(2); //99.99
+      validCoupon.isUse = true;
+      validCoupon.save();
     }
-    //caculate the total after discount
-    totalAfterDiscount = (cartTotal - (cartTotal * validCoupon.discount) / 100).toFixed(2); //99.99
-    validCoupon.isUse = true;
-    validCoupon.save();
-  }
-
-  let newOrder = await new Order({
-    products: userCart.products,
-    paymentIntent: {
-      id: uniqueid(),
-      amount: totalAfterDiscount,
-      currency: "usd",
-      status: "Cash On Delivery",
-      created: Date.now(),
-      payment_method_types: ["cash"],
-    },
-    coupon: couponCode,
-    orderdBy: user._id,
-    addressId: addressId,
-    status: "Cash On Delivery",
-  }).save();
-
-  //decrement quantity, increment sold
-  let bulkOption = userCart.products.map((item) => {
-    return {
-      updateOne: {
-        filter: { _id: item.product._id },
-        update: { $inc: { quantity: -item.count, sold: +item.count } },
+    let status = paymentType == "cod" ? "Cash On Delivery" : "Not processed";
+    let newOrder = await new Order({
+      products: userCart.products,
+      paymentIntent: {
+        id: uniqueid(),
+        amount: totalAfterDiscount,
+        currency: "usd",
+        status: status,
+        created: Date.now(),
+        payment_method_types: ["cash"],
       },
-    };
-  });
+      coupon: couponCode,
+      orderdBy: user._id,
+      addressId: addressId,
+      paymentType: paymentType,
+      status: status,
+    }).save();
 
-  let updated = await Product.bulkWrite(bulkOption, {});
-  console.log("PRODUCT QUANTITY-- AND SOLD++", updated);
+    //decrement quantity, increment sold
+    let bulkOption = userCart.products.map((item) => {
+      return {
+        updateOne: {
+          filter: { _id: item.product._id },
+          update: { $inc: { quantity: -item.count, sold: +item.count } },
+        },
+      };
+    });
 
-  let orderHistory = await new OrderHistory({
-    orderId: newOrder._id,
-    updateBy: user._id,
-    orderStatus: "Cash On Delivery",
-  }).save();
+    let updated = await Product.bulkWrite(bulkOption, {});
+    console.log("PRODUCT QUANTITY-- AND SOLD++", updated);
 
-  console.log("NEW ORDER SAVED", newOrder);
-  res.json({ ok: true });
+    let orderHistory = await new OrderHistory({
+      orderId: newOrder._id,
+      updateBy: user._id,
+      orderStatus: "Cash On Delivery",
+    }).save();
+
+    console.log("NEW ORDER SAVED", newOrder);
+    res.json({ ok: true });
+  } catch (err) {
+    console.log(err);
+    res.json({ ok: false});
+  }
 };

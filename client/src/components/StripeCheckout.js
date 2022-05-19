@@ -1,178 +1,151 @@
-import React, {useEffect, useState} from 'react';
-import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import {useSelector, useDispatch} from "react-redux";
-import { createPaymentIntent } from "../functions/stripe";
-import { Link } from "react-router-dom";
-import { Card } from 'antd';
-import { DollarOutlined, CheckOutlined } from "@ant-design/icons";
-import Laptop from "../images/laptop.png"
-import { createOrder, emptyUserCart } from "../functions/user";
+import React, { useEffect, useState } from 'react'
+import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
+import { useSelector, useDispatch } from 'react-redux'
+import { createPaymentIntent } from '../functions/stripe'
+import { Link } from 'react-router-dom'
+import { Card } from 'antd'
+import { DollarOutlined, CheckOutlined } from '@ant-design/icons'
+import Laptop from '../images/laptop.png'
+import BankingImage from '../images/Banking.svg'
+import { createOrder, emptyUserCart, getOrder, payment } from '../functions/user'
+import ImageUploader from 'react-images-upload'
+import GetBase64 from '../utils/getbase64'
+import { toast } from 'react-toastify'
+import { useHistory } from "react-router-dom";
 
-const StripeCheckout = ({history}) => {
-    const dispatch = useDispatch();
-    const { user, coupon } = useSelector((state) => ({ ...state}));
+const StripeCheckout = ({orderId }) => {
+  const dispatch = useDispatch()
+  const { user, coupon } = useSelector((state) => ({ ...state }))
+  const history = useHistory();
+  const [succeeded, setSucceeded] = useState(false)
+  const [error, setError] = useState(null)
+  const [image, setImage] = useState('')
+  const [order, setOrder] = useState({})
+  const [processing, setProcessing] = useState('')
+  const [disabled, setDisabled] = useState(true)
 
-    const [ succeeded, setSucceeded ] = useState(false);
-    const [ error, setError ] = useState(null);
-    const [ processing, setProcessing ] = useState("");
-    const [ disabled, setDisabled ] = useState(true);
-    const [ clientSecret, setClientSecret] = useState("");
+  const [totalAfterDiscount, setTotalAfterDiscount] = useState(0)
+  const [payable, setPayable] = useState(0)
 
-    const [ cartTotal, setCartTotal ] = useState(0);
-    const [ totalAfterDiscount, setTotalAfterDiscount ] = useState(0);
-    const [ payable, setPayable ] = useState(0);
+  const stripe = useStripe()
+  const elements = useElements()
+  useEffect(() => {
+    getOrder(orderId).then((res) => {
+      setOrder(res.data)
+    })
+  }, [])
 
-    const stripe = useStripe();
-    const elements = useElements();
+  const onDrop = (thumbnail) => {
+    setTimeout(async () => {
+      if (thumbnail && thumbnail[0]) {
+        const base64 = await GetBase64(thumbnail[0])
+        setImage(base64)
+      } else {
+        setImage('')
+      }
+    }, 500)
+  }
 
-    useEffect(() => {
-        createPaymentIntent(user.token, coupon).then((res) => {
-            console.log("create payment intent", res.data);
-            setClientSecret(res.data.clientSecret);
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setProcessing(true)
 
-            setCartTotal(res.data.cartTotal);
-            setTotalAfterDiscount(res.data.totalAfterDiscount);
-            setPayable(res.data.payable);
-
-        });
-    }, []);
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setProcessing(true);
-
-        const payload = await stripe.confirmCardPayment(clientSecret, {
-            payment_method: {
-                card: elements.getElement(CardElement),
-                billing_details: {
-                    name: e.target.name.value,
-                },
-            },
-        });
-        if(payload.error) {
-            setError(`Payment failed ${payload.error.message}`)
-            setProcessing(false)
-        }else {
-            //here you set result after successful payment
-            //create order and save in database for admin to process
-
-            createOrder( payload, user.token )
-                .then(res => {
-                    if(res.data.ok) {
-                        //empty cart from local strorage
-                        if( typeof window !== "undefined" ) localStorage.removeItem("cart");
-                        //reset coupon to false
-                        dispatch({
-                            type: "ADD_TO_CART",
-                            payload: [],
-                        });
-                        //empty cart from database
-                        emptyUserCart(user.token);
-                    }
-                });
-            //empty user cart from redux store and local storage
-            console.log(JSON.stringify(payload, null, 4));
-            setError(null);
-            setProcessing(false);
-            setSucceeded(true);
-        }
-
-    };
-
-    const handleChange = async (e) => {
-        //listen for changes in the card element
-        //and display any errors as the custoem types their card details
-        setDisabled(e.empty);//disable pay button if errors
-        setError(e.error ? e.error.message : "");
-
+    if (!image && image == '') {
+      toast.error('Bạn chưa tải ảnh lên')
+      return
     }
 
-    const cartStyle = {
-        style: {
-            base: {
-                color: "#32325d",
-                fontFamily: "Arial, sans-serif",
-                fontSmoothing: "antialiased",
-                fontSize: "16px",
-                "::placeholder": {
-                    color: "#32325d",
-                },
-            },
-            invalid: {
-                color: "#fa755a",
-                iconColor: "#fa755a",
-            },
+    payment(orderId, image)
+    .then((res) => {
+      if (res) {
+        console.log(res)
+        // window.alert(`"${res.data.title}" is created `)
+        toast.success(res.data.title, 'Thành công, Admin sẽ kiếm tra và cập nhật thông tin đơn hàng', {
+          position: toast.POSITION.TOP_RIGHT,
+        })
+        history.push("/user/history")
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+      // if (err.response.status === 400) toast.error(err.response.data);
+      toast.error(err.response.data.err)
+    })
+  }
+
+
+  const cartStyle = {
+    style: {
+      base: {
+        color: '#32325d',
+        fontFamily: 'Arial, sans-serif',
+        fontSmoothing: 'antialiased',
+        fontSize: '16px',
+        '::placeholder': {
+          color: '#32325d',
         },
-    };
+      },
+      invalid: {
+        color: '#fa755a',
+        iconColor: '#fa755a',
+      },
+    },
+  }
 
-    return(
-        <>
-            {
-                !succeeded &&
-                <div>
-                    { coupon && totalAfterDiscount !== undefined ? (
-                        <p className="alert alert-success"> {`Total after discount: $${totalAfterDiscount}`} </p>
-                    ) : (<p className="alert alert-danger"> No coupon applied </p>) }
-                </div>
-            }
-            <div className="text-center pb-5">
-                <Card
-                cover={
-                    <img
-                    src={Laptop}
-                    style={{
-                        height: '200px',
-                        objectFit: "cover",
-                        marginBottom: "-50px",
-                    }}
-                    />
-                    }
-                actions={[
-                    <>
-                    <DollarOutlined  className="text-info" /> <br /> Total after
-                        discount: ${totalAfterDiscount}
-                    </>,
-                    <>
-                        <CheckOutlined  className="text-info" /> <br /> Total payable
-                        : ${( payable / 100 ).toFixed(2)}
-                    </>,
-                ]}
-                />
-            </div>
+  return (
+    <div className="row">
+      <div className="col-lg-6">
+        <Card
+          cover={
+            <img
+              src={BankingImage}
+              style={{
+                height: '400px',
+                objectFit: 'contain',
+                marginBottom: '-50px',
+              }}
+            />
+          }
+          actions={[
+            <>
+              <CheckOutlined className="text-info" /> <br /> Tổng số tiền : $
+              {order.paymentIntent && order.paymentIntent.amount.toFixed(2)}
+            </>,
+          ]}
+        />
+      </div>
+      <div className="col-lg-6">
+        <div className="text-center pb-5">
+          <h4>Thông tin tài khoản</h4>
+          <div>
+            <h3>123456789</h3>
+          </div>
+          <div>
+            <b>Nguyễn Văn Long-Techcombank</b>
+          </div>
+          <div className="mt-2">
+            Số tiền: <b>{order.paymentIntent && order.paymentIntent.amount}</b>
+          </div>
+          <div className="mt-2">
+            Nội dung chuyển khoản: <b>Thanh toán đơn hàng: {order && order._id}</b>
+          </div>
+          <ImageUploader
+            withIcon={false}
+            singleImage={true}
+            withPreview={true}
+            onChange={onDrop}
+            imgExtension={['.jpg', '.gif', '.png', '.gif']}
+            maxFileSize={5242880}
+          />
+        </div>
+        <button className="stripe-button" onClick={handleSubmit}>
+          <span id="button-text">
+            {processing ? <div className="spinner" id="spinner"></div> : 'Đã chuyển khoản'}
+          </span>
+        </button>
+      </div>
+    </div>
+  )
+}
 
-            <form
-                id="payment-form"
-                className="stripe-form"
-                onSubmit={handleSubmit}
-            >
-                <CardElement
-                    id="cart-element"
-                    options={cartStyle}
-                    onChange={handleChange}
-                />
-                <button
-                    className="stripe-button"
-                    disabled={processing || disabled || succeeded}
-                >
-                    <span id="button-text">
-                        {processing ? <div className="spinner" id="spinner"></div> : "Pay"}
-                    </span>
-                </button>
-                <br />
-                {
-                    error && (<div className="cart-error" role="alert">
-                    {error}
-                </div>
-                    )}
-                <br />
-                <p className={succeeded ? 'result-message' : 'result-message hidden'}>
-                    Pay Successful.{""}
-                    <Link to="/user/history">See it in your purchase history.</Link>
-                </p>
-            </form>
-        </>
-    );
-};
-
-export default StripeCheckout;
-
+export default StripeCheckout

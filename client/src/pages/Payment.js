@@ -8,13 +8,15 @@ import '../stripe.css';
 const promise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 
 
-const Payment = () => {
+const Payment = ({ match }) => {
+    const { orderId } = match.params
+
     return(
         <div className="container p-5 text-center">
-            <h4> Complete your purchase</h4>
+            <h4> Thanh toán chuyển khoản</h4>
             <Elements stripe={promise}>
-                <div className="col-md-8 offset-md-2">
-                    <StripeCheckout />
+                <div className="container">
+                    <StripeCheckout orderId={orderId} />
                 </div>
             </Elements>
         </div>

@@ -25,6 +25,7 @@ const orderHistorySchema = new mongoose.Schema(
         "Dispatched",
         "Cancelled",
         "Completed",
+        "Paid",
       ],
     },
     updateBy: {
