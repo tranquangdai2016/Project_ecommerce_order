@@ -2,14 +2,20 @@ import { Timeline } from 'antd'
 import { SmileOutlined } from '@ant-design/icons'
 import { getUserOrders, getOrderHistory } from '../../functions/user'
 import React, { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 
 const OrderTimeLine = ({ order, showStatus }) => {
-  const [history, setHistory] = useState([])
+  const [orderHistory, setOrderHistory] = useState([])
+  const history = useHistory()
 
   const loadHistory = (order) => {
     getOrderHistory(order._id).then((res) => {
-      setHistory(res.data)
+      setOrderHistory(res.data)
     })
+  }
+
+  const orderPayment = (order) => {
+    history.push('/payment/' + order._id)
   }
 
   const changeState = (status) => {
@@ -20,6 +26,9 @@ const OrderTimeLine = ({ order, showStatus }) => {
         break
       case 'Cash On Delivery':
         value = 'Thanh toán khi giao hàng'
+        break
+      case 'Paid':
+        value = 'Khách hàng thanh toán'
         break
       case 'Processing':
         value = 'Trung Quốc - Người giửi đang chuẩn bị hàng'
@@ -57,19 +66,25 @@ const OrderTimeLine = ({ order, showStatus }) => {
 
   return (
     <div>
-      <div className="row">
+      <div className="text-center">
         <button className="btn btn-primary" onClick={(e) => loadHistory(order)}>
           <b>Chi tiết</b>
         </button>
+        {!order.isPaid && order.paymentType == 'banking' && (
+          <button className="btn btn-primary ml-4" onClick={(e) => orderPayment(order)}>
+            <b>Thanh toán</b>
+          </button>
+        )}
       </div>
       <div className="row mt-4">
         <Timeline>
-          {history &&
-            history.length &&
-            history.map((history) => (
+          {orderHistory &&
+            orderHistory.length &&
+            orderHistory.map((orderHistory) => (
               <Timeline.Item color="green">
-                {new Date(history.createdAt).toLocaleString()} - <b>{history.updateBy.username}</b>{' '}
-                - Trạng thái: - <b>{changeState(history.orderStatus)}</b>
+                {new Date(orderHistory.createdAt).toLocaleString()} -{' '}
+                <b>{orderHistory.updateBy.username}</b> - Trạng thái: -{' '}
+                <b>{changeState(orderHistory.orderStatus)}</b>
               </Timeline.Item>
             ))}
         </Timeline>

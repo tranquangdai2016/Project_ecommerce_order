@@ -53,7 +53,7 @@ const Routers = () => {
       <Route exact path="/cart" component={Cart} />
       <UserRoute exact path="/checkout" component={Checkout} />
       <AdminRoute exact path="/admin/coupon" component={CreateCounponPage} />
-      <UserRoute exact path="/payment" component={Payment} />
+      <UserRoute exact path="/payment/:orderId" component={Payment} />
     </Switch>
   )
 }

@@ -12,12 +12,14 @@ const {
   applyCouponToUserCart,
   createOrder,
   createCashOrder,
+  order,
   orders,
   addToWishlist,
   wishlist,
   removeFromWishlist,
   getAllAddress,
   orderHistory,
+  payment
 } = require("../controllers/user");
 
 router.post("/user/cart", verifyToken, userCart); //save cart
@@ -30,6 +32,8 @@ router.post("/user/order", verifyToken, createOrder); //stripe
 router.post("/user/cash-order", verifyToken, createCashOrder); //cod
 // router.post('user/order', verifyToken, createOrder);
 router.get("/user/orders", verifyToken, orders);
+router.post("/user/payment", verifyToken, payment);
+router.get("/user/order/:orderId", verifyToken, order);
 router.post("/user/order-history", verifyToken, orderHistory);
 
 //list-user

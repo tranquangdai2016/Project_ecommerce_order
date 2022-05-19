@@ -31,6 +31,8 @@ const orderSchema = new mongoose.Schema(
     transportCode: { type: String, default: "" },
     orderdBy: { type: ObjectId, ref: "User" },
     addressId: { type: ObjectId, ref: "Address" },
+    paymentType: { type: String, default: "cod"},
+    isPaid: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

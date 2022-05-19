@@ -108,16 +108,16 @@ const Cart = ({ history }) => {
                 className="btn btn-sm btn-primary mt-2"
                 disabled={!cart.length}
               >
-                Proceed to checkout
+                Thanh toán
               </button>
               <br />
-              <button
+              {/* <button
                 onClick={saveCashOrderToDb}
                 className="btn btn-sm btn-warming mt-2"
                 disabled={!cart.length}
               >
                 Thanh toán khi nhận được hàng
-              </button>
+              </button> */}
             </>
           ) : (
             <button className="btn btn-sm btn-primary mt-2">

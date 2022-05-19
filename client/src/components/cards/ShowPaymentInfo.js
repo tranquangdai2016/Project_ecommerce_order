@@ -1,50 +1,57 @@
 import React from 'react'
 
 const ShowPaymentInfo = ({ order, showStatus }) => (
-  <div>
-    <p>
-      <span>Order Id: {order._id}</span>c{' / '}
-      <span>
-        Amount :{' '}
-        {(order.paymentIntent.amount /= 100).toLocaleString('en-US', {
-          style: 'currency',
-          currency: 'USD',
-        })}
-      </span>
-      {' / '}
-      <span>Currency : {order.paymentIntent.currency.toUpperCase()}</span>
-      {' / '}
-      <span>Method: {order.paymentIntent.payment_method_types[0]}</span>
-      {' / '}
-      <span>Payment: {order.paymentIntent.status.toUpperCase()}</span>
-      {' / '}
-      <span>
-        Orderd on: {' / '}
-        {new Date(order.paymentIntent.created).toLocaleString()}
-      </span>
-      {' / '}
-      <br />
-      {showStatus && (
-        <span className="badge bg-primary text-white">STATUS: {order.orderStatus}</span>
-      )}
-    </p>
-    <div>
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Tên khách hàng</th>
-            <th scope="col">Phone</th>
-            <th scope="col">Địa chỉ nhận hàng</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th>1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-          </tr>
-        </tbody>
-      </table>
+  <div className="card text-center">
+    <div className="card-body">
+      <div className="card-title">
+        <span>
+          <b>Order Id: </b>
+          {order._id} -
+        </span>
+        <b className="ml-2">
+          {order.isPaid && <span className="text-success">Đã thanh toán</span>}
+          {!order.isPaid && <span className="text-danger">Chưa thanh toán</span>}
+        </b>
+      </div>
+      <p>
+        <span>
+          Amount :{' '}
+          <b>
+            {(order.paymentIntent.amount /= 100).toLocaleString('en-US', {
+              style: 'currency',
+              currency: 'USD',
+            })}
+          </b>
+        </span>
+        {' / '}
+        <span>
+          Currency : <b>{order.paymentIntent.currency.toUpperCase()}</b>
+        </span>
+        {' / '}
+        <span>
+          Method: <b>{order.paymentIntent.payment_method_types[0]}</b>
+        </span>
+        {' / '}
+        <span>
+          Payment: <b>{order.paymentIntent.status.toUpperCase()}</b>
+        </span>
+        {' / '}
+        <span>
+          Orderd on:
+          <b>{new Date(order.paymentIntent.created).toLocaleString()}</b>
+        </span>
+        <br />
+        {showStatus && (
+          <span className="badge bg-primary text-white">STATUS: {order.orderStatus}</span>
+        )}
+      </p>
+      <hr />
+      <div className="text-left">
+        <b>Địa chỉ nhận hàng: </b>{' '}
+        <span>
+          <i>{order.addressId && order.addressId.receiveAddress}</i>
+        </span>
+      </div>
     </div>
   </div>
 )

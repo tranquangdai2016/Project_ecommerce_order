@@ -11,7 +11,7 @@ import {
 } from '../functions/user'
 // import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
-import { Radio, Input, Space } from 'antd'
+import { Radio, Input, Space, Card } from 'antd'
 import { Button } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 // import { set } from 'lodash'
@@ -29,6 +29,7 @@ const Checkout = ({ history }) => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
+  const [paymentType, setPaymentType] = useState('cod')
   const [addressSaved, setAddressSaved] = useState(false)
   const [coupon, setCoupon] = useState('')
   //discount price
@@ -249,7 +250,7 @@ const Checkout = ({ history }) => {
       toast.error('Bạn chưa chọn địa chỉ')
       return
     }
-    createCashOrderForUser(COD, coupon, addressId).then((res) => {
+    createCashOrderForUser(paymentType, coupon, addressId).then((res) => {
       // console.log('user cash order created res', res)
       // emty cart form redux, local storage, reset coupon / cod, redirect
       if (res.data.ok) {
@@ -290,11 +291,22 @@ const Checkout = ({ history }) => {
           {!addAddress && showAddress()}
           {addAddress && showAddAddress()}
           <hr />
-          <h4>Mã giảm giá?</h4>
+          <h4>Hình thức thánh toán</h4>
           <br />
-          {showApplyCoupon()}
-          <br />
-          {discountError && <p className="bg-danger p2">{discountError}</p>}
+          <Radio.Group
+            name="paymentType"
+            className="w-100"
+            defaultValue={'cod'}
+            onChange={(e) => {
+              console.log(e)
+              setPaymentType(e.target.value)
+            }}
+          >
+            <Space direction="vertical" className="w-100">
+              <Radio value={'cod'}>Thanh toán khi nhận hàng</Radio>
+              <Radio value={'banking'}>Chuyển khoản</Radio>
+            </Space>
+          </Radio.Group>
         </div>
 
         <div className="col-md-6">
@@ -304,17 +316,30 @@ const Checkout = ({ history }) => {
           <hr />
           {showProductSummary()}
           <hr />
+          {showApplyCoupon()}
+          <br />
+          <h4>Mã giảm giá?</h4>
+          {discountError && <p className="bg-danger p2">{discountError}</p>}
+          <hr />
           <p>
             <b>Tổng: {total}</b>
           </p>
-
           {totalAfterDiscount != 0 && (
-            <p className="bg-success p2">Discount Applied: Total payable: ${totalAfterDiscount}</p>
+            <p className="p2">
+              <b>Số tiền thanh toán: ${totalAfterDiscount}</b>
+            </p>
           )}
-
           <div className="row">
             <div className="col-md-6">
-              {COD ? (
+              <button
+                className="btn btn-primary"
+                disabled={!products.length}
+                onClick={createCashOrder}
+              >
+                Đặt hàng
+              </button>
+
+              {/* {COD ? (
                 <button
                   className="btn btn-primary"
                   disabled={!products.length}
@@ -330,7 +355,7 @@ const Checkout = ({ history }) => {
                 >
                   Đặt hàng
                 </button>
-              )}
+              )} */}
             </div>
 
             <div className="col-md-6">
