@@ -19,7 +19,7 @@ const ShowPaymentInfo = ({ order, showStatus }) => (
           <b>
             {(order.paymentIntent.amount /= 100).toLocaleString('en-US', {
               style: 'currency',
-              currency: 'USD',
+              currency: 'VND',
             })}
           </b>
         </span>

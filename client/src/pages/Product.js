@@ -20,9 +20,11 @@ const Product = ({ match }) => {
   }, [slug])
 
   useEffect(() => {
-    if (product.ratings && user) {
+    // console.log(product)
+    // console.log(user)
+    if (Object.keys(product).length > 0 && user) {
       let existingRatingObject = product.ratings.find(
-        (ele) => ele.postedBy.toString() === user._id.toString(),
+        (ele) => ele.postedBy.toString() === user.user._id.toString(),
       )
       existingRatingObject && setStar(existingRatingObject.star) // current user's star
     }

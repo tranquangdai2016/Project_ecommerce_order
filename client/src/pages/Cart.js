@@ -88,7 +88,7 @@ const Cart = ({ history }) => {
           )}
         </div>
         <div className="col-md-4">
-          <h4>Order Summary</h4>
+          <h4>Đơn hàng</h4>
           <hr />
           <p>Products</p>
           {cart.map((product, i) => (

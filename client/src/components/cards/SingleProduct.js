@@ -6,7 +6,7 @@ import { Carousel } from 'react-responsive-carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import Laptop from '../../images/laptop.png'
 import ProductListItems from './ProductListItems'
-import StarRating from 'react-star-ratings'
+// import StarRating from 'react-star-ratings'
 import { showAverage } from '../../functions/rating'
 import RatingModal from '../modal/RatingModal'
 import _ from 'lodash'
@@ -117,14 +117,14 @@ const SingleProduct = ({ product, onStarClick, star }) => {
               <HeartOutlined className="text-info" /> <br /> Add to Wishlist
             </a>,
             <RatingModal>
-              <StarRating
+              {/* <StarRating
                 name={_id}
                 numberOfStars={5}
                 rating={star}
                 changeRating={onStarClick}
                 isSelectable={true}
                 starRatedColor="red"
-              />
+              /> */}
             </RatingModal>,
           ]}
         >

@@ -7,7 +7,7 @@ import { CheckCircleOutlined, CloseCircleOutlined, CloseOutlined } from '@ant-de
 
 const ProductCardInCheckout = ({ product }) => {
   console.log(product)
-  const colors = ['Black', 'Brown', 'Silver', 'White', 'Blue']
+  const colors = ['Đen', 'Trắng', 'Vàng', 'Xanh', 'Đỏ']
   const sizes = ['S', 'M', 'L', 'XL', 'XXL']
   const dispatch = useDispatch()
 
