@@ -1,7 +1,7 @@
 const Order = require("../models/order");
 const OrderHistory = require("../models/orderHistory");
 const User = require("../models/user");
-const Address = require("../models/address");
+// const Address = require("../models/address");
 
 exports.orders = async (req, res) => {
   let allOrders = await Order.find({})

@@ -283,7 +283,7 @@ exports.createCashOrder = async (req, res) => {
       paymentIntent: {
         id: uniqueid(),
         amount: totalAfterDiscount,
-        currency: "usd",
+        currency: "VND",
         status: status,
         created: Date.now(),
         payment_method_types: ["cash"],
